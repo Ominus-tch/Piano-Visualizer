@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{55490238-8013-42d1-a4ff-1359bb511d90}</ProjectGuid>
-    <RootNamespace>PianoVisualizer3D</RootNamespace>
+    <RootNamespace>PianoVisualizer</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>PianoVisualizer</ProjectName>
   </PropertyGroup>
