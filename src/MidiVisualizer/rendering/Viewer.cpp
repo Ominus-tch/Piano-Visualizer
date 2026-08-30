@@ -1537,61 +1537,7 @@ void Viewer::showBackgroundOptions(){
 void Viewer::showBottomButtons(){
 	if (ImGui::Button("Save config..."))
 	{
-		IFileSaveDialog* dialog = nullptr;
-
-		HRESULT hr = CoCreateInstance(
-			CLSID_FileSaveDialog,
-			nullptr,
-			CLSCTX_INPROC_SERVER,
-			IID_PPV_ARGS(&dialog)
-		);
-
-		if (SUCCEEDED(hr))
-		{
-			COMDLG_FILTERSPEC filters[] =
-			{
-				{ L"INI files", L"*.ini" },
-				{ L"All files", L"*.*" }
-			};
-
-			dialog->SetFileTypes(
-				static_cast<UINT>(std::size(filters)),
-				filters
-			);
-
-			dialog->SetTitle(L"Create config file");
-			dialog->SetDefaultExtension(L"ini");
-
-			hr = dialog->Show(nullptr);
-
-			if (SUCCEEDED(hr))
-			{
-				IShellItem* item = nullptr;
-
-				hr = dialog->GetResult(&item);
-
-				if (SUCCEEDED(hr))
-				{
-					PWSTR path = nullptr;
-
-					hr = item->GetDisplayName(
-						SIGDN_FILESYSPATH,
-						&path
-					);
-
-					if (SUCCEEDED(hr))
-					{
-						_state.save(wideToUtf8(path));
-
-						CoTaskMemFree(path);
-					}
-
-					item->Release();
-				}
-			}
-
-			dialog->Release();
-		}
+		_state.save();
 	}
 
 	ImGui::helpTooltip("Save the current settings for all effects");
@@ -1599,62 +1545,9 @@ void Viewer::showBottomButtons(){
 
 	if (ImGui::Button("Load config..."))
 	{
-		IFileOpenDialog* dialog = nullptr;
-
-		HRESULT hr = CoCreateInstance(
-			CLSID_FileOpenDialog,
-			nullptr,
-			CLSCTX_INPROC_SERVER,
-			IID_PPV_ARGS(&dialog)
-		);
-
-		if (SUCCEEDED(hr))
+		if (_state.load())
 		{
-			COMDLG_FILTERSPEC filters[] =
-			{
-				{ L"INI files", L"*.ini" },
-				{ L"All files", L"*.*" }
-			};
-
-			dialog->SetFileTypes(
-				static_cast<UINT>(std::size(filters)),
-				filters
-			);
-
-			dialog->SetTitle(L"Select config file");
-
-			hr = dialog->Show(nullptr);
-
-			if (SUCCEEDED(hr))
-			{
-				IShellItem* item = nullptr;
-
-				hr = dialog->GetResult(&item);
-
-				if (SUCCEEDED(hr))
-				{
-					PWSTR path = nullptr;
-
-					hr = item->GetDisplayName(
-						SIGDN_FILESYSPATH,
-						&path
-					);
-
-					if (SUCCEEDED(hr))
-					{
-						if (_state.load(wideToUtf8(path)))
-						{
-							setState(_state);
-						}
-
-						CoTaskMemFree(path);
-					}
-
-					item->Release();
-				}
-			}
-
-			dialog->Release();
+			setState(_state);
 		}
 	}
 	ImGui::helpTooltip("Load effects settings from a configuration file");

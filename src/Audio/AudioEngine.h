@@ -29,6 +29,7 @@ namespace audio
 
         bool initialize();
         bool loadPlugin(const std::string& path);
+        void unLoadPlugin();
 
         bool start();
         void stop();
@@ -56,6 +57,8 @@ namespace audio
         vst::VSTPlugin* plugin() { return _vstPlugin; }
         AudioOutput* output() { return _output; }
 
+        std::string vstPath() { return _vstPath; }
+
     private:
         void threadMain();
 
@@ -67,6 +70,7 @@ namespace audio
         std::thread _thread;
 
         bool _initialized = false;
+        std::string _vstPath = "";
         std::atomic<bool> _running;
         std::atomic<bool> _stopRequested;
     };

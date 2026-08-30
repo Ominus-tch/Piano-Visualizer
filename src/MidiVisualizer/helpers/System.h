@@ -30,16 +30,6 @@ public:
 	static std::string loadStringFromFile(const std::string& path);
 	static void writeStringToFile(const std::string& path, const std::string& content);
 
-	/** Create a directory.
-		 \param directory the path to the directory to create
-		 \return true if the creation is successful.
-		 \note If the directory already exists, it will fail.
-		 \warning This function will not create intermediate directories.
-		 */
-	static bool createDirectory(const std::string & directory);
-	
-	static std::string getApplicationDataDirectory();
-
 	static void forceLocale();
 	
 };

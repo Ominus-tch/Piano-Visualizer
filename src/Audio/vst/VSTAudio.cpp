@@ -1,6 +1,6 @@
 #include "VSTAudio.h"
 
-#include "../../util/Logger.h"
+#include "../../../util/Logger.h"
 
 #include "pluginterfaces/base/funknownimpl.h"
 

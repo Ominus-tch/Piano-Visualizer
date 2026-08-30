@@ -80,13 +80,6 @@ std::string narrow(wchar_t * str) {
 	return res;
 }
 
-bool System::createDirectory(const std::string & directory) {
-	wchar_t* str = widen(directory);
-	const bool success = CreateDirectoryW(str, nullptr) != 0;
-	delete[] str;
-	return success;
-}
-
 std::ifstream System::openInputFile(const std::string& path, bool binary){
 	wchar_t* str = widen(path);
 	auto flags = binary ? std::ios::binary|std::ios::in : std::ios::in;
@@ -122,62 +115,6 @@ std::ofstream System::openOutputFile(const std::string& path, bool binary){
 }
 
 #endif
-
-std::string System::getApplicationDataDirectory()
-{
-	PWSTR path = nullptr;
-
-	HRESULT result = SHGetKnownFolderPath(
-		FOLDERID_LocalAppData,
-		0,
-		nullptr,
-		&path
-	);
-
-	if (FAILED(result) || !path)
-		return "";
-
-	std::wstring widePath(path);
-
-	CoTaskMemFree(path);
-
-	// Convert UTF-16 -> UTF-8
-	if (widePath.empty())
-		return "";
-
-	int size = WideCharToMultiByte(
-		CP_UTF8,
-		0,
-		widePath.c_str(),
-		static_cast<int>(widePath.size()),
-		nullptr,
-		0,
-		nullptr,
-		nullptr
-	);
-
-	if (size <= 0)
-		return "";
-
-	std::string resultString(size, '\0');
-
-	WideCharToMultiByte(
-		CP_UTF8,
-		0,
-		widePath.c_str(),
-		static_cast<int>(widePath.size()),
-		resultString.data(),
-		size,
-		nullptr,
-		nullptr
-	);
-
-	// Make sure the caller can append directly to it.
-	if (!resultString.empty() && resultString.back() != '\\')
-		resultString += '\\';
-
-	return resultString;
-}
 
 std::string System::loadStringFromFile(const std::string& path){
 	std::ifstream file = System::openInputFile(path, false);

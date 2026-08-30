@@ -7,9 +7,7 @@
 #include "pluginterfaces/vst/ivstaudioprocessor.h"
 #include "pluginterfaces/vst/ivstevents.h"
 #include "pluginterfaces/vst/ivstprocesscontext.h"
-#include "pluginterfaces/vst/ivstparameterchanges.h"
 
-#include "VSTParameterChanges.h"
 #include "VSTEventList.h"
 
 namespace vst

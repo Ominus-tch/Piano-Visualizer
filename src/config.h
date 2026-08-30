@@ -1,9 +1,17 @@
 #pragma once
 
+#include <Windows.h>
+#include <ShlObj.h>
+
 #include <imgui/imgui.h>
 
 #include <nlohmann/json.hpp>
+
 #include <fstream>
+#include <filesystem>
+#include <vector>
+#include <string>
+
 using json = nlohmann::json;
 
 // ============================================================
@@ -12,9 +20,152 @@ using json = nlohmann::json;
 
 namespace Config {
 
-    static const char* pianoConfigFile = "piano_config.json";
+    // ============================================================
+    // CONFIG DIRECTORY
+    // ============================================================
 
-    bool SavePianoConfig(
+    inline std::filesystem::path GetConfigDirectory()
+    {
+        PWSTR appDataPath = nullptr;
+
+        HRESULT result = SHGetKnownFolderPath(
+            FOLDERID_RoamingAppData,
+            0,
+            nullptr,
+            &appDataPath
+        );
+
+        if (FAILED(result) || !appDataPath)
+            return {};
+
+        std::filesystem::path configDirectory =
+            std::filesystem::path(appDataPath) /
+            "PianoVisualizer";
+
+        CoTaskMemFree(appDataPath);
+
+        std::error_code error;
+
+        std::filesystem::create_directories(
+            configDirectory,
+            error
+        );
+
+        if (error)
+            return {};
+
+        return configDirectory;
+    }
+
+    // ============================================================
+    // CONFIG FILE
+    // ============================================================
+
+    inline std::filesystem::path GetPianoConfigPath()
+    {
+        const auto directory = GetConfigDirectory();
+
+        if (directory.empty())
+            return {};
+
+        return directory / "piano_config.json";
+    }
+
+    inline std::filesystem::path GetVisualizerConfigPath()
+    {
+        const auto directory = GetConfigDirectory();
+
+        if (directory.empty())
+            return {};
+
+        return directory / "piano_visualizer.ini";
+    }
+
+    inline std::filesystem::path GetVisualizerConfigurationPath()
+    {
+        const auto directory = GetConfigDirectory();
+
+        if (directory.empty())
+            return {};
+
+        return directory / "visualizer_configuration.settings";
+    }
+
+    inline std::filesystem::path GetVSTConfigPath()
+    {
+        const auto directory = GetConfigDirectory();
+
+        if (directory.empty())
+            return {};
+
+        return directory / "vst_config.json";
+    }
+
+    inline bool SaveVSTConfig(
+        std::filesystem::path vstPath
+    )
+    {
+        if (vstPath.empty())
+            return false;
+
+        const auto configPath = GetVSTConfigPath();
+        if (configPath.empty())
+            return false;
+
+        json config;
+
+        // Data
+        config["vstPath"] = vstPath.string();
+
+        std::ofstream file(configPath);
+
+        if (!file.is_open())
+            return false;
+
+        file << config.dump(4);
+
+        file.close();
+
+        return true;
+    }
+
+    inline bool LoadVSTConfig(
+        std::filesystem::path& path
+    )
+    {
+        const auto configPath = GetVSTConfigPath();
+
+        if (configPath.empty())
+            return false;
+
+        std::ifstream file(configPath);
+
+        if (!file.is_open())
+            return false;
+
+        try
+        {
+            json config;
+            file >> config;
+
+            if (!config.contains("vstPath"))
+                return false;
+
+            path = config["vstPath"].get<std::string>();
+
+            return true;
+        }
+        catch (const std::exception&)
+        {
+            return false;
+        }
+    }
+
+    // ============================================================
+    // SAVE PIANO CONFIGURATION
+    // ============================================================
+
+    inline bool SavePianoConfig(
         const std::vector<ImVec2>& polygonPoints,
         float horizontalFovDegrees,
         float planeWidth,
@@ -27,23 +178,40 @@ namespace Config {
         if (polygonPoints.size() != 4)
             return false;
 
+        const auto configPath = GetPianoConfigPath();
+
+        if (configPath.empty())
+            return false;
+
         json config;
 
         // --------------------------------------------------------
         // Selected polygon points
         // --------------------------------------------------------
 
-        config["points"]["P1"]["x"] = polygonPoints[0].x;
-        config["points"]["P1"]["y"] = polygonPoints[0].y;
+        config["points"]["P1"]["x"] =
+            polygonPoints[0].x;
 
-        config["points"]["P2"]["x"] = polygonPoints[1].x;
-        config["points"]["P2"]["y"] = polygonPoints[1].y;
+        config["points"]["P1"]["y"] =
+            polygonPoints[0].y;
 
-        config["points"]["P3"]["x"] = polygonPoints[2].x;
-        config["points"]["P3"]["y"] = polygonPoints[2].y;
+        config["points"]["P2"]["x"] =
+            polygonPoints[1].x;
 
-        config["points"]["P4"]["x"] = polygonPoints[3].x;
-        config["points"]["P4"]["y"] = polygonPoints[3].y;
+        config["points"]["P2"]["y"] =
+            polygonPoints[1].y;
+
+        config["points"]["P3"]["x"] =
+            polygonPoints[2].x;
+
+        config["points"]["P3"]["y"] =
+            polygonPoints[2].y;
+
+        config["points"]["P4"]["x"] =
+            polygonPoints[3].x;
+
+        config["points"]["P4"]["y"] =
+            polygonPoints[3].y;
 
         // --------------------------------------------------------
         // Camera / plane settings
@@ -71,7 +239,7 @@ namespace Config {
         // Save
         // --------------------------------------------------------
 
-        std::ofstream file(pianoConfigFile);
+        std::ofstream file(configPath);
 
         if (!file.is_open())
             return false;
@@ -83,7 +251,11 @@ namespace Config {
         return true;
     }
 
-    bool LoadPianoConfig(
+    // ============================================================
+    // LOAD PIANO CONFIGURATION
+    // ============================================================
+
+    inline bool LoadPianoConfig(
         std::vector<ImVec2>& polygonPoints,
         float& horizontalFovDegrees,
         float& planeWidth,
@@ -93,7 +265,12 @@ namespace Config {
         float& surfaceZOffset
     )
     {
-        std::ifstream file(pianoConfigFile);
+        const auto configPath = GetPianoConfigPath();
+
+        if (configPath.empty())
+            return false;
+
+        std::ifstream file(configPath);
 
         if (!file.is_open())
             return false;
@@ -150,42 +327,50 @@ namespace Config {
 
             if (config.contains("settings"))
             {
-                auto& settings = config["settings"];
+                auto& settings =
+                    config["settings"];
 
-                if (settings.contains("horizontalFovDegrees"))
+                if (settings.contains(
+                    "horizontalFovDegrees"))
                 {
                     horizontalFovDegrees =
-                        settings["horizontalFovDegrees"].get<float>();
+                        settings["horizontalFovDegrees"]
+                        .get<float>();
                 }
 
                 if (settings.contains("planeWidth"))
                 {
                     planeWidth =
-                        settings["planeWidth"].get<float>();
+                        settings["planeWidth"]
+                        .get<float>();
                 }
 
                 if (settings.contains("planeDepth"))
                 {
                     planeDepth =
-                        settings["planeDepth"].get<float>();
+                        settings["planeDepth"]
+                        .get<float>();
                 }
 
                 if (settings.contains("surfaceXOffset"))
                 {
                     surfaceXOffset =
-                        settings["surfaceXOffset"].get<float>();
+                        settings["surfaceXOffset"]
+                        .get<float>();
                 }
 
                 if (settings.contains("surfaceYOffset"))
                 {
                     surfaceYOffset =
-                        settings["surfaceYOffset"].get<float>();
+                        settings["surfaceYOffset"]
+                        .get<float>();
                 }
 
                 if (settings.contains("surfaceZOffset"))
                 {
                     surfaceZOffset =
-                        settings["surfaceZOffset"].get<float>();
+                        settings["surfaceZOffset"]
+                        .get<float>();
                 }
             }
 

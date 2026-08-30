@@ -29,11 +29,6 @@ namespace vst
         Steinberg::tresult PLUGIN_API addEvent(
             Steinberg::Vst::Event& e) override;
 
-        bool addMidiCC(
-            int16_t channel,
-            int16_t controller,
-            int16_t value);
-
         void clear();
 
     private:

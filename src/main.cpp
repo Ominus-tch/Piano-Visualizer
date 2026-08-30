@@ -24,6 +24,8 @@
 #include "../util/capture/WindowCapture.h"
 #include "../util/renderer/VirtualWindowRenderer.h"
 
+#include "../util/DragDrop/FileDropTarget.h"
+
 #include "helpers.h"
 #include "gui.h"
 #include "config.h"
@@ -41,8 +43,7 @@
 #include "Audio/AudioEngine.h"
 
 #include "Audio/AudioOutput.h"
-#include "Audio/VSTPlugin.h"
-#include "Audio/VSTAudio.h"
+#include "Audio/vst/VSTPlugin.h"
 
 void DebugSetup();
 void DebugEnd();
@@ -63,29 +64,20 @@ audio::AudioEngine* gAudioEngine = nullptr;
 
 HWND gVstEditorWindow = nullptr;
 
-static bool SetupVSTSources()
+std::atomic<bool> g_shouldExit = false;
+BOOL WINAPI ConsoleHandler(
+    DWORD signal)
 {
-    gAudioEngine = new audio::AudioEngine();
-    
-    if (!gAudioEngine->initialize())
+    switch (signal)
     {
-        Logger::Log("Failed to initialize Audio Engine\n");
-        return false;
+    case CTRL_CLOSE_EVENT:
+    case CTRL_LOGOFF_EVENT:
+    case CTRL_SHUTDOWN_EVENT:
+        g_shouldExit = true;
+        return TRUE;
     }
 
-    if (!gAudioEngine->loadPlugin("C:\\Program Files\\Common Files\\VST3\\Vital.vst3"))
-    {
-        Logger::Log("Failed to load plugin\n");
-        return false;
-    }
-
-    if (!gAudioEngine->start())
-    {
-        Logger::Log("Failed to start AudioEngine\n");
-        return false;
-    }
-
-    return true;
+    return FALSE;
 }
 
 static bool CreateMidiVisualizer(ID3D11Device* device, ID3D11DeviceContext* context)
@@ -104,23 +96,11 @@ static bool CreateMidiVisualizer(ID3D11Device* device, ID3D11DeviceContext* cont
     // Ensure we are using the C locale.
     System::forceLocale();
 
-    // Retrieve the settings directory for all applications.
-    std::string applicationDataPath = System::getApplicationDataDirectory();
-    // If this is not empty (ie the working directory), be a good citizen
-    // and save config in a subdirectory belonging to MIDIVisualizer.
-    if (!applicationDataPath.empty()) {
-        // We also need to make sure the directory exist.
-        System::createDirectory(applicationDataPath);
-        // And create a subdirectory for MIDIVisualizer.
-        applicationDataPath += "MIDIVisualizer/";
-        // Idem.
-        System::createDirectory(applicationDataPath);
-    }
-    const std::string internalConfigPath = applicationDataPath + Configuration::defaultName();
+    Config::GetConfigDirectory();
 
     // This has to be called after glfwInit for the working dir to be OK on macOS.
     const std::vector<std::string> argv = {};
-    Configuration config(internalConfigPath, argv);
+    Configuration config(argv);
 
     if (config.showHelp) {
         Configuration::printHelp();
@@ -138,7 +118,7 @@ static bool CreateMidiVisualizer(ID3D11Device* device, ID3D11DeviceContext* cont
     // Apply custom state.
     State state;
     if (!config.lastConfigPath.empty()) {
-        state.load(config.lastConfigPath);
+        state.load();
     }
     // Apply any extra display argument on top of the existing config.
     state.load(config.args());
@@ -189,16 +169,13 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	Logger::Log("Logger Initiliazed!\n");
 
 
-	HRESULT comResult = CoInitializeEx(
-		nullptr,
-		COINIT_MULTITHREADED
-	);
+    HRESULT oleResult = OleInitialize(nullptr);
 
-	if (FAILED(comResult))
-	{
-		Logger::Log("Failed to initialize COM!\n");
-		return 1;
-	}
+    if (FAILED(oleResult))
+    {
+        Logger::Log("Failed to initialize OLE!\n");
+        return 1;
+    }
 
 	WNDCLASSEX wc{};
 	wc.cbSize = sizeof(WNDCLASSEX);
@@ -234,27 +211,29 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 		return 1;
 	}
 
-    // Make VST Plugin Editor
-    WNDCLASSEX vstEditorClass{};
-    vstEditorClass.cbSize = sizeof(WNDCLASSEX);
-    vstEditorClass.lpfnWndProc = vstEditorWindowProc;
-    vstEditorClass.hInstance = instance;
-    vstEditorClass.lpszClassName = "VST Editor Host";
+    //// Make VST Plugin Editor
+    //WNDCLASSEX vstEditorClass{};
+    //vstEditorClass.cbSize = sizeof(WNDCLASSEX);
+    //vstEditorClass.lpfnWndProc = vstEditorWindowProc;
+    //vstEditorClass.hInstance = instance;
+    //vstEditorClass.lpszClassName = "VST Editor Host";
 
-    if (!RegisterClassEx(&vstEditorClass))
-    {
-        Logger::Log(
-            "Failed to register VST editor window class!\n");
+    //if (!RegisterClassEx(&vstEditorClass))
+    //{
+    //    Logger::Log(
+    //        "Failed to register VST editor window class!\n");
 
-        Logger::Remove();
-        return 1;
-    }
+    //    Logger::Remove();
+    //    return 1;
+    //}
 
     // VST STUFF
-    if (!SetupVSTSources())
+
+    gAudioEngine = new audio::AudioEngine();
+
+    if (!gAudioEngine->initialize())
     {
-        Logger::Log(
-            "Failed to create Audio Engine!\n");
+        Logger::Log("Failed to initialize Audio Engine\n");
 
         if (gAudioEngine)
         {
@@ -267,21 +246,53 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         return 1;
     }
 
-    // Create VST editor
-    if (!gAudioEngine->plugin()->createEditor(instance))
+    std::filesystem::path previousVstPath = "";
+    if (Config::LoadVSTConfig(previousVstPath))
     {
-        Logger::Log(
-            "Failed to create VST editor!\n");
+        if (!previousVstPath.empty())
+        {
+            if (gAudioEngine->loadPlugin(previousVstPath.string()))
+            {
+                Logger::Log(
+                    "Loaded plugin %s\n",
+                    previousVstPath.string().c_str()
+                );
 
-        gAudioEngine->shutdown();
-        delete gAudioEngine;
-        gAudioEngine = nullptr;
+                if (gAudioEngine->start())
+                {
+                    Logger::Log(
+                        "Audio Engine started!\n"
+                    );
 
-        Logger::Remove();
-        return 1;
+                    if (gAudioEngine->plugin()->createEditor(instance))
+                    {
+                        Logger::Log(
+                            "Editor created!\n"
+                        );
+                    }
+                    else
+                    {
+                        Logger::Log(
+                            "Failed to create editor!\n"
+                        );
+                    }
+                }
+                else
+                {
+                    Logger::Log(
+                        "Failed to start Audio Engine!\n"
+                    );
+                }
+            }
+            else
+            {
+                Logger::Log(
+                    "Failed to load plugin %s\n",
+                    previousVstPath.string().c_str()
+                );
+            }
+        }
     }
-
-
 
 	DXGI_SWAP_CHAIN_DESC sd{};
 	sd.BufferDesc.RefreshRate.Numerator = 60U;
@@ -427,6 +438,15 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         return 1;
     }
 	
+    FileDropTarget vstDropTarget({
+    L".vst3"
+        });
+
+    if (!vstDropTarget.Register(window))
+    {
+        Logger::Log(
+            "Failed to register VST drag-drop target!\n");
+    }
 	
 	auto startTime = std::chrono::steady_clock::now();
 	float elapsedTime = 0;
@@ -453,7 +473,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 				gui::running = false;
 		}
 
-		if (!gui::running)
+		if (!gui::running || g_shouldExit)
 		{
 			Logger::Log("Loop Ending...\n");
 			break;
@@ -1646,6 +1666,81 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             ImGui::End();
         }
 
+        {
+            if (vstDropTarget.isDragging())
+            {
+                ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+                ImDrawList* drawList =
+                    ImGui::GetForegroundDrawList();
+
+                drawList->AddRectFilled(
+                    viewport->WorkPos,
+                    ImVec2(
+                        viewport->WorkPos.x + viewport->WorkSize.x,
+                        viewport->WorkPos.y + viewport->WorkSize.y
+                    ),
+                    IM_COL32(255, 255, 255, 20)
+                );
+            }
+
+            auto droppedFiles = vstDropTarget.consumeDroppedFiles();
+
+            if (!droppedFiles.empty())
+            {
+                const std::filesystem::path& vstPath = droppedFiles[0];
+
+                if (vstPath != gAudioEngine->vstPath())
+                {
+
+                    gAudioEngine->stop();
+                    gAudioEngine->unLoadPlugin();
+
+                    if (gAudioEngine->loadPlugin(vstPath.string()))
+                    {
+                        Logger::Log(
+                            "Loaded plugin %s\n",
+                            vstPath.string().c_str()
+                        );
+
+                        Config::SaveVSTConfig(vstPath);
+
+                        if (gAudioEngine->start())
+                        {
+                            Logger::Log(
+                                "Audio Engine started!\n"
+                            );
+
+                            if (gAudioEngine->plugin()->createEditor(instance))
+                            {
+                                Logger::Log(
+                                    "Editor created!\n"
+                                );
+                            }
+                            else
+                            {
+                                Logger::Log(
+                                    "Failed to create editor!\n"
+                                );
+                            }
+                        }
+                        else
+                        {
+                            Logger::Log(
+                                "Failed to start Audio Engine!\n"
+                            );
+                        }
+                    }
+                    else
+                    {
+                        Logger::Log(
+                            "Failed to load plugin %s\n",
+                            vstPath.string().c_str()
+                        );
+                    }
+                }
+            }
+        }
 
 
         ImGui::Render();
@@ -1664,6 +1759,9 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
     gAudioEngine->shutdown();
 
 	camera.Shutdown();
+    vstDropTarget.Unregister();
+
+    OleUninitialize();
 
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
@@ -1682,6 +1780,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	if (gRTV)
 		gRTV->Release();
 
+
 	Logger::Log("Destroying Window...\n");
 
 	DestroyWindow(window);
@@ -1698,20 +1797,40 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
 void DebugSetup()
 {
-	gui::debug = true;
-	AllocConsole();
-	freopen_s(&gui::file, "CONOUT$", "w", stdout);
+    gui::debug = true;
 
-	std::cout << "Debug Mode Started!\n";
+    AllocConsole();
+
+    freopen_s(
+        &gui::file,
+        "CONOUT$",
+        "w",
+        stdout);
+
+    SetConsoleCtrlHandler(
+        ConsoleHandler,
+        TRUE);
+
+    std::cout <<
+        "Debug Mode Started!\n";
 }
+
 
 void DebugEnd()
 {
-	gui::debug = false;
-	if (gui::file)
-		fclose(gui::file);
-	FreeConsole();
-	gui::file = nullptr;
+    SetConsoleCtrlHandler(
+        ConsoleHandler,
+        FALSE);
+
+    gui::debug = false;
+
+    if (gui::file)
+    {
+        fclose(gui::file);
+        gui::file = nullptr;
+    }
+
+    FreeConsole();
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

@@ -16,7 +16,6 @@ namespace audio
         ~AudioOutput();
 
         bool initialize(
-            double sampleRate,
             int32_t channels);
 
         void shutdown();

@@ -2,7 +2,7 @@
 
 #include "pluginterfaces/base/funknownimpl.h"
 
-#include "../../util/Logger.h"
+#include "../../../util/Logger.h"
 
 namespace vst
 {
@@ -97,49 +97,6 @@ namespace vst
 
         return Steinberg::kResultTrue;
     }
-
-    bool VSTEventList::addMidiCC(
-        int16_t channel,
-        int16_t controller,
-        int16_t value)
-    {
-        Logger::Log("CC: %d, %d, %d\n", channel, controller, value);
-
-        if (channel < 0 || channel > 15 ||
-            controller < 0 || controller > 127 ||
-            value < 0 || value > 127)
-        {
-            return false;
-        }
-
-        std::vector<Steinberg::uint8> midi =
-        {
-            static_cast<Steinberg::uint8>(0xB0 | channel),
-            static_cast<Steinberg::uint8>(controller),
-            static_cast<Steinberg::uint8>(value)
-        };
-
-        _data.push_back(std::move(midi));
-
-        auto& bytes = _data.back();
-
-        Steinberg::Vst::Event event{};
-
-        event.type = Steinberg::Vst::Event::kLegacyMIDICCOutEvent;
-        event.busIndex = 0;
-        event.sampleOffset = 0;
-        event.flags = Steinberg::Vst::Event::kIsLive;
-
-        event.data.type = Steinberg::Vst::DataEvent::kMidiSysEx;
-        event.data.size =
-            static_cast<Steinberg::uint32>(bytes.size());
-        event.data.bytes = bytes.data();
-
-        _events.push_back(event);
-
-        return true;
-    }
-
 
     void VSTEventList::clear()
     {

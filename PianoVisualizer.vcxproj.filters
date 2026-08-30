@@ -162,16 +162,25 @@
     <ClCompile Include="src\Audio\AudioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Audio\VSTEventList.cpp">
+    <ClCompile Include="src\Audio\vst\VSTEventList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\AudioOutput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Audio\VSTAudio.cpp">
+    <ClCompile Include="src\Audio\vst\VSTAudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Audio\VSTPlugin.cpp">
+    <ClCompile Include="src\Audio\vst\VSTPlugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\vst\VSTHostApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\dragDrop\FileDropTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -986,19 +995,25 @@
     <ClInclude Include="src\Audio\AudioEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\VSTEventList.h">
+    <ClInclude Include="src\Audio\vst\VSTEventList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Audio\AudioOutput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\VSTAudio.h">
+    <ClInclude Include="src\Audio\vst\VSTAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\VSTPlugin.h">
+    <ClInclude Include="src\Audio\vst\VSTPlugin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\VSTParameterChanges.h">
+    <ClInclude Include="src\Audio\vst\VSTHostApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\vst\VSTComponentHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\dragDrop\FileDropTarget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

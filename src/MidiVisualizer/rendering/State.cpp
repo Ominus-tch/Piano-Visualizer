@@ -10,6 +10,8 @@
 #include <sstream>
 #include <algorithm>
 
+#include "../../config.h"
+
 #define MAX_TRACK_COUNT 4096
 
 std::unordered_map<std::string, State::OptionInfos> State::_sharedInfos;
@@ -496,11 +498,8 @@ void State::updateOptions(){
 }
 
 
-void State::save(const std::string & path){
-	std::string outputPath = path;
-	if (path.size() > 4 && path.substr(path.size() - 4, 4) != ".ini") {
-		outputPath += ".ini";
-	}
+void State::save(){
+	std::string outputPath = Config::GetVisualizerConfigPath().string();
 	std::ofstream configFile = System::openOutputFile(outputPath);
 	if(!configFile.is_open()){
 		std::cerr << "[CONFIG]: Unable to save state to file at path " << outputPath << std::endl;
@@ -611,12 +610,12 @@ void State::save(const std::string & path){
 	configFile << s_pedal_location_key << ": " << int(pedals.location) << std::endl;
 
 	configFile.close();
-
-	_filePath = outputPath;
 }
 
-bool State::load(const std::string & path){
-	std::ifstream configFileRaw = System::openInputFile(path);
+bool State::load(){
+	std::filesystem::path path = Config::GetVisualizerConfigPath();
+
+	std::ifstream configFileRaw = System::openInputFile(path.string());
 	if(!configFileRaw.is_open()){
 		std::cerr << "[CONFIG]: Unable to load state from file at path " << path << std::endl;
 		return false;
@@ -658,7 +657,7 @@ bool State::load(const std::string & path){
 		load(args);
 	}
 
-	_filePath = path;
+	_filePath = path.string();
 	return true;
 }
 

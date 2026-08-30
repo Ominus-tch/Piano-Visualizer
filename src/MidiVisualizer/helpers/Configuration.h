@@ -17,9 +17,9 @@ class Configuration {
 
 public:
 
-	Configuration(const std::string& path, const std::vector<std::string>& argv);
+	Configuration(const std::vector<std::string>& argv);
 
-	void save(const std::string& path);
+	void save();
 
 	const Arguments& args() const { return _args; }
 
@@ -38,8 +38,6 @@ public:
 	static void printVersion();
 
 	static void printHelp();
-
-	static std::string defaultName();
 	
 public:
 

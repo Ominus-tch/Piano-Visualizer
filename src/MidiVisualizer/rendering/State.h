@@ -223,11 +223,11 @@ public:
 
 	State();
 
-	bool load(const std::string & path);
+	bool load();
 
 	void load(const Arguments & configArgs);
 
-	void save(const std::string & path);
+	void save();
 	
 	void reset();
 

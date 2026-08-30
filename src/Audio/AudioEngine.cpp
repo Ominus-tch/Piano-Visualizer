@@ -1,8 +1,8 @@
 #include "AudioEngine.h"
 
 #include "AudioOutput.h"
-#include "VSTPlugin.h"
-#include "VSTAudio.h"
+#include "vst/VSTPlugin.h"
+#include "vst/VSTAudio.h"
 
 #include "../../util/Logger.h"
 
@@ -30,7 +30,7 @@ namespace audio
     {
         _output = new AudioOutput();
 
-        if (!_output->initialize(48000.0, 2))
+        if (!_output->initialize(2))
         {
             delete _output;
             _output = nullptr;
@@ -80,6 +80,8 @@ namespace audio
             return false;
         }
 
+        _vstPath = path;
+
         Logger::Log("[VST] Plugin loaded successfully: %s\n", path.c_str());
 
         _vstAudio = new vst::VSTAudio(
@@ -88,6 +90,16 @@ namespace audio
             512);
 
         return true;
+    }
+
+    void AudioEngine::unLoadPlugin()
+    {
+        if (!_vstPlugin) return;
+
+        _vstPlugin->unload();
+
+        delete _vstPlugin;
+        _vstPlugin = nullptr;
     }
 
     bool AudioEngine::start()
@@ -157,8 +169,7 @@ namespace audio
 
         _running = false;
 
-        Logger::Log(
-            "[Audio] Audio engine stopped\n");
+        Logger::Log("[Audio] Audio engine stopped\n");
     }
 
     void AudioEngine::shutdown()

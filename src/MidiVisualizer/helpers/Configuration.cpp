@@ -2,6 +2,8 @@
 #include "../rendering/State.h"
 #include "../helpers/System.h"
 
+#include "../../config.h"
+
 #include <iostream>
 #include <stdio.h>
 #include <algorithm>
@@ -27,17 +29,16 @@ std::string join(const std::vector<std::string>& strs, const std::string& delim)
 	return res;
 }
 
-Configuration::Configuration(const std::string& path, const std::vector<std::string>& argv) {
+Configuration::Configuration(const std::vector<std::string>& argv) {
+
+	std::filesystem::path path = Config::GetVisualizerConfigurationPath();
 
 	// Attempt to load arguments from file.
 	Arguments argsFromFile;
-	std::ifstream configFile = System::openInputFile(path);
+	std::ifstream configFile = System::openInputFile(path.string());
 	if(!configFile.is_open()){
-		std::cerr << "[CONFIG]: Could not load internal configuration from " << path << ". Attempting to load default configuration from working directory." << std::endl;
-		configFile = System::openInputFile(defaultName());
-		if(!configFile.is_open()){
-			std::cerr << "[CONFIG]: No default file either, it's probably a first launch." << std::endl;
-		}
+		std::cout << "Unable to find config file!\n";
+		return;
 	}
 	if(configFile){
 		argsFromFile = parseArguments(configFile);
@@ -181,15 +182,13 @@ Arguments Configuration::parseArguments(const std::vector<std::string> & argv, b
 	return args;
 }
 
-void Configuration::save(const std::string& path){
-	std::ofstream outFile = System::openOutputFile(path);
+void Configuration::save(){
+	std::filesystem::path path = Config::GetVisualizerConfigurationPath();
+
+	std::ofstream outFile = System::openOutputFile(path.string());
 	if(!outFile.is_open()){
-		std::cerr << "[CONFIG]: Could not save internal configuration to " << path << ", attempting to save in working dir." << std::endl;
-		outFile = System::openOutputFile(defaultName());
-		if(!outFile.is_open()){
-			std::cerr << "[CONFIG]: Unable to save in working dir either, cancelling." << std::endl;
-			return;
-		}
+		std::cout << "Unable to find config file!\n";
+		return;
 	}
 
 	// File options
@@ -248,7 +247,8 @@ void Configuration::printHelp(){
 
 	std::cout << "---- Infos ---- MIDIVisualizer v" << MIDIVIZ_VERSION_MAJOR << "." << MIDIVIZ_VERSION_MINOR << " --------" << std::endl
 	<< "Visually display a midi file in real time." << std::endl
-	<< "Created by Simon Rodriguez (https://github.com/kosua20/MIDIVisualizer)" << std::endl;
+	<< "Created by Simon Rodriguez (https://github.com/kosua20/MIDIVisualizer)" << std::endl
+	<< "Created by Adrian Mörling Bernholc (https://github.com/Ominus-tch)" << std::endl;
 
 	std::cout << std::endl << "* General options: " << std::endl;
 	for(const auto & opt : genOpts){
@@ -285,8 +285,4 @@ glm::vec3 Configuration::parseVec3(const std::vector<std::string> & strs){
 		vec[int(i)] = parseFloat(strs[i]);
 	}
 	return vec;
-}
-
-std::string Configuration::defaultName(){
-	return "midiviz_internal.settings";
 }

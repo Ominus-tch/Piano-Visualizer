@@ -33,7 +33,6 @@ namespace audio
 
 
     bool AudioOutput::initialize(
-        double sampleRate,
         int32_t channels)
     {
         if (_initialized)
@@ -53,8 +52,7 @@ namespace audio
         }
 
         Logger::Log(
-            "[Audio] Initializing WASAPI: requested sampleRate=%f channels=%d\n",
-            sampleRate,
+            "[Audio] Initializing WASAPI: channels=%d\n",
             channels);
 
         /*
