@@ -25,9 +25,7 @@ public:
     bool Initialize(
         ID3D11Device* device,
         ID3D11DeviceContext* context,
-        int cameraIndex = 0,
-        int width = 1920,
-        int height = 1080
+        int cameraIndex = 0
     );
 
     void Shutdown();
@@ -78,9 +76,7 @@ private:
     );
 
     bool CreateReader(
-        IMFActivate* camera,
-        int width,
-        int height
+        IMFActivate* camera
     );
 
 

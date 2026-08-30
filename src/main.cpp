@@ -7,6 +7,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
 #include <imgui/imgui_impl_dx11.h>
+#include <imgui/imgui_internal.h>
 
 #include <vector>
 #include <string>
@@ -27,13 +28,28 @@
 #include "gui.h"
 #include "config.h"
 
+// MidiVisualizer
+#include "MidiVisualizer/helpers/ProgramUtilities.h"
+#include "MidiVisualizer/helpers/Configuration.h"
+#include "MidiVisualizer/helpers/ResourcesManager.h"
+#include "MidiVisualizer/helpers/ImGuiStyle.h"
+#include "MidiVisualizer/helpers/System.h"
+#include "MidiVisualizer/rendering/scene/MIDISceneLive.h"
+#include "MidiVisualizer/rendering/Viewer.h"
+
+// Audio
+#include "Audio/AudioEngine.h"
+
+#include "Audio/AudioOutput.h"
+#include "Audio/VSTPlugin.h"
+#include "Audio/VSTAudio.h"
 
 void DebugSetup();
 void DebugEnd();
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK window_procedure(HWND window, UINT message, WPARAM wParam, LPARAM lParam);
+void SetFullscreen(HWND window, bool fullscreen);
 bool IsWindowFullscreen(HWND hwnd);
-HWND FindWindowByName(const std::wstring& windowName);
 static BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam);
 static void RefreshCaptureWindows();
 
@@ -41,6 +57,116 @@ ID3D11Device* gDevice = nullptr;
 ID3D11DeviceContext* gContext = nullptr;
 IDXGISwapChain* gSwapChain = nullptr;
 ID3D11RenderTargetView* gRTV = nullptr;
+
+Viewer* gViewer = nullptr;
+audio::AudioEngine* gAudioEngine = nullptr;
+
+HWND gVstEditorWindow = nullptr;
+
+static bool SetupVSTSources()
+{
+    gAudioEngine = new audio::AudioEngine();
+    
+    if (!gAudioEngine->initialize())
+    {
+        Logger::Log("Failed to initialize Audio Engine\n");
+        return false;
+    }
+
+    if (!gAudioEngine->loadPlugin("C:\\Program Files\\Common Files\\VST3\\Vital.vst3"))
+    {
+        Logger::Log("Failed to load plugin\n");
+        return false;
+    }
+
+    if (!gAudioEngine->start())
+    {
+        Logger::Log("Failed to start AudioEngine\n");
+        return false;
+    }
+
+    return true;
+}
+
+static bool CreateMidiVisualizer(ID3D11Device* device, ID3D11DeviceContext* context)
+{
+    // =========================================================
+    // MidiVisualizer setup
+    // =========================================================
+
+    // Setup resources.
+    ResourcesManager::loadResources(device);
+    // Create the viewer (passing options to display them)
+
+    D3D11Interface d3dInterface = { device, context };
+    gViewer = new Viewer(d3dInterface, 1920, 1080);
+
+    // Ensure we are using the C locale.
+    System::forceLocale();
+
+    // Retrieve the settings directory for all applications.
+    std::string applicationDataPath = System::getApplicationDataDirectory();
+    // If this is not empty (ie the working directory), be a good citizen
+    // and save config in a subdirectory belonging to MIDIVisualizer.
+    if (!applicationDataPath.empty()) {
+        // We also need to make sure the directory exist.
+        System::createDirectory(applicationDataPath);
+        // And create a subdirectory for MIDIVisualizer.
+        applicationDataPath += "MIDIVisualizer/";
+        // Idem.
+        System::createDirectory(applicationDataPath);
+    }
+    const std::string internalConfigPath = applicationDataPath + Configuration::defaultName();
+
+    // This has to be called after glfwInit for the working dir to be OK on macOS.
+    const std::vector<std::string> argv = {};
+    Configuration config(internalConfigPath, argv);
+
+    if (config.showHelp) {
+        Configuration::printHelp();
+        return false;
+    }
+    if (config.showVersion) {
+        Configuration::printVersion();
+        return false;
+    }
+
+    // Load midi file if specified.
+    if (!config.lastMidiPath.empty()) {
+        gViewer->loadFile(config.lastMidiPath);
+    }
+    // Apply custom state.
+    State state;
+    if (!config.lastConfigPath.empty()) {
+        state.load(config.lastConfigPath);
+    }
+    // Apply any extra display argument on top of the existing config.
+    state.load(config.args());
+    gViewer->setState(state);
+
+    // Connect to MIDI device if specified. We do it after setting the state because there are constraints on the scroll direction when recording.
+    // But we don't want to force reverse-scroll when playing back a recorded liveplay.
+    if (!config.lastMidiDevice.empty()) {
+        gViewer->connectDevice(config.lastMidiDevice);
+    }
+
+
+    // End MidiVisualizer Setup
+    return true;
+}
+
+LRESULT CALLBACK vstEditorWindowProc(
+    HWND hwnd,
+    UINT msg,
+    WPARAM wParam,
+    LPARAM lParam)
+{
+    return DefWindowProc(
+        hwnd,
+        msg,
+        wParam,
+        lParam);
+}
 
 INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 {
@@ -90,7 +216,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	const HWND window = CreateWindowEx(
 		0,
 		wc.lpszClassName,
-		"Piano Visualizer 3D",
+		"Piano Visualizer",
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -107,6 +233,55 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 		Logger::Log("Failed to create window!\n");
 		return 1;
 	}
+
+    // Make VST Plugin Editor
+    WNDCLASSEX vstEditorClass{};
+    vstEditorClass.cbSize = sizeof(WNDCLASSEX);
+    vstEditorClass.lpfnWndProc = vstEditorWindowProc;
+    vstEditorClass.hInstance = instance;
+    vstEditorClass.lpszClassName = "VST Editor Host";
+
+    if (!RegisterClassEx(&vstEditorClass))
+    {
+        Logger::Log(
+            "Failed to register VST editor window class!\n");
+
+        Logger::Remove();
+        return 1;
+    }
+
+    // VST STUFF
+    if (!SetupVSTSources())
+    {
+        Logger::Log(
+            "Failed to create Audio Engine!\n");
+
+        if (gAudioEngine)
+        {
+            gAudioEngine->shutdown();
+            delete gAudioEngine;
+            gAudioEngine = nullptr;
+        }
+
+        Logger::Remove();
+        return 1;
+    }
+
+    // Create VST editor
+    if (!gAudioEngine->plugin()->createEditor(instance))
+    {
+        Logger::Log(
+            "Failed to create VST editor!\n");
+
+        gAudioEngine->shutdown();
+        delete gAudioEngine;
+        gAudioEngine = nullptr;
+
+        Logger::Remove();
+        return 1;
+    }
+
+
 
 	DXGI_SWAP_CHAIN_DESC sd{};
 	sd.BufferDesc.RefreshRate.Numerator = 60U;
@@ -132,20 +307,26 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	ID3D11RenderTargetView*	  render_target_view	{ nullptr };
 	D3D_FEATURE_LEVEL		  level					{		  };
 
-	HRESULT hr = D3D11CreateDeviceAndSwapChain(
-		nullptr,
-		D3D_DRIVER_TYPE_HARDWARE,
-		nullptr,
-		0U,
-		levels,
-		2U,
-		D3D11_SDK_VERSION,
-		&sd,
-		&swap_chain,
-		&device,
-		&level,
-		&device_context
-	);
+    UINT flags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+
+#ifdef _DEBUG
+    flags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+    HRESULT hr = D3D11CreateDeviceAndSwapChain(
+        nullptr,
+        D3D_DRIVER_TYPE_HARDWARE,
+        nullptr,
+        flags,
+        levels,
+        2U,
+        D3D11_SDK_VERSION,
+        &sd,
+        &swap_chain,
+        &device,
+        &level,
+        &device_context
+    );
 
 	if (FAILED(hr))
 	{
@@ -158,6 +339,8 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
 		return 1;
 	}
+
+
 
 	ID3D11Texture2D* back_buffer{ nullptr };
 	swap_chain->GetBuffer(0U, IID_PPV_ARGS(&back_buffer));
@@ -179,34 +362,43 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	gSwapChain = swap_chain;
 	gRTV = render_target_view;
 
+    if (!gRTV)
+    {
+        Logger::Log("Render Target View invalid!\n");
+        Logger::Remove();
+        return 1;
+    }
+
 	ShowWindow(window, cmd_show);
 	UpdateWindow(window);
 
 	Logger::Log("Window created!\n");
+
 	Logger::Log("Setting up ImGui...\n\n");
 
-	ImGui::CreateContext();
-	ImGui::StyleColorsDark();
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
 
-	ImGui_ImplWin32_Init(window);
-	ImGui_ImplDX11_Init(device, device_context);
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    io.IniFilename = nullptr;
 
-	ImGuiIO& io = ImGui::GetIO();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	ImGuiStyle& style = ImGui::GetStyle();
-	style.WindowBorderSize = 0.0f;
-	style.WindowRounding = 5.0f;
+    ImFontConfig font;
+    ImGui::configureFont(font);
+    ImGui::configureStyle();
+
+    ImGui_ImplWin32_Init(window);
+    ImGui_ImplDX11_Init(device, device_context);
 
 	static Camera camera;
 	if (!camera.Initialize(
 		gDevice,
-		gContext, 0, 1280, 720)) {
+		gContext, 0)) {
 		Logger::Log("Failed to initialize camera!\n");
 
+        Logger::Remove();
 		return 1;
 	}
-
-    HWND targetWindow = FindWindowByName(L"MIDI Visualizer");
 
     static WindowCapture windowCapture;
 
@@ -219,11 +411,22 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             "Failed to initialize window capture!\n"
         );
 
+        Logger::Remove();
         return 1;
     }
 
     static VirtualWindowRenderer virtualWindowRenderer;
 
+    static bool drawVisualizer = false;
+
+    if (!CreateMidiVisualizer(gDevice, gContext))
+    {
+        Logger::Log("Failed to create midi visualizer!\n");
+
+        Logger::Remove();
+        return 1;
+    }
+	
 	
 	auto startTime = std::chrono::steady_clock::now();
 	float elapsedTime = 0;
@@ -261,10 +464,28 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             gui::showSettings = !gui::showSettings;
         }
 
+        if (ImGui::IsKeyPressed(ImGuiKey_F))
+        {
+            gui::fullscreen = !gui::fullscreen;
+            SetFullscreen(window, gui::fullscreen);
+        }
+
+        ImGui_ImplDX11_NewFrame();
+        ImGui_ImplWin32_NewFrame();
+        ImGui::NewFrame();
+
         camera.Update();
 
+        if (gViewer)
+        {
+            gViewer->setShowGUI(gui::showSettings);
+            auto liveScene = std::dynamic_pointer_cast<MIDISceneLive>(gViewer->scene());
+            if (liveScene)
+                liveScene->setAudioEngine(gAudioEngine);
+        }
+
         if (gui::renderer ==
-            gui::VisualizerRenderer::CaptureOtherVisualizer)
+            gui::VisualizerRenderer::OtherVisualizer)
         {
             HWND desiredWindow =
                 gui::selectedCaptureWindow;
@@ -324,10 +545,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             }
         }
 
-		ImGui_ImplDX11_NewFrame();
-		ImGui_ImplWin32_NewFrame();
-
-		ImGui::NewFrame();
 
         static bool choosingPolygonPoints = false;
 
@@ -342,6 +559,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         // 2 = Bottom-right
         // 3 = Top-right
         //
+        static std::vector<ImVec2> savedPolygonPoints;
         static std::vector<ImVec2> polygonPoints;
 
         // -----------------------------------------------------
@@ -357,7 +575,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         static float virtualWidth = 1920.0f;
         static float virtualDepth = 1080.0f;
 
-        static float planeWidth = 1.0f;
+        static float planeWidth = 16.f / 9.f;
         static float planeDepth = 1.0f;
 
         static float horizontalFovDegrees = 90.0f;
@@ -381,10 +599,40 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             {
                 Logger::Log("No piano config found. Using defaults.\n");
             }
-			});
+		});
 
-        bool focusSettingsWindow = false;
+        constexpr float color[4]{ 0.f, 0.f, 0.f, 1.f };
+        gContext->OMSetRenderTargets(1U, &gRTV, nullptr);
+        gContext->ClearRenderTargetView(gRTV, color);
 
+        if (drawVisualizer)
+        {
+            SystemAction action =
+                gViewer->draw(
+                    DEBUG_SPEED * float(System::time())
+                );
+
+            gContext->OMSetRenderTargets(
+                1,
+                &gRTV,
+                nullptr
+            );
+
+            glm::ivec2 wSize = gViewer->getSize();
+
+            D3D11_VIEWPORT viewport{};
+            viewport.TopLeftX = 0.0f;
+            viewport.TopLeftY = 0.0f;
+            viewport.Width = static_cast<float>(wSize.x);
+            viewport.Height = static_cast<float>(wSize.y);
+            viewport.MinDepth = 0.0f;
+            viewport.MaxDepth = 1.0f;
+
+            gContext->RSSetViewports(1, &viewport);
+
+            drawVisualizer = false;
+        }
+        
         // =========================================================
         // CAMERA
         // =========================================================
@@ -432,6 +680,67 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                 nullptr,
                 flags
             );
+
+            ImGuiWindow* camWindow = ImGui::GetCurrentWindow();
+            if (choosingPolygonPoints)
+                ImGui::BringWindowToDisplayFront(camWindow);
+            else
+                ImGui::BringWindowToDisplayBack(camWindow);
+
+            
+            // ToolTip window
+            if (choosingPolygonPoints)
+            {
+                ImGuiIO& io = ImGui::GetIO();
+
+                ImGui::SetNextWindowPos(
+                    ImVec2(io.MousePos.x + 12.f, io.MousePos.y + 12.f),
+                    ImGuiCond_Always
+                );
+
+                ImGui::SetNextWindowBgAlpha(0.9f);
+
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 8.0f);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(8.0f, 5.0f));
+
+                ImGuiWindowFlags ttFlags =
+                    ImGuiWindowFlags_NoDecoration |
+                    ImGuiWindowFlags_AlwaysAutoResize |
+                    ImGuiWindowFlags_NoSavedSettings |
+                    ImGuiWindowFlags_NoFocusOnAppearing |
+                    ImGuiWindowFlags_NoNav;
+
+                ImGui::Begin("MouseTooltip", nullptr, ttFlags);
+
+                ImGuiWindow* ttWindow = ImGui::GetCurrentWindow();
+                ImGui::BringWindowToDisplayFront(ttWindow);
+
+                switch (polygonClickCount)
+                {
+                case 0:
+                    ImGui::Text("P1. Click    TOP-LEFT    corner of the piano (ESC to cancel)");
+                    break;
+                case 1:
+                    ImGui::Text("P2: Click   BOTTOM-LEFT  corner of the piano (ESC to cancel)");
+                    break;
+                case 2:
+                    ImGui::Text("P3: Click  BOTTOM-RIGHT  corner of the piano (ESC to cancel)");
+                    break;
+                case 3:
+                    ImGui::Text("P4: Click    TOP-RIGHT   corner of the piano (ESC to cancel)");
+                    break;
+                }
+
+                ImGui::End();
+
+                ImGui::PopStyleVar(2);
+
+                if (ImGui::IsKeyPressed(ImGuiKey_Escape))
+                {
+                    polygonPoints = savedPolygonPoints;
+                    choosingPolygonPoints = false;
+                }
+            }
 
 
             // =====================================================
@@ -595,7 +904,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                                     y4
                                 );
 
-
                             if (
                                 valid1 &&
                                 valid2 &&
@@ -641,13 +949,14 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                                 };
 
                                 ID3D11ShaderResourceView* texture = nullptr;
-                                if (gui::renderer == gui::VisualizerRenderer::CaptureOtherVisualizer) {
+                                if (gui::renderer == gui::VisualizerRenderer::OtherVisualizer) {
                                     windowCapture.Update();
                                     texture = windowCapture.GetTexture();
                                 }
-                                else if (gui::renderer == gui::VisualizerRenderer::BuiltIn)
+                                else if (gui::renderer == gui::VisualizerRenderer::BuiltInVisualizer)
                                 {
-                                    texture = nullptr;
+                                    drawVisualizer = true;
+                                    texture = gViewer->getTexture();
                                 }
 
                                 if (texture)
@@ -713,46 +1022,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                                             16,
                                             1.5f
                                         );
-
-
-                                        // -------------------------------------------------
-                                        // Point label
-                                        // -------------------------------------------------
-
-                                        const char* label = "";
-
-                                        switch (i)
-                                        {
-                                        case 0:
-                                            label = "Top Left";
-                                            break;
-
-                                        case 1:
-                                            label = "Top Right";
-                                            break;
-
-                                        case 2:
-                                            label = "Bottom Right";
-                                            break;
-
-                                        case 3:
-                                            label = "Bottom Left";
-                                            break;
-                                        }
-
-                                        drawList->AddText(
-                                            ImVec2(
-                                                pts[i].x + 10.0f,
-                                                pts[i].y - 10.0f
-                                            ),
-                                            IM_COL32(
-                                                255,
-                                                255,
-                                                255,
-                                                255
-                                            ),
-                                            label
-                                        );
                                     }
 
 
@@ -777,80 +1046,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                                             2.0f
                                         );
                                     }
-
-
-                                    // =================================================
-                                    // CENTER
-                                    // =================================================
-
-                                    ImVec2 center =
-                                        ImVec2(
-                                            (
-                                                topLeft.x +
-                                                topRight.x +
-                                                bottomLeft.x +
-                                                bottomRight.x
-                                                ) * 0.25f,
-
-                                            (
-                                                topLeft.y +
-                                                topRight.y +
-                                                bottomLeft.y +
-                                                bottomRight.y
-                                                ) * 0.25f
-                                        );
-
-
-                                    drawList->AddCircleFilled(
-                                        center,
-                                        6.0f,
-                                        IM_COL32(
-                                            255,
-                                            255,
-                                            255,
-                                            255
-                                        )
-                                    );
-
-                                    drawList->AddLine(
-                                        bottomLeft,
-                                        topLeft,
-                                        IM_COL32(
-                                            255,
-                                            0,
-                                            255,
-                                            255
-                                        ),
-                                        2.0f
-                                    );
-
-                                    drawList->AddLine(
-                                        bottomRight,
-                                        topRight,
-                                        IM_COL32(
-                                            255,
-                                            0,
-                                            255,
-                                            255
-                                        ),
-                                        2.0f
-                                    );
-
-
-                                    // =================================================
-                                    // LABEL
-                                    // =================================================
-
-                                    drawList->AddText(
-                                        center,
-                                        IM_COL32(
-                                            255,
-                                            255,
-                                            255,
-                                            255
-                                        ),
-                                        "3D WORLD-UP PIANO"
-                                    );
                                 }
                             }
                         }
@@ -1143,8 +1338,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                             Logger::Log(
                                 "Piano corner selection complete.\n"
                             );
-
-                            focusSettingsWindow = true;
                         }
                     }
                 }
@@ -1160,25 +1353,27 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         // SETTINGS WINDOW
         // =========================================================
 
+    
+
         if (gui::showSettings) {
 
-            if (focusSettingsWindow)
-            {
-                ImGui::SetNextWindowFocus();
-                focusSettingsWindow = false;
-            }
-
-            if (ImGui::Begin("Settings (Press I to hide)", &gui::showSettings)) {
+            if (ImGui::Begin("Settings (Press I to hide)", &gui::showSettings, ImGuiWindowFlags_AlwaysAutoResize)) {
 
 
                 // ---------------------------------------------------------
                 // Choose 4 polygon points
                 // ---------------------------------------------------------
 
+                if (ImGui::Checkbox("Fullscreen", &gui::fullscreen))
+                {
+                    SetFullscreen(window, gui::fullscreen);
+                }
+
                 if (!choosingPolygonPoints)
                 {
-                    if (ImGui::Button("Choose points"))
+                    if (ImGui::Button("Choose Points"))
                     {
+                        savedPolygonPoints = polygonPoints;
                         polygonPoints.clear();
 
                         polygonClickCount = 0;
@@ -1191,98 +1386,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                     }
                 }
 
-
-                // ---------------------------------------------------------
-                // Instructions while selecting
-                // ---------------------------------------------------------
-
-                if (choosingPolygonPoints)
-                {
-                    ImGui::Text(
-                        "Click %d / 4 points on the camera.",
-                        polygonClickCount
-                    );
-
-                    ImGui::Separator();
-
-                    switch (polygonClickCount)
-                    {
-                    case 0:
-                        ImGui::Text(
-                            "1. Click the TOP-LEFT corner of the piano."
-                        );
-                        break;
-
-                    case 1:
-                        ImGui::Text(
-                            "2. Click the BOTTOM-LEFT corner of the piano."
-                        );
-                        break;
-
-                    case 2:
-                        ImGui::Text(
-                            "3. Click the BOTTOM-RIGHT corner of the piano."
-                        );
-                        break;
-
-                    case 3:
-                        ImGui::Text(
-                            "4. Click the TOP-RIGHT corner of the piano."
-                        );
-                        break;
-                    }
-
-                    ImGui::Text(
-                        "Select the four corners of the piano's key area."
-                    );
-                }
-
-
-                // =========================================================
-                // POLYGON POINT LIST
-                // =========================================================
-
-                if (!polygonPoints.empty())
-                {
-                    ImGui::Separator();
-
-                    ImGui::Text("Piano points:");
-
-                    for (size_t i = 0;
-                        i < polygonPoints.size();
-                        ++i)
-                    {
-                        const char* name = "";
-
-                        switch (i)
-                        {
-                        case 0:
-                            name = "Top-left";
-                            break;
-
-                        case 1:
-                            name = "Bottom-left";
-                            break;
-
-                        case 2:
-                            name = "Bottom-right";
-                            break;
-
-                        case 3:
-                            name = "Top-right";
-                            break;
-                        }
-
-                        ImGui::Text(
-                            "P%d (%s): (%.0f, %.0f)",
-                            static_cast<int>(i + 1),
-                            name,
-                            polygonPoints[i].x,
-                            polygonPoints[i].y
-                        );
-                    }
-                }
-
                 ImGui::Separator();
 
                 ImGui::Text("Visualizer Renderer");
@@ -1291,14 +1394,13 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
                 switch (gui::renderer)
                 {
-                case gui::VisualizerRenderer::CaptureOtherVisualizer:
-                    rendererName = "Capture other visualizer";
-                    break;
-
-                case gui::VisualizerRenderer::BuiltIn:
+                case gui::VisualizerRenderer::BuiltInVisualizer:
                     rendererName = "Built-in visualizer";
                     break;
 
+                case gui::VisualizerRenderer::OtherVisualizer:
+                    rendererName = "Capture other visualizer";
+                    break;
                 default:
                     rendererName = "Unknown";
                     break;
@@ -1310,30 +1412,30 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                 ))
                 {
                     if (ImGui::Selectable(
-                        "Capture other visualizer",
+                        "Built-in visualizer",
                         gui::renderer ==
-                        gui::VisualizerRenderer::CaptureOtherVisualizer
+                        gui::VisualizerRenderer::BuiltInVisualizer
                     ))
                     {
                         gui::renderer =
-                            gui::VisualizerRenderer::CaptureOtherVisualizer;
+                            gui::VisualizerRenderer::BuiltInVisualizer;
                     }
 
                     if (ImGui::Selectable(
-                        "Built-in visualizer",
+                        "Capture other visualizer",
                         gui::renderer ==
-                        gui::VisualizerRenderer::BuiltIn
+                        gui::VisualizerRenderer::OtherVisualizer
                     ))
                     {
                         gui::renderer =
-                            gui::VisualizerRenderer::BuiltIn;
+                            gui::VisualizerRenderer::OtherVisualizer;
                     }
 
                     ImGui::EndCombo();
                 }
 
                 if (gui::renderer ==
-                    gui::VisualizerRenderer::CaptureOtherVisualizer)
+                    gui::VisualizerRenderer::OtherVisualizer)
                 {
                     ImGui::Separator();
 
@@ -1353,11 +1455,36 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                     std::string selectedTitle;
 
                     if (selectedWindowIndex >= 0 &&
-                        selectedWindowIndex <
-                        static_cast<int>(gui::captureWindows.size()))
+                        selectedWindowIndex < static_cast<int>(gui::captureWindows.size()))
                     {
-                        std::wstring ws = gui::captureWindows[selectedWindowIndex].title;
-                        selectedTitle = std::string(ws.begin(), ws.end());
+                        const std::wstring& ws = gui::captureWindows[selectedWindowIndex].title;
+
+                        if (!ws.empty())
+                        {
+                            int size = WideCharToMultiByte(
+                                CP_UTF8,
+                                0,
+                                ws.data(),
+                                static_cast<int>(ws.size()),
+                                nullptr,
+                                0,
+                                nullptr,
+                                nullptr
+                            );
+
+                            selectedTitle.resize(size);
+
+                            WideCharToMultiByte(
+                                CP_UTF8,
+                                0,
+                                ws.data(),
+                                static_cast<int>(ws.size()),
+                                selectedTitle.data(),
+                                size,
+                                nullptr,
+                                nullptr
+                            );
+                        }
 
                         selectedName = selectedTitle.c_str();
                     }
@@ -1415,7 +1542,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                     &horizontalFovDegrees,
                     0.1f,
                     90.0f,
-                    "%.2f"
+                    "%.3f"
                 );
 
                 ImGui::SliderFloat(
@@ -1423,7 +1550,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                     &planeWidth,
                     0.1f,
                     2.0f,
-                    "%.2f"
+                    "%.3f"
                 );
 
                 ImGui::SliderFloat(
@@ -1431,7 +1558,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                     &planeDepth,
                     0.1f,
                     5.0f,
-                    "%.2f"
+                    "%.3f"
                 );
 
                 ImGui::SliderFloat(
@@ -1519,15 +1646,12 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
             ImGui::End();
         }
 
-		ImGui::Render();
 
-		constexpr float color[4]{ 0.f, 0.f, 0.f, 0.f };
-		gContext->OMSetRenderTargets(1U, &gRTV, nullptr);
-		gContext->ClearRenderTargetView(gRTV, color);
 
-		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+        ImGui::Render();
+        ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-		gSwapChain->Present(1U, 0U);
+        gSwapChain->Present(1U, 0U);
 	}
 
 
@@ -1535,6 +1659,9 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 	Logger::Log("Exit Procedure...\n");
 	Logger::Log("Shutting down ImGui...\n");
 
+    // Audio
+    gAudioEngine->stop();
+    gAudioEngine->shutdown();
 
 	camera.Shutdown();
 
@@ -1614,7 +1741,7 @@ LRESULT CALLBACK window_procedure(HWND window, UINT message, WPARAM wParam, LPAR
 {
 
 	if (ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam))
-		return true;;
+		return true;
 
 	switch (message)
 	{
@@ -1631,7 +1758,8 @@ LRESULT CALLBACK window_procedure(HWND window, UINT message, WPARAM wParam, LPAR
 			{
 				CleanupRenderTarget();
 
-				gSwapChain->ResizeBuffers(
+
+                HRESULT hr = gSwapChain->ResizeBuffers(
 					0,
 					(UINT)LOWORD(lParam),
 					(UINT)HIWORD(lParam),
@@ -1640,9 +1768,21 @@ LRESULT CALLBACK window_procedure(HWND window, UINT message, WPARAM wParam, LPAR
 				);
 
 				CreateRenderTarget();
+
+				if (gViewer)
+				    gViewer->resize((UINT)LOWORD(lParam), (UINT)HIWORD(lParam));
 			}
 			return 0;
 		}
+        case WM_KEYDOWN:
+            if (gViewer)
+            {
+                gViewer->keyPressed(
+                    static_cast<int>(wParam),
+                    1
+                );
+            }
+            break;
 		case WM_DESTROY: 
 		{
 			// Remove the low-level hooks
@@ -1659,6 +1799,61 @@ LRESULT CALLBACK window_procedure(HWND window, UINT message, WPARAM wParam, LPAR
 	return DefWindowProc(window, message, wParam, lParam);
 }
 
+void SetFullscreen(HWND window, bool fullscreen)
+{
+    static WINDOWPLACEMENT previousPlacement = {
+        sizeof(WINDOWPLACEMENT)
+    };
+
+    if (fullscreen)
+    {
+        MONITORINFO monitorInfo{};
+        monitorInfo.cbSize = sizeof(MONITORINFO);
+
+        if (GetWindowPlacement(window, &previousPlacement) &&
+            GetMonitorInfo(
+                MonitorFromWindow(window, MONITOR_DEFAULTTONEAREST),
+                &monitorInfo))
+        {
+            SetWindowLong(
+                window,
+                GWL_STYLE,
+                WS_POPUP | WS_VISIBLE
+            );
+
+            SetWindowPos(
+                window,
+                HWND_TOP,
+                monitorInfo.rcMonitor.left,
+                monitorInfo.rcMonitor.top,
+                monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left,
+                monitorInfo.rcMonitor.bottom - monitorInfo.rcMonitor.top,
+                SWP_FRAMECHANGED
+            );
+        }
+    }
+    else
+    {
+        SetWindowLong(
+            window,
+            GWL_STYLE,
+            WS_OVERLAPPEDWINDOW | WS_VISIBLE
+        );
+
+        SetWindowPlacement(window, &previousPlacement);
+
+        SetWindowPos(
+            window,
+            nullptr,
+            0, 0, 0, 0,
+            SWP_NOMOVE |
+            SWP_NOSIZE |
+            SWP_NOZORDER |
+            SWP_FRAMECHANGED
+        );
+    }
+}
+
 bool IsWindowFullscreen(HWND hwnd)
 {
 	WINDOWPLACEMENT wp;
@@ -1670,28 +1865,6 @@ bool IsWindowFullscreen(HWND hwnd)
 	}
 
 	return false;
-}
-
-HWND FindWindowByName(const std::wstring& windowName)
-{
-    std::vector<HWND> windows;
-    EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
-        std::vector<HWND>* windows = reinterpret_cast<std::vector<HWND>*>(lParam);
-        windows->push_back(hwnd);
-        return TRUE;
-        }, reinterpret_cast<LPARAM>(&windows));
-
-    for (HWND hwnd : windows)
-    {
-        wchar_t title[256];
-        GetWindowTextW(hwnd, title, 256);
-        /*std::wstring ws(title);
-        std::string str(ws.begin(), ws.end());*/
-        if (windowName.compare(title) == 0)
-            return hwnd;
-    }
-
-    return nullptr;
 }
 
 static BOOL CALLBACK EnumWindowsProc(

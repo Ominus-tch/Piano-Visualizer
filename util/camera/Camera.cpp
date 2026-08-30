@@ -44,9 +44,7 @@ Camera::~Camera()
 bool Camera::Initialize(
     ID3D11Device* device,
     ID3D11DeviceContext* context,
-    int cameraIndex,
-    int width,
-    int height
+    int cameraIndex
 )
 {
     if (!device || !context)
@@ -141,9 +139,7 @@ bool Camera::Initialize(
     // -----------------------------------------------------
 
     if (!CreateReader(
-        camera,
-        width,
-        height
+        camera
     ))
     {
         camera->Release();
@@ -320,9 +316,7 @@ bool Camera::FindCamera(
 // =========================================================
 
 bool Camera::CreateReader(
-    IMFActivate* camera,
-    int width,
-    int height
+    IMFActivate* camera
 )
 {
     if (!camera)
@@ -598,7 +592,7 @@ bool Camera::CreateReader(
         // Log format
         // -------------------------------------------------
 
-        Logger::Log(
+        /*Logger::Log(
             "Camera: "+ format + " " +
             std::to_string(typeIndex) +
             ": " +
@@ -610,7 +604,7 @@ bool Camera::CreateReader(
             "/" +
             std::to_string(fpsDenominator) +
             " FPS\n"
-        );
+        );*/
 
         // -------------------------------------------------
         // Ignore extremely low FPS modes

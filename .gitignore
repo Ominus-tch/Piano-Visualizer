@@ -364,3 +364,5 @@ FodyWeavers.xsd
 
 piano_config.json
 imgui.ini
+
+build/

@@ -13,6 +13,7 @@ namespace gui
 
 	// ImGui
 	bool running = true;
+	bool fullscreen = false;
 
 	// Program
 	int targetFrameRate = 240;
@@ -41,12 +42,12 @@ namespace gui
 
 	enum class VisualizerRenderer
 	{
-		CaptureOtherVisualizer,
-		BuiltIn
+		BuiltInVisualizer,
+		OtherVisualizer
 	};
 
 	inline VisualizerRenderer renderer =
-		VisualizerRenderer::CaptureOtherVisualizer;
+		VisualizerRenderer::BuiltInVisualizer;
 
 	inline HWND selectedCaptureWindow = nullptr;
 	inline int selectedCaptureWindowIndex = -1;
@@ -61,5 +62,4 @@ namespace gui
 
 	static bool windowCaptureRunning = false;
 	static HWND activeCaptureWindow = nullptr;
-
 }
