@@ -3,6 +3,7 @@
 #include <d3d11.h>
 #include <iostream>
 #include <Windows.h>
+#include <Shellapi.h>
 
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_win32.h>
@@ -63,6 +64,7 @@ Viewer* gViewer = nullptr;
 audio::AudioEngine* gAudioEngine = nullptr;
 
 HWND gVstEditorWindow = nullptr;
+std::filesystem::path vst3folderPath = "C:\\Program Files\\Common Files\\VST3\\";
 
 std::atomic<bool> g_shouldExit = false;
 BOOL WINAPI ConsoleHandler(
@@ -247,8 +249,13 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
     }
 
     std::filesystem::path previousVstPath = "";
-    if (Config::LoadVSTConfig(previousVstPath))
+    std::filesystem::path folderPath = "";
+
+    if (Config::LoadVSTConfig(previousVstPath, folderPath))
     {
+        if (!folderPath.empty())
+            vst3folderPath = folderPath;
+
         if (!previousVstPath.empty())
         {
             if (gAudioEngine->loadPlugin(previousVstPath.string()))
@@ -1543,6 +1550,45 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
                 ImGui::Separator();
 
+                ImGui::Text("VST3 Plugin");
+
+                const std::string& pluginName = gAudioEngine->pluginName();
+
+                if (!pluginName.empty())
+                {
+                    ImGui::Text("Loaded plugin: %s", pluginName.c_str());
+                }
+                else
+                {
+                    ImGui::Text("No .vst3 plugin currently loaded");
+                }
+
+                if (std::filesystem::is_directory(vst3folderPath)) {
+                    if (ImGui::Button("Open VST3 Folder"))
+                    {
+                        ShellExecuteW(
+                            nullptr,
+                            L"open",
+                            vst3folderPath.c_str(),
+                            nullptr,
+                            nullptr,
+                            SW_SHOWNORMAL
+                        );
+                    }
+                }
+                else
+                {
+                    if (ImGui::Button("Select VST3 Folder"))
+                    {
+                        auto fldr = gui::OpenFileDialog();
+
+                        if (!fldr.empty())
+                            vst3folderPath = fldr;
+                    }
+                }
+
+                ImGui::Separator();
+
                 ImGui::Checkbox(
                     "Show Debug Lines",
                     &gui::showDebugLines
@@ -1550,7 +1596,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
                 ImGui::Separator();
                 ImGui::SliderFloat(
-                    "Horizontal FOV Degrees",
+                    "FOV",
                     &horizontalFovDegrees,
                     0.1f,
                     90.0f,
@@ -1690,7 +1736,7 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
                     if (gAudioEngine->loadPlugin(vstPath.string()))
                     {
-                        Config::SaveVSTConfig(vstPath);
+                        Config::SaveVSTConfig(vstPath, vst3folderPath);
 
                         if (gAudioEngine->start())
                         {

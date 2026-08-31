@@ -53,11 +53,13 @@ namespace audio
             int16_t controller,
             int16_t value);
 
-        vst::VSTAudio* audio() { return _vstAudio; }
-        vst::VSTPlugin* plugin() { return _vstPlugin; }
-        AudioOutput* output() { return _output; }
+        vst::VSTAudio* audio() const { return _vstAudio; }
+        vst::VSTPlugin* plugin() const { return _vstPlugin; }
+        AudioOutput* output() const { return _output; }
 
-        std::string vstPath() { return _vstPath; }
+        std::string vstPath() const { return _vstPath; }
+
+        const std::string& pluginName() const;
 
     private:
         void threadMain();

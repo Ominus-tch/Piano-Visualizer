@@ -50,6 +50,8 @@ namespace vst
 
         HWND editorWindow() const;
 
+        const std::string& editorName() const { return _editorName; }
+
         Steinberg::IPlugView*
             editor() const;
 

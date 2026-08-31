@@ -102,10 +102,11 @@ namespace Config {
     }
 
     inline bool SaveVSTConfig(
-        std::filesystem::path vstPath
+        std::filesystem::path pluginPath,
+        std::filesystem::path vst3folderPath
     )
     {
-        if (vstPath.empty())
+        if (pluginPath.empty() || vst3folderPath.empty())
             return false;
 
         const auto configPath = GetVSTConfigPath();
@@ -115,7 +116,8 @@ namespace Config {
         json config;
 
         // Data
-        config["vstPath"] = vstPath.string();
+        config["pluginPath"] = pluginPath.string();
+        config["vst3folderPath"] = vst3folderPath.string();
 
         std::ofstream file(configPath);
 
@@ -130,7 +132,8 @@ namespace Config {
     }
 
     inline bool LoadVSTConfig(
-        std::filesystem::path& path
+        std::filesystem::path& pluginPath,
+        std::filesystem::path& vst3folderPath
     )
     {
         const auto configPath = GetVSTConfigPath();
@@ -148,10 +151,11 @@ namespace Config {
             json config;
             file >> config;
 
-            if (!config.contains("vstPath"))
-                return false;
+            if (config.contains("pluginPath"))
+                pluginPath = config["pluginPath"].get<std::string>();
 
-            path = config["vstPath"].get<std::string>();
+            if (config.contains("vst3folderPath"))
+                vst3folderPath = config["vst3folderPath"].get<std::string>();
 
             return true;
         }

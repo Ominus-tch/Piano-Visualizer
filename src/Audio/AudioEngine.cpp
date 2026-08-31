@@ -240,6 +240,14 @@ namespace audio
             value);
     }
 
+    const std::string& AudioEngine::pluginName() const
+    {
+        if (!_vstPlugin || !_initialized)
+            return "";
+
+        return _vstPlugin->editorName();
+    }
+
 
     void AudioEngine::threadMain()
     {

@@ -1,120 +1,118 @@
 # Piano AR Visualizer
 
-A real-time augmented reality piano visualizer that uses a camera feed and MIDI input to overlay animated notes onto a physical piano.
+A real-time piano visualization and VST3 instrument host for Windows.
 
-The project uses perspective mapping to transform a virtual piano visualization onto the camera's view, allowing MIDI notes to appear at the corresponding piano keys.
+**Piano AR Visualizer** combines MIDI input, camera-based rendering, real-time visualization, and VST3 instruments into a single application.
 
 ## Features
 
-- 🎥 Live camera input
-- 🎹 MIDI note detection
-- ✨ Real-time animated note visualization
-- 📐 Perspective / planar mapping
-- 🖱️ Interactive calibration by selecting points on the camera feed
-- 🖥️ DirectX 11 rendering
-- 🎛️ ImGui-based interface
-- ⚡ High-performance C++ implementation
+* 🎹 Real-time MIDI visualization
+* 🎥 Live camera feed
+* 📐 Perspective / planar mapping
+* ✨ Animated piano notes and effects
+* 🖥️ DirectX 11 rendering
+* 🎛️ Dear ImGui interface
+* 🎚️ VST3 plugin hosting
+* 🪟 VST3 editor window support
+* 📂 Drag-and-drop `.vst3` file/folder loading
+* 🔌 MIDI routing to VST3 instruments
+* 🖼️ Built-in or external visualizer support
 
-## How It Works
+## Visualizer
 
-The application combines a live camera feed with a virtual 3D representation of a piano.
+The project includes an almost completely rewritten **DirectX 11 implementation of [MIDIVisualizer](https://github.com/kosua20/MIDIVisualizer)** by [kosua20](https://github.com/kosua20).
 
-The basic pipeline is:
+The built-in visualizer is rendered directly into a texture and integrated into the application's rendering pipeline.
 
-```text
-Camera
-   │
-   ▼
-Camera Feed
-   │
-   ▼
-Calibration
-   │
-   ▼
-Perspective Mapping
-   │
-   ├───────────────┐
-   │               │
-   ▼               ▼
-Piano Geometry    MIDI Input
-   │               │
-   └───────┬───────┘
-           ▼
-    Note Visualization
-           │
-           ▼
-      Camera Overlay
-```
+You can also select **`Capture Other Visualzer Window`** to capture an external visualizer instead. This allows the application to use either its built-in visualizer or another visualizer application as the visualization source.
 
-The user first calibrates the piano area by selecting points on the camera feed. These points define the plane onto which the virtual piano visualization is mapped.
+## VST3
 
-When a MIDI note is received, the corresponding key is identified and a visual note is generated at that position. The note then moves through the mapped piano space in real time.
+The application includes a full VST3 hosting system.
 
-Technology
-C++
-DirectX 11
-Dear ImGui
-Media Foundation
-Windows MIDI
-Windows API
+VST3 plugins can be loaded by simply dragging a `.vst3` file or folder onto the application. The plugin is initialized and its editor window is created when available.
 
-## Calibration
+Incoming MIDI can be routed to the VST3 plugin while simultaneously driving the visualizer, allowing the same MIDI performance to control both the instrument and visualization.
 
-The piano is calibrated directly from the camera view.
+## Camera & AR
 
-The planned calibration process is:
+The camera feed can be used as the background for the visualization. Calibration and perspective mapping allow the visualizer to be aligned with a physical piano from different camera angles.
 
-1. Start the camera.
-2. Display the live camera feed.
-3. Select the required points on the piano.
-4. Calculate the perspective transformation.
-5. Map virtual piano coordinates onto the selected region.
-6. Render MIDI-driven notes using the resulting transformation.
+## Technologies
 
-This allows the visualization to remain aligned with the physical piano even when the camera is positioned at an angle.
+* C++
+* DirectX 11
+* VST3 SDK
+* Dear ImGui
+* Windows API
+* Windows Media Foundation
+* Windows MIDI
+* [MIDIVisualizer](https://github.com/kosua20/MIDIVisualizer)
 
-## Development Status
+## Usage
 
-### 🚧 Early development
+1. Press **Choose Points** and follow the instructions. This will set up the virtual piano dimensions.
+2. You may need to enable **Show Debug Lines**.
+3. Adjust **Plane Height/Width Scale** to the desired levels.
+4. Adjust **FOV/Offsets** as needed.
+5. Choose either **Built-in visualizer** or **Capture Other Visualzer Window**.
 
-Currently being developed:
+### Built-in Visualizer
 
-* DirectX 11 window
-* ImGui interface
-* Camera device detection
-* Media Foundation camera access
-* Live camera visualization
-* Camera calibration
-* Perspective transformation
-* MIDI input
-* Piano key detection/mapping
-* Animated notes
-* 3D piano visualization
-* Final rendering pipeline
+1. If a MIDI device wasn't automatically connected, connect it.
+2. Set up the effect layers.
 
-Requirements
-Windows 10/11
-Visual Studio 2022 or newer
-C++20 or newer
-DirectX 11 compatible GPU
-A compatible camera
-A MIDI input device or MIDI software
+### Other Visualizer
+
+1. Refresh the available windows.
+2. Select the visualizer window to capture.
+
+Don't forget to save your configurations!
+
+Configuration is saved separately for the main application and the built-in MIDIVisualizer.
+
+### VST Audio
+
+If you want to hear the piano, simply drag a `.vst3` plugin onto the application window.
+
+The plugin will be loaded and initialized automatically.
+
+## Requirements
+
+* Windows 10/11
+* Visual Studio Code
+* MIDI input device or MIDI software
+* Camera for AR functionality
+* VST3 instrument/plugin for VST3 functionality
+
+No additional development environment is required beyond Visual Studio Code and the dependencies included with the project.
 
 ## Building
 
 Clone the repository:
+
 ```bash
 git clone https://github.com/Ominus-tch/Piano-Visualizer.git
 ```
-Open the Visual Studio solution and build the project using the desired configuration.
 
-The project currently targets Windows and uses DirectX 11 and Windows Media Foundation.
+Open the project in **Visual Studio Code** and build/run using the included project configuration.
 
-## Goals
+## Development Status
 
-The long-term goal is to create a visually accurate real-time piano visualization that makes it appear as though animated notes are physically moving toward the keys of the piano.
+The main systems are currently functional:
 
-The system is designed to work with different camera angles by using perspective transformation rather than relying on a fixed camera position.
+* ✅ DirectX 11 rendering
+* ✅ MIDI input and visualization
+* ✅ Built-in DirectX 11 MIDIVisualizer
+* ✅ External visualizer window capture
+* ✅ Camera input and perspective mapping
+* ✅ VST3 plugin loading
+* ✅ VST3 audio processing
+* ✅ VST3 editor windows
+* ✅ VST3 drag-and-drop
+* 🚧 UI improvements
+* 🚧 Additional visual effects
+* 🚧 Optimization and cleanup
 
 ## License
 

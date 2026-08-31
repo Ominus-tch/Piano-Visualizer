@@ -3,7 +3,8 @@
 #include <imgui/imgui.h>
 
 #include <Windows.h>
-
+#include <shobjidl.h>
+#include <filesystem>
 #include <chrono>
 #include <array>
 #include <mutex>
@@ -62,4 +63,55 @@ namespace gui
 
 	static bool windowCaptureRunning = false;
 	static HWND activeCaptureWindow = nullptr;
+
+	std::filesystem::path OpenFileDialog()
+	{
+		IFileOpenDialog* dialog = nullptr;
+
+		HRESULT hr = CoCreateInstance(
+			CLSID_FileOpenDialog,
+			nullptr,
+			CLSCTX_ALL,
+			IID_PPV_ARGS(&dialog)
+		);
+
+		if (FAILED(hr))
+			return {};
+
+		hr = dialog->Show(nullptr);
+
+		if (FAILED(hr))
+		{
+			dialog->Release();
+			return {};
+		}
+
+		IShellItem* item = nullptr;
+
+		hr = dialog->GetResult(&item);
+
+		if (FAILED(hr))
+		{
+			dialog->Release();
+			return {};
+		}
+
+		PWSTR filePath = nullptr;
+
+		hr = item->GetDisplayName(SIGDN_FILESYSPATH, &filePath);
+
+		std::filesystem::path result;
+
+		if (SUCCEEDED(hr))
+		{
+			result = filePath;
+			CoTaskMemFree(filePath);
+		}
+
+		item->Release();
+		dialog->Release();
+
+		return result;
+	}
 }
+
