@@ -100,7 +100,7 @@ namespace vst
         data.processContext =
             &_processContext;
 
-        const auto result =
+        auto result =
             _processor->process(data);
 
         _processContext.projectTimeSamples +=

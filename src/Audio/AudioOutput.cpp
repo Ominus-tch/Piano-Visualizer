@@ -163,6 +163,12 @@ namespace audio
             return false;
         }
 
+        Logger::Log(
+            "[Audio] Device format: channels=%u, sampleRate=%u, bits=%u\n",
+            _format->nChannels,
+            _format->nSamplesPerSec,
+            _format->wBitsPerSample);
+
         /*
          * Determine the actual sample format.
          */
@@ -259,7 +265,8 @@ namespace audio
          * format is valid for Initialize().
          */
 
-        constexpr REFERENCE_TIME bufferDuration = 30000; // 3 ms
+        //constexpr REFERENCE_TIME bufferDuration = 30000; // 3 ms
+        constexpr REFERENCE_TIME bufferDuration = 200000; // 20 ms
 
         hr = _audioClient->Initialize(
             AUDCLNT_SHAREMODE_SHARED,

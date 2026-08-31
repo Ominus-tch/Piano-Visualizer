@@ -531,6 +531,34 @@ namespace vst
                 return false;
             }
 
+            /*Steinberg::Vst::SpeakerArrangement outputArrangement =
+                Steinberg::Vst::SpeakerArr::kStereo;
+
+            result = _processor->setBusArrangements(
+                nullptr,
+                0,
+                &outputArrangement,
+                1);
+
+            Logger::Log(
+                "[VST] setBusArrangements result=%d\n",
+                result);*/
+
+            result = _component->activateBus(
+                Steinberg::Vst::kAudio,
+                Steinberg::Vst::kOutput,
+                0,
+                true);
+
+            if (result != Steinberg::kResultOk)
+            {
+                Logger::Log(
+                    "[VST] Failed to activate output bus\n");
+
+                unload();
+                return false;
+            }
+
             /*
              * The component must also be activated before processing.
              *
@@ -546,6 +574,20 @@ namespace vst
             {
                 Logger::Log(
                     "[VST] Failed to activate component: result=%d\n",
+                    result);
+
+                unload();
+
+                return false;
+            }
+
+            result =
+                _processor->setProcessing(true);
+
+            if (result != Steinberg::kResultOk)
+            {
+                Logger::Log(
+                    "[VST] Failed to start processing: result=%d\n",
                     result);
 
                 unload();
@@ -617,6 +659,14 @@ namespace vst
 
         _controllerConnection =
             nullptr;
+
+        if (_processor)
+        {
+            Logger::Log(
+                "[VST] Stopping processing\n");
+
+            _processor->setProcessing(false);
+        }
 
         /*
          * Deactivate the component before terminating it.

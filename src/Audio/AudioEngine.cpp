@@ -249,12 +249,13 @@ namespace audio
         const int32_t blockSize =
             _vstAudio->maxBlockSize();
 
+        Logger::Log(
+            "[Audio] VST block size: %d\n",
+            blockSize);
+
         while (!_stopRequested)
         {
-            /*
-             * Wait until WASAPI has enough room for
-             * one complete VST processing block.
-             */
+
             if (!_output->waitForSpace(blockSize))
             {
                 Logger::Log(
@@ -266,9 +267,7 @@ namespace audio
             if (_stopRequested)
                 break;
 
-            /*
-             * Generate exactly one VST block.
-             */
+
             if (!_vstAudio->process())
             {
                 Logger::Log(
@@ -277,9 +276,6 @@ namespace audio
                 break;
             }
 
-            /*
-             * Send the generated samples to WASAPI.
-             */
             if (!_output->write(
                 _vstAudio->leftChannel(),
                 _vstAudio->rightChannel(),

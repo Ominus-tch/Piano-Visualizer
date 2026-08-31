@@ -191,9 +191,7 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\openurl.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\pluginview.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\readfile.cpp" />
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_linux.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_win32.cpp" />
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_linux.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_win32.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\main\dllmain.cpp" />
     <ClCompile Include="ext\vst3sdk\public.sdk\source\main\moduleinit.cpp" />
@@ -999,8 +997,6 @@
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformviewlayer.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platformfactory.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platformfwd.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_linux.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_macos.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_wayland.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_win32.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_x11.h" />

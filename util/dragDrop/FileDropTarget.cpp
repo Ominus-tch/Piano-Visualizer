@@ -360,16 +360,19 @@ bool FileDropTarget::isValidFile(
     if (_extensions.empty())
         return true;
 
-    if (!std::filesystem::is_regular_file(
-        path))
-    {
+    const bool isFile =
+        std::filesystem::is_regular_file(path);
+
+    const bool isDirectory =
+        std::filesystem::is_directory(path);
+
+    if (!isFile && !isDirectory)
         return false;
-    }
 
-    std::wstring extension =
-        path.extension().wstring();
+    std::wstring name =
+        path.filename().wstring();
 
-    for (auto& character : extension)
+    for (auto& character : name)
     {
         character =
             static_cast<wchar_t>(
@@ -379,8 +382,39 @@ bool FileDropTarget::isValidFile(
     for (const auto& accepted :
         _extensions)
     {
-        if (extension == accepted)
-            return true;
+        /*
+         * Directories such as "LABS.vst3" are valid
+         * when their name ends with the accepted suffix.
+         */
+        if (isDirectory)
+        {
+            if (name.size() >= accepted.size() &&
+                name.compare(
+                    name.size() - accepted.size(),
+                    accepted.size(),
+                    accepted) == 0)
+            {
+                return true;
+            }
+        }
+        /*
+         * Regular files continue to use their extension.
+         */
+        else
+        {
+            std::wstring extension =
+                path.extension().wstring();
+
+            for (auto& character : extension)
+            {
+                character =
+                    static_cast<wchar_t>(
+                        towlower(character));
+            }
+
+            if (extension == accepted)
+                return true;
+        }
     }
 
     return false;
