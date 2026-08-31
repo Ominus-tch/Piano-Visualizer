@@ -50,7 +50,7 @@ namespace audio
         _initialized = true;
         
         Logger::Log(
-            "[Audio] AudioEngine initialized\n");
+            "[Audio] AudioEngine initialized\n\n");
 
         return true;
     }
@@ -63,8 +63,6 @@ namespace audio
 
             return false;
         }
-
-        Logger::Log("[VST] Loading plugin: %s\n", path.c_str());
 
         _vstPlugin = new vst::VSTPlugin();
 

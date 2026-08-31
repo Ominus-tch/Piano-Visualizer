@@ -150,15 +150,6 @@
     <ClCompile Include="src\MidiVisualizer\resources\shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\vst3sdk\public.sdk\source\vst\hosting\module.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vst3sdk\public.sdk\source\vst\hosting\module_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\vst3sdk\public.sdk\source\vst\hosting\plugprovider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Audio\AudioEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -181,6 +172,888 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\dragDrop\FileDropTarget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\pluginterfaces\base\conststringtable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\pluginterfaces\base\coreiids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\pluginterfaces\base\funknown.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\pluginterfaces\base\ustring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\commoniids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\commonstringconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\memorystream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\openurl.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\pluginview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\readfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_linux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_linux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\moduleinit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\pluginfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\usediids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.sdk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\eventlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostclasses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostdataexchangehandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\module_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\parameterchanges.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\processdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busactivation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busconsistency.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\businvalidindex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\checkaudiobusarrangement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\scanbusses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\sidechainarrangement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\editorclasses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midilearn.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midimapping.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\parameterfunctionname.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\plugcompat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\scanparameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\suspendresume.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\terminit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\keyswitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\noteexpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\automation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processcontextrequirements.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processformat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processinputoverwriting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processtail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processthreaded.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceflags.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceprocessing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\speakerarrangement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\variableblocksize.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\bypasspersistence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\invalidstatetransition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\repeatidenticalstatetransition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\validstatetransition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\checkunitstructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanprograms.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanunits.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\testbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vsttestsuite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\midiconverttest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\ringbuffertest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\rttransfertest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\sampleaccuratetest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\versionparsertest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\systemtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\testing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstaudioeffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstbus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstcomponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstcomponentbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vsteditcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstgui_win32_bundle_support.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstguieditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstinitiids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstnoteexpressiontypes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstparameters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstpresetfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstrepresentation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstsinglecomponenteffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst3stdsdk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\baseiids.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fdebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fdynlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fstreamer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\fstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\source\updatehandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\thread\source\fcondition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\base\thread\source\flock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\contrib\datepicker_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\contrib\evbutton_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\contrib\keyboardview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\animation\animations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\animation\animator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\animation\timingfunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cautoanimation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cbuttons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\ccolorchooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\ccontrol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cfontchooser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cknob.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\clistcontrol.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cmoviebitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cmoviebutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\coptionmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cparamdisplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cscrollbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\csearchtextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\csegmentbutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cslider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cspecialdigit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\csplashscreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cstringlist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cswitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\ctextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\ctextlabel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cvumeter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\controls\cxypad.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\common\fileresourceinputstream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\common\genericoptionmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\common\generictextedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmapcache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dfont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgradient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicscontext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicspath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32datapackage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32directcomposition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32dragging.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32factory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32frame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32openglview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32optionmenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32resourcestream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32support.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32taskexecutor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32textedit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\win32viewlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\winfileselector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\winstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\win32\wintimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\platform\platformfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\viewlayouter\autosizeviewlayouter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\viewlayouter\gridlayouter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cbitmap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cbitmapfilter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cclipboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\ccolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cdatabrowser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cdrawcontext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cdrawmethods.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cdropsource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cexternalview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cfileselector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cfont.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cframe.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cgradient.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cgradientview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cgraphicspath.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\clayeredviewcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\clinestyle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\coffscreencontext.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\copenglview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cpoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\crect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\crowcolumnview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cscrollview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cshadowviewcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\csplitview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\ctabview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\ctexteditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\ctooltipsupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cviewcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\cvstguitimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\genericstringlistdatabrowsersource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\pixelbuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\stringconvert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\tasks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\vstguidebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\vstguiinit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\plugin-bindings\plugguieditor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\plugin-bindings\vst3editor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\plugin-bindings\vst3groupcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\plugin-bindings\vst3padcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmlparse.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmlrole.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_impl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_ns.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\miniz\miniz.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uidesclist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uijsonpersistence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uinode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uixmlpersistence.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiactions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiattributescontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uibitmapscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorchoosercontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorslider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicrosslines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uidialogcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditmenucontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uifocussettingscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uifontscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uigradientscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uigridcontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uioverlayview.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiselection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitagscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatecontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatesettingscontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiundomanager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiviewcreatecontroller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\animationsplashscreencreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\animknobcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\autoanimationcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\checkboxcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\controlcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\gradientviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\kickbuttoncreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\knobcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\layeredviewcontainercreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\moviebitmapcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\moviebuttoncreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\multibitmapcontrolcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\multilinetextlabelcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\onoffbuttoncreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\optionmenucreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\paramdisplaycreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\rockerswitchcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\rowcolumnviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\scrollviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\searchtexteditcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\segmentbuttoncreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\shadowviewcontainercreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\sliderviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\splitviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\stringlistcontrolcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\switchcreators.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\textbuttoncreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\texteditcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\textlabelcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\uiviewswitchcontainercreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\viewcontainercreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\viewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\vumetercreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\xypadcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\compresseduidescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\cstream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\cstream_zlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uiattributes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uicontentprovider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uidescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uidescriptionaddonregistry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uiviewcreator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uiviewfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\uiviewswitchcontainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\xmlparser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawcontextobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\scriptingviewfactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\viewscriptobject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\run_tests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_Functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_MathFunctions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\uiscripting.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\vstgui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_uidescription.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_uidescription_win32.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1016,6 +1889,1605 @@
     <ClInclude Include="util\dragDrop\FileDropTarget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\conststringtable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\doc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\falignpop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\falignpush.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\fplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\fstrdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ftypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\funknown.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\funknownimpl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\futils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\fvariant.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\geoconstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ibstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\icloneable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ierrorcontext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ipersistent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ipluginbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\iplugincompatibility.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\istringresult.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\iupdatehandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\keycodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\pluginbasefwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\smartpointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\typesizecheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ucolorspec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\base\ustring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\gui\iplugview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\gui\iplugviewcontentscalesupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\gui\iwaylandframe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\test\itest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstattributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstaudioprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstautomationstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstchannelcontextinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstcomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstcontextmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstdataexchange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivsteditcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstevents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivsthostapplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstinterappaudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstmessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstmidicontrollers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstmidilearn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstmidimapping2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstnoteexpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstnoteonorchestralarticulationinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstparameterchanges.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstparameterfunctionname.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstphysicalui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstpluginterfacesupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstplugview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstprefetchablesupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstprocesscontext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstremapparamid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstrepresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivsttestplugprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivsttransportcontrol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\ivstunits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\vstpresetkeys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\vstpshpack4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\vstspeaker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\pluginterfaces\vst\vsttypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\commonstringconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\memorystream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\openurl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\pluginview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\readfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\systemclipboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\common\threadchecker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\main\moduleinit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\main\pluginfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\main\pluginfactory_constexpr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3AudioEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3Wrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3WrapperFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\aucarbonview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\aucocoaview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\auwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\NSDataIBStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\eventlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostclasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostdataexchangehandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\module.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\parameterchanges.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\processdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\AudioIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\HostApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\MidiIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetBrowserViewController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetSaveViewController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\SettingsViewController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VST3Editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VST3Plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VSTInterAppAudioAppDelegateBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\jsoncxx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busactivation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busconsistency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\businvalidindex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\checkaudiobusarrangement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\scanbusses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\sidechainarrangement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\editorclasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midilearn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midimapping.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\parameterfunctionname.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\plugcompat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\scanparameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\suspendresume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\terminit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\keyswitch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\noteexpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\automation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\process.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processcontextrequirements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processformat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processinputoverwriting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processtail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processthreaded.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceflags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceprocessing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\speakerarrangement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\variableblocksize.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\bypasspersistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\invalidstatetransition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\repeatidenticalstatetransition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\validstatetransition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\checkunitstructure.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanprograms.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanunits.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\testbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vststructsizecheck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vsttestsuite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\alignedalloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\audiobuffers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\memoryibstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\midiconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\objcclassbuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\optional.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\processcontextrequirements.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\processdataslicer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\ringbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\rttransfer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\sampleaccurate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\systemtime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\testing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\uid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\ump.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\versionparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstaudioeffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstaudioprocessoralgo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstbus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstbypassprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstcomponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstcomponentbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vsteditcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vsteventshelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstgui_win32_bundle_support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstguieditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vsthelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstnoteexpressiontypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstparameters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstpresetfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstrepresentation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstsinglecomponenteffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstspeakerarray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\classfactoryhelpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fcleanup.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fcommandline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fdebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fdynlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fstdmethods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fstreamer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\fstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\hexbinary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\timer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\source\updatehandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\thread\include\fcondition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\base\thread\include\flock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\ciboxblurfilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\datepicker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\evbutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\externalview_direct3d12.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\externalview_hwnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\externalview_metal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\externalview_nsview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\contrib\keyboardview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\doc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_changelog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_changes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_create_your_own_ui_view.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_keyeventflow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_license.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_misc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_view_system_overview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\animations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\animator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\ianimationtarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\itimingfunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\timingfunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cautoanimation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cbuttons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\ccolorchooser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\ccontrol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cfontchooser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cknob.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\clistcontrol.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cmoviebitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cmoviebutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\coptionmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cparamdisplay.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cscrollbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\csearchtextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\csegmentbutton.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cslider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cspecialdigit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\csplashscreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cstringlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cswitch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\ctextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\ctextlabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cvumeter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\cxypad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\icommandmenuitemtarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\icontrollistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\ioptionmenulistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\itexteditlistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\controls\itextlabellistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\common\fileresourceinputstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\common\genericoptionmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\common\generictextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\common\gradientbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\common\threadpooltaskexecutor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2d.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmapcache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dfont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgradient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicscontext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicspath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\comptr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32bitmapbase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32datapackage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32directcomposition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32dll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32dragging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32factory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32frame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32openglview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32optionmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32resourcestream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32support.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32taskexecutor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\win32viewlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\winfileselector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\winstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\win32\wintimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformbitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformfileselector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformfont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformframe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformframecallback.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformgradient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformgraphicsdevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformgraphicspath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformopenglview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformoptionmenu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformresourceinputstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformtaskexecutor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformtextedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformtextinputclient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformtimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformviewlayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_linux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_macos.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_wayland.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_win32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_x11.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platformfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platformfwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\std_unorderedmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\private\disabledeprecatedmessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\private\enabledeprecatedmessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\viewlayouter\autosizeviewlayouter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\viewlayouter\baseviewlayouter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\viewlayouter\gridlayouter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\viewlayouter\noviewlayouter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\algorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cbitmap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cbitmapfilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cbuttonstate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cclipboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\ccolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cdatabrowser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cdrawcontext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cdrawdefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cdrawmethods.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cdropsource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cexternalview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cfileselector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cfont.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cframe.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cgradient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cgradientview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cgraphicspath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cgraphicstransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cinvalidrectlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\clayeredviewcontainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\clinestyle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\coffscreencontext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\copenglview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cpoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\crect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cresourcedescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\crowcolumnview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cscrollview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cshadowviewcontainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\csplitview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\ctabview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\ctexteditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\ctooltipsupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cviewcontainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\cvstguitimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\dispatchlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\dragging.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\enumbitset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\finally.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\genericstringlistdatabrowsersource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\idatabrowserdelegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\idatapackage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\idependency.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\iexternalview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\ifocusdrawing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\iscalefactorchangedlistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\itouchevent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\iviewlayouter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\iviewlistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\malloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\optional.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\pixelbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\stringconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\tasks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vstguibase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vstguidebug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vstguifwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vstguiinit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vstkeycode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\plugin-bindings\getpluginbundle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\plugin-bindings\plugguieditor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\plugin-bindings\vst3editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\plugin-bindings\vst3groupcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\plugin-bindings\vst3padcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\ascii.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\asciitab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\expat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\expat_external.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\iasciitab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\latin1tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\macconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\nametab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\utf8tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\winconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\xmlrole.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_impl.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\miniz\miniz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\error\en.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\error\error.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\biginteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\clzll.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\diyfp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\dtoa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\ieee754.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\itoa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\meta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\pow10.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\regex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\stack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\strfunc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\strtod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\internal\swap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\msinttypes\inttypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\msinttypes\stdint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\allocators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\cursorstreamwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\document.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\encodedstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\encodings.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\filereadstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\filewritestream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\fwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\istreamwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\memorybuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\memorystream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\ostreamwrapper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\pointer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\prettywriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\rapidjson.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\reader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\schema.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\stringbuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\uri.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\rapidjson\include\rapidjson\writer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\thirdparty\stb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\locale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\parsecolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\scalefactorutils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\uidesclist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\uijsonpersistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\uinode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\uiviewcreatorattributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\detail\uixmlpersistence.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\doc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\iaction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\igridprocessor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uiactions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uiattributescontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uibasedatasource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uibitmapscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uicolor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorchoosercontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorslider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uicrosslines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uidialogcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uieditcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uieditmenucontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uieditview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uifocussettingscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uifontscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uigradientscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uigrid.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uigridcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uioverlayview.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uiselection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uitagscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatesettingscontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uiundomanager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\editing\uiviewcreatecontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\animationsplashscreencreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\animknobcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\autoanimationcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\checkboxcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\controlcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\gradientviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\kickbuttoncreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\knobcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\layeredviewcontainercreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\moviebitmapcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\moviebuttoncreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\multibitmapcontrolcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\multilinetextlabelcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\onoffbuttoncreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\optionmenucreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\paramdisplaycreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\rockerswitchcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\rowcolumnviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\scrollviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\searchtexteditcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\segmentbuttoncreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\shadowviewcontainercreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\sliderviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\splitviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\stringlistcontrolcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\switchcreators.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\textbuttoncreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\texteditcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\textlabelcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\uiviewswitchcontainercreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\viewcontainercreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\viewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\vumetercreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\viewcreator\xypadcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\base64codec.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\compresseduidescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\cstream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\cstream_zlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\delegationcontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\doc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\icontentprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\icontroller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\iuidescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\iuidescriptionaddon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\iviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\iviewfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uiattributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uicontentprovider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uidescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uidescriptionaddonregistry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uidescriptionfwd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uidescriptionlistener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uiviewcreator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uiviewfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\uiviewswitchcontainer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\xmlparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription\xmluidescdoc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\converters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawcontextobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\iscriptcontextinternal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\scriptingviewfactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\scriptobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\uidescscriptobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\viewscriptobject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_Functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_MathFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\uidescription-scripting\uiscripting.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\vstgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\vstgui_uidescription.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\glm\gtc\bitfield.inl">
@@ -1072,11 +3544,74 @@
     <None Include="ext\glm\gtc\vec1.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="ext\vst3sdk\vstgui\Documentation\index.html" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\base.lib" />
     <Library Include="lib\pluginterfaces.lib" />
     <Library Include="lib\sdk_common.lib" />
     <Library Include="lib\sdk_hosting.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\adelay\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\again\resource\again.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\again_sampleaccurate\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\channelcontext\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\dataexchange\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\hostchecker\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\hostchecker_aax\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\legacymidiccout\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\mda-vst3\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\multiple_programchanges\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\note_expression_synth\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\note_expression_text\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\panner\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\pitchnames\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\prefetchablesupport\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\programchange\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\remap_paramid\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\syncdelay\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\transportcontrol\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\utf16name\resource\info.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

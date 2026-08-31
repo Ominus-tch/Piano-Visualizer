@@ -253,16 +253,8 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
         {
             if (gAudioEngine->loadPlugin(previousVstPath.string()))
             {
-                Logger::Log(
-                    "Loaded plugin %s\n",
-                    previousVstPath.string().c_str()
-                );
-
                 if (gAudioEngine->start())
                 {
-                    Logger::Log(
-                        "Audio Engine started!\n"
-                    );
 
                     if (gAudioEngine->plugin()->createEditor(instance))
                     {
@@ -1698,11 +1690,6 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
 
                     if (gAudioEngine->loadPlugin(vstPath.string()))
                     {
-                        Logger::Log(
-                            "Loaded plugin %s\n",
-                            vstPath.string().c_str()
-                        );
-
                         Config::SaveVSTConfig(vstPath);
 
                         if (gAudioEngine->start())
@@ -1711,32 +1698,8 @@ INT APIENTRY WinMain(HINSTANCE instance, HINSTANCE, PSTR, INT cmd_show)
                                 "Audio Engine started!\n"
                             );
 
-                            if (gAudioEngine->plugin()->createEditor(instance))
-                            {
-                                Logger::Log(
-                                    "Editor created!\n"
-                                );
-                            }
-                            else
-                            {
-                                Logger::Log(
-                                    "Failed to create editor!\n"
-                                );
-                            }
+                            gAudioEngine->plugin()->createEditor(instance);
                         }
-                        else
-                        {
-                            Logger::Log(
-                                "Failed to start Audio Engine!\n"
-                            );
-                        }
-                    }
-                    else
-                    {
-                        Logger::Log(
-                            "Failed to load plugin %s\n",
-                            vstPath.string().c_str()
-                        );
                     }
                 }
             }

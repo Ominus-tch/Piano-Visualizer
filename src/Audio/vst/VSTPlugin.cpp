@@ -112,9 +112,6 @@ namespace vst
             return false;
         }
 
-        Logger::Log(
-            "[VST] Module loaded successfully\n");
-
         /*
          * Create the host objects first.
          *
@@ -138,50 +135,20 @@ namespace vst
             return false;
         }
 
-        Logger::Log(
-            "[VST] HostApplication: %p\n",
-            _hostApplication);
-
-        Logger::Log(
-            "[VST] ComponentHandler: %p\n",
-            _componentHandler);
-
         const auto& factory =
             _module->getFactory();
 
         const auto classes =
             factory.classInfos();
 
-        Logger::Log(
-            "[VST] Factory contains %zu classes\n",
-            classes.size());
-
         for (const auto& classInfo : classes)
         {
-            Logger::Log(
-                "[VST] Class: %s | Category: %s | CID: %s\n",
-                classInfo.name().data(),
-                classInfo.category().data(),
-                classInfo.ID().toString().c_str());
-        }
-
-        for (const auto& classInfo : classes)
-        {
-            Logger::Log(
-                "[VST] Class: %s | Category: %s\n",
-                classInfo.name().data(),
-                classInfo.category().data());
-
             if (classInfo.category() !=
                 "Audio Module Class")
             {
                 continue;
             }
-
-            Logger::Log(
-                "[VST] Found audio effect: %s\n",
-                classInfo.name().data());
-
+            
             _editorName = classInfo.name();
 
             /*
@@ -204,10 +171,6 @@ namespace vst
 
                 return false;
             }
-
-            Logger::Log(
-                "[VST] IComponent created: %p\n",
-                _component.get());
 
             /*
              * The component implements IPluginBase, which provides
@@ -244,9 +207,6 @@ namespace vst
                 return false;
             }
 
-            Logger::Log(
-                "[VST] Component initialized successfully\n");
-
             /*
              * --------------------------------------------------------
              * Get IAudioProcessor
@@ -274,10 +234,6 @@ namespace vst
             }
 
             _processor = processor;
-
-            Logger::Log(
-                "[VST] IAudioProcessor obtained: %p\n",
-                _processor.get());
 
             /*
              * --------------------------------------------------------
@@ -316,13 +272,6 @@ namespace vst
                     controllerFromComponent;
 
                 _singleComponent = true;
-
-                Logger::Log(
-                    "[VST] Component also implements IEditController\n");
-
-                Logger::Log(
-                    "[VST] IEditController: %p\n",
-                    _controller.get());
             }
             else
             {
@@ -349,9 +298,6 @@ namespace vst
                     return false;
                 }
 
-                Logger::Log(
-                    "[VST] Controller class ID obtained\n");
-
                 /*
                  * Create the controller using the factory.
                  */
@@ -370,10 +316,6 @@ namespace vst
 
                     return false;
                 }
-
-                Logger::Log(
-                    "[VST] IEditController created: %p\n",
-                    _controller.get());
 
                 /*
                  * Initialize the separate controller.
@@ -408,9 +350,6 @@ namespace vst
 
                     return false;
                 }
-
-                Logger::Log(
-                    "[VST] Controller initialized successfully\n");
             }
 
             /*
@@ -436,9 +375,6 @@ namespace vst
 
                     return false;
                 }
-
-                Logger::Log(
-                    "[VST] ComponentHandler assigned to controller\n");
             }
 
             /*
@@ -498,14 +434,6 @@ namespace vst
                     return false;
                 }
 
-                Logger::Log(
-                    "[VST] Component IConnectionPoint: %p\n",
-                    componentConnection);
-
-                Logger::Log(
-                    "[VST] Controller IConnectionPoint: %p\n",
-                    controllerConnection);
-
                 /*
                  * Store the connection points.
                  *
@@ -541,9 +469,6 @@ namespace vst
                     return false;
                 }
 
-                Logger::Log(
-                    "[VST] Component connected to controller\n");
-
                 /*
                  * Connect controller -> component.
                  */
@@ -562,12 +487,6 @@ namespace vst
 
                     return false;
                 }
-
-                Logger::Log(
-                    "[VST] Controller connected to component\n");
-
-                Logger::Log(
-                    "[VST] Component/controller connection established\n");
             }
 
             /*
@@ -612,9 +531,6 @@ namespace vst
                 return false;
             }
 
-            Logger::Log(
-                "[VST] Processing setup successful\n");
-
             /*
              * The component must also be activated before processing.
              *
@@ -636,9 +552,6 @@ namespace vst
 
                 return false;
             }
-
-            Logger::Log(
-                "[VST] Component activated\n");
 
             _path = path;
 

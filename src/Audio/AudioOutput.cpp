@@ -52,8 +52,7 @@ namespace audio
         }
 
         Logger::Log(
-            "[Audio] Initializing WASAPI: channels=%d\n",
-            channels);
+            "[Audio] Initializing WASAPI\n");
 
         /*
          * Initialize COM for this thread.
@@ -164,37 +163,6 @@ namespace audio
             return false;
         }
 
-        Logger::Log(
-            "[Audio] Device mix format:\n");
-
-        Logger::Log(
-            "[Audio]   sampleRate=%u\n",
-            _format->nSamplesPerSec);
-
-        Logger::Log(
-            "[Audio]   channels=%u\n",
-            _format->nChannels);
-
-        Logger::Log(
-            "[Audio]   bits=%u\n",
-            _format->wBitsPerSample);
-
-        Logger::Log(
-            "[Audio]   formatTag=0x%X\n",
-            _format->wFormatTag);
-
-        Logger::Log(
-            "[Audio]   blockAlign=%u\n",
-            _format->nBlockAlign);
-
-        Logger::Log(
-            "[Audio]   avgBytesPerSec=%u\n",
-            _format->nAvgBytesPerSec);
-
-        Logger::Log(
-            "[Audio]   cbSize=%u\n",
-            _format->cbSize);
-
         /*
          * Determine the actual sample format.
          */
@@ -282,10 +250,6 @@ namespace audio
             break;
         }
 
-        Logger::Log(
-            "[Audio] Using sample format: %s\n",
-            formatName);
-
         /*
          * We deliberately do NOT call IsFormatSupported() with a
          * modified format here.
@@ -295,7 +259,7 @@ namespace audio
          * format is valid for Initialize().
          */
 
-        constexpr REFERENCE_TIME bufferDuration = 1000000;
+        constexpr REFERENCE_TIME bufferDuration = 30000; // 3 ms
 
         hr = _audioClient->Initialize(
             AUDCLNT_SHAREMODE_SHARED,
