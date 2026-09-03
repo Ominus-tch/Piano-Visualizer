@@ -107,8 +107,7 @@ public:
 
     bool Initialize(
         ID3D11Device* device,
-        ID3D11DeviceContext* context,
-        int cameraIndex = 0
+        ID3D11DeviceContext* context
     );
 
     void Shutdown();
@@ -120,6 +119,27 @@ public:
 
     bool Update();
 
+
+    // =========================================================
+    // Camera selection
+    // =========================================================
+
+    struct CameraDevice
+    {
+        std::string name;
+        int index = -1;
+    };
+
+    bool EnumerateCameras();
+
+    const std::vector<CameraDevice>& GetAvailableCameras() const;
+    int GetCameraIndex() const;
+
+    bool OpenCamera(
+        int cameraIndex
+    );
+
+    void CloseCamera();
 
     // =========================================================
     // Camera format
@@ -420,6 +440,9 @@ private:
     // =========================================================
     // Camera selection
     // =========================================================
+
+    std::vector<CameraDevice>
+        m_availableCameras;
 
     int m_cameraIndex =
         0;

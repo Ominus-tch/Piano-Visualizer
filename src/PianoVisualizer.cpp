@@ -420,8 +420,7 @@ bool PianoVisualizer::InitializeCamera()
 {
     return m_camera.Initialize(
         m_device,
-        m_context,
-        0
+        m_context
     );
 }
 
@@ -3532,7 +3531,105 @@ void PianoVisualizer::RenderCameraSettingsPanel()
     ImGui::Begin(
         "Camera Settings",
         &m_showCameraSettings,
-        ImGuiWindowFlags_AlwaysAutoResize);
+        ImGuiWindowFlags_AlwaysAutoResize
+    );
+
+    // =====================================================
+    // Camera
+    // =====================================================
+
+    const std::vector<Camera::CameraDevice>& cameras =
+        m_camera.GetAvailableCameras();
+
+    if (!cameras.empty())
+    {
+        int selectedCamera =
+            m_camera.GetCameraIndex();
+
+        const char* preview =
+            selectedCamera >= 0 &&
+            selectedCamera <
+            static_cast<int>(cameras.size())
+            ? cameras[selectedCamera].name.c_str()
+            : "Select camera";
+
+        ImGui::Text(
+            "Camera"
+        );
+
+        if (ImGui::BeginCombo(
+            "##CameraDevice",
+            preview
+        ))
+        {
+            for (
+                int i = 0;
+                i < static_cast<int>(cameras.size());
+                ++i
+                )
+            {
+                const bool selected =
+                    i == selectedCamera;
+
+                if (ImGui::Selectable(
+                    cameras[i].name.c_str(),
+                    selected
+                ))
+                {
+                    if (i != selectedCamera)
+                    {
+                        if (m_camera.OpenCamera(i))
+                        {
+                            m_cameraSettingsWidth = 0;
+                            m_cameraSettingsHeight = 0;
+                            m_cameraSettingsFPSNumerator = 0;
+                            m_cameraSettingsFPSDenominator = 1;
+                        }
+                    }
+                }
+
+                if (selected)
+                {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+
+            ImGui::EndCombo();
+        }
+
+
+        ImGui::SameLine();
+    }
+
+    if (ImGui::Button(
+        "Refresh",
+        ImVec2(-1.0f, 32.0f)
+    ))
+    {
+        m_camera.EnumerateCameras();
+    }
+
+    ImGui::Spacing();
+    ImGui::Separator();
+    ImGui::Spacing();
+
+    // =====================================================
+    // Camera not currently open
+    // =====================================================
+
+    if (!m_camera.IsOpen())
+    {
+        ImGui::TextDisabled(
+            cameras.empty()
+            ? "No camera available."
+            : "Select a camera to continue."
+        );
+
+
+        ImGui::End();
+
+        return;
+    }
 
     // =====================================================
     // Format
@@ -4405,8 +4502,8 @@ void PianoVisualizer::RenderCameraSettingsPanel()
     ImGui::TextDisabled("IMAGE");
 
     // ---------------------------------------------------------
-// Brightness
-// ---------------------------------------------------------
+    // Brightness
+    // ---------------------------------------------------------
 
     {
         int minimum = 0;

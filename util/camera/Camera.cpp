@@ -60,8 +60,7 @@ Camera::~Camera()
 
 bool Camera::Initialize(
     ID3D11Device* device,
-    ID3D11DeviceContext* context,
-    int cameraIndex
+    ID3D11DeviceContext* context
 )
 {
     if (!device || !context)
@@ -76,7 +75,7 @@ bool Camera::Initialize(
     m_device = device;
     m_context = context;
 
-    m_cameraIndex = cameraIndex;
+    m_cameraIndex = -1;
 
     // -----------------------------------------------------
     // Initialize Media Foundation
@@ -139,18 +138,13 @@ bool Camera::Initialize(
     );
 
     // -----------------------------------------------------
-    // Find camera
+    // Enumerate cameras
     // -----------------------------------------------------
 
-    IMFActivate* camera = nullptr;
-
-    if (!FindCamera(
-        m_cameraIndex,
-        &camera
-    ))
+    if (!EnumerateCameras())
     {
         Logger::Log(
-            "[Camera] Failed to find camera.\n"
+            "[Camera] Failed to enumerate cameras.\n"
         );
 
         Shutdown();
@@ -158,150 +152,39 @@ bool Camera::Initialize(
         return false;
     }
 
-    // -----------------------------------------------------
-    // Try requested format
-    //
-    // NV12 is preferred by default.
-    // If initial NV12 setup fails, fall back to MJPG.
-    // -----------------------------------------------------
-
-    bool readerCreated =
-        CreateReader(
-            camera,
-            m_requestedFormat
-        );
-
-    if (!readerCreated &&
-        m_requestedFormat == CameraFormat::NV12)
+    if (m_availableCameras.empty())
     {
         Logger::Log(
-            "[Camera] NV12 unavailable. Falling back to MJPG.\n"
+            "[Camera] No cameras found.\n"
         );
 
-        readerCreated =
-            CreateReader(
-                camera,
-                CameraFormat::MJPG
+        return true;
+    }
+
+    // -----------------------------------------------------
+    // Automatically open the only camera
+    // -----------------------------------------------------
+
+    if (m_availableCameras.size() == 1)
+    {
+        if (!OpenCamera(0))
+        {
+            Logger::Log(
+                "[Camera] Failed to open the only available camera.\n"
             );
+
+            return false;
+        }
     }
-
-    camera->Release();
-
-    if (!readerCreated)
+    else
     {
         Logger::Log(
-            "[Camera] Failed to create source reader.\n"
-        );
-
-        Shutdown();
-
-        return false;
-    }
-
-    // -----------------------------------------------------
-    // Create D3D11 resources
-    // -----------------------------------------------------
-
-    if (!CreateTexture())
-    {
-        Logger::Log(
-            "[Camera] Failed to create camera texture.\n"
-        );
-
-        Shutdown();
-
-        return false;
-    }
-
-    // -----------------------------------------------------
-    // Allocate frame buffers
-    // -----------------------------------------------------
-
-    try
-    {
-        m_captureBuffer.resize(
-            m_frameBufferSize
-        );
-
-        m_readyBuffer.resize(
-            m_frameBufferSize
-        );
-
-        m_uploadBuffer.resize(
-            m_frameBufferSize
+            "[Camera] Multiple cameras found. Waiting for user selection.\n"
         );
     }
-    catch (...)
-    {
-        Logger::Log(
-            "[Camera] Failed to allocate frame buffers.\n"
-        );
-
-        Shutdown();
-
-        return false;
-    }
-
-    // -----------------------------------------------------
-    // Reset state
-    // -----------------------------------------------------
-
-    m_newFrameAvailable =
-        false;
-
-    m_framesCaptured =
-        0;
-
-    m_framesUploaded =
-        0;
-
-    m_framesDropped =
-        0;
-
-    m_captureFrameBytes =
-        0;
-
-    m_captureFps =
-        0.0;
-
-    m_captureFrameTimeMs =
-        0.0;
-
-    m_uploadFps =
-        0.0;
-
-    m_uploadFrameTimeMs =
-        0.0;
-
-    m_uploadStatsTime =
-        std::chrono::steady_clock::time_point{};
-
-    m_uploadStatsFrameCount =
-        0;
-
-    // -----------------------------------------------------
-    // Start camera thread
-    // -----------------------------------------------------
-
-    m_open =
-        true;
-
-    m_running =
-        true;
-
-    m_cameraThread =
-        std::thread(
-            &Camera::CameraThread,
-            this
-        );
-
-    Logger::Log(
-        "[Camera] Camera thread started.\n"
-    );
 
     return true;
 }
-
 
 // =========================================================
 // FindCamera
@@ -2978,6 +2861,398 @@ bool Camera::ConvertNV12ToBGRA()
         oldSampler->Release();
 
     return true;
+}
+
+
+
+// =========================================================
+// EnumerateCameras
+// =========================================================
+
+bool Camera::EnumerateCameras()
+{
+    m_availableCameras.clear();
+
+    Microsoft::WRL::ComPtr<IMFAttributes>
+        attributes;
+
+    HRESULT hr =
+        MFCreateAttributes(
+            &attributes,
+            1
+        );
+
+    if (FAILED(hr))
+    {
+        Logger::Log(
+            "[Camera] MFCreateAttributes failed. HRESULT: 0x" +
+            std::to_string(
+                static_cast<unsigned long>(hr)
+            ) +
+            "\n"
+        );
+
+        return false;
+    }
+
+    hr =
+        attributes->SetGUID(
+            MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE,
+            MF_DEVSOURCE_ATTRIBUTE_SOURCE_TYPE_VIDCAP_GUID
+        );
+
+    if (FAILED(hr))
+    {
+        Logger::Log(
+            "[Camera] Failed to set video capture attribute.\n"
+        );
+
+        return false;
+    }
+
+    IMFActivate** devices = nullptr;
+    UINT32 count = 0;
+
+    hr =
+        MFEnumDeviceSources(
+            attributes.Get(),
+            &devices,
+            &count
+        );
+
+    if (FAILED(hr))
+    {
+        Logger::Log(
+            "[Camera] MFEnumDeviceSources failed. HRESULT: 0x" +
+            std::to_string(
+                static_cast<unsigned long>(hr)
+            ) +
+            "\n"
+        );
+
+        return false;
+    }
+
+    Logger::Log(
+        "[Camera] Found %u camera(s).\n",
+        count
+    );
+
+    for (UINT32 i = 0; i < count; ++i)
+    {
+        WCHAR* friendlyName = nullptr;
+        UINT32 nameLength = 0;
+
+        std::string name =
+            "Camera " +
+            std::to_string(i);
+
+        if (
+            devices[i] &&
+            SUCCEEDED(
+                devices[i]->GetAllocatedString(
+                    MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME,
+                    &friendlyName,
+                    &nameLength
+                )
+            )
+            )
+        {
+            int length =
+                WideCharToMultiByte(
+                    CP_UTF8,
+                    0,
+                    friendlyName,
+                    static_cast<int>(nameLength),
+                    nullptr,
+                    0,
+                    nullptr,
+                    nullptr
+                );
+
+            if (length > 0)
+            {
+                std::string converted(
+                    length,
+                    '\0'
+                );
+
+                WideCharToMultiByte(
+                    CP_UTF8,
+                    0,
+                    friendlyName,
+                    static_cast<int>(nameLength),
+                    converted.data(),
+                    length,
+                    nullptr,
+                    nullptr
+                );
+
+                name = converted;
+            }
+
+            CoTaskMemFree(
+                friendlyName
+            );
+        }
+
+        CameraDevice device{};
+
+        device.name = name;
+        device.index = static_cast<int>(i);
+
+        m_availableCameras.push_back(
+            device
+        );
+
+        Logger::Log(
+            "[Camera] Camera %d: %s\n",
+            device.index,
+            device.name.c_str()
+        );
+    }
+
+    for (UINT32 i = 0; i < count; ++i)
+    {
+        if (devices[i])
+            devices[i]->Release();
+    }
+
+    CoTaskMemFree(devices);
+
+    return true;
+}
+
+
+const std::vector<Camera::CameraDevice>& Camera::GetAvailableCameras() const
+{
+    return m_availableCameras;
+}
+
+
+int Camera::GetCameraIndex() const
+{
+    return m_cameraIndex;
+}
+
+
+// =========================================================
+// OpenCamera
+// =========================================================
+
+bool Camera::OpenCamera(
+    int cameraIndex
+)
+{
+    if (
+        cameraIndex < 0 ||
+        cameraIndex >=
+        static_cast<int>(
+            m_availableCameras.size()
+            )
+        )
+    {
+        Logger::Log(
+            "[Camera] Invalid camera index: %d.\n",
+            cameraIndex
+        );
+
+        return false;
+    }
+
+    // Close currently open camera first.
+
+    if (IsOpen())
+    {
+        CloseCamera();
+    }
+
+    m_cameraIndex =
+        cameraIndex;
+
+    IMFActivate* camera =
+        nullptr;
+
+    if (!FindCamera(
+        cameraIndex,
+        &camera
+    ))
+    {
+        Logger::Log(
+            "[Camera] Failed to find camera index %d.\n",
+            cameraIndex
+        );
+
+        return false;
+    }
+
+    bool readerCreated =
+        CreateReader(
+            camera,
+            m_requestedFormat
+        );
+
+    if (
+        !readerCreated &&
+        m_requestedFormat ==
+        CameraFormat::NV12
+        )
+    {
+        Logger::Log(
+            "[Camera] NV12 unavailable. Falling back to MJPG.\n"
+        );
+
+        readerCreated =
+            CreateReader(
+                camera,
+                CameraFormat::MJPG
+            );
+    }
+
+    camera->Release();
+
+    if (!readerCreated)
+    {
+        Logger::Log(
+            "[Camera] Failed to create source reader.\n"
+        );
+
+        return false;
+    }
+
+    if (!CreateTexture())
+    {
+        Logger::Log(
+            "[Camera] Failed to create camera texture.\n"
+        );
+
+        m_reader.Reset();
+
+        return false;
+    }
+
+    try
+    {
+        m_captureBuffer.resize(
+            m_frameBufferSize
+        );
+
+        m_readyBuffer.resize(
+            m_frameBufferSize
+        );
+
+        m_uploadBuffer.resize(
+            m_frameBufferSize
+        );
+    }
+    catch (...)
+    {
+        Logger::Log(
+            "[Camera] Failed to allocate frame buffers.\n"
+        );
+
+        CloseCamera();
+
+        return false;
+    }
+
+    m_newFrameAvailable = false;
+
+    m_framesCaptured = 0;
+    m_framesUploaded = 0;
+    m_framesDropped = 0;
+
+    m_captureFrameBytes = 0;
+
+    m_captureFps = 0.0;
+    m_captureFrameTimeMs = 0.0;
+
+    m_uploadFps = 0.0;
+    m_uploadFrameTimeMs = 0.0;
+
+    m_uploadStatsTime =
+        std::chrono::steady_clock::time_point{};
+
+    m_uploadStatsFrameCount = 0;
+
+    m_open = true;
+    m_running = true;
+
+    m_cameraThread =
+        std::thread(
+            &Camera::CameraThread,
+            this
+        );
+
+    Logger::Log(
+        "[Camera] Camera %d opened: %s\n",
+        cameraIndex,
+        m_availableCameras[
+            cameraIndex
+        ].name.c_str()
+                );
+
+    return true;
+}
+
+
+// =========================================================
+// CloseCamera
+// =========================================================
+
+void Camera::CloseCamera()
+{
+    m_open.store(
+        false,
+        std::memory_order_release
+    );
+
+    m_running.store(
+        false,
+        std::memory_order_release
+    );
+
+    if (m_cameraThread.joinable())
+    {
+        m_cameraThread.join();
+    }
+
+    ReleaseNV12Resources();
+
+    m_renderTargetView.Reset();
+    m_shaderResourceView.Reset();
+    m_texture.Reset();
+
+    m_reader.Reset();
+
+    m_captureBuffer.clear();
+    m_readyBuffer.clear();
+    m_uploadBuffer.clear();
+
+    m_newFrameAvailable.store(
+        false,
+        std::memory_order_release
+    );
+
+    m_availableModes.clear();
+
+    m_width = 0;
+    m_height = 0;
+
+    m_fpsNumerator = 0;
+    m_fpsDenominator = 1;
+
+    m_format =
+        CameraFormat::None;
+
+    m_frameBufferSize = 0;
+
+    m_nv12YSize = 0;
+    m_nv12UVSize = 0;
+
+    m_controls.Shutdown();
+
+    m_cameraIndex = -1;
 }
 
 
