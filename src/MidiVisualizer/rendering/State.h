@@ -20,7 +20,7 @@
 typedef std::array<glm::vec3, SETS_COUNT> ColorArray;
 typedef std::vector<std::string> PathCollection;
 
-struct Quality {
+struct VisualizerQuality {
 	enum Level : int {
 		LOW_RES = 0,
 		LOW,
@@ -30,16 +30,16 @@ struct Quality {
 	};
 	
 	static const std::unordered_map<std::string, Level> names;
-	static const std::unordered_map<Level, Quality> availables;
+	static const std::unordered_map<Level, VisualizerQuality> availables;
 	
 	std::string name = "MEDIUM";
 	float particlesResolution = 0.5f;
 	float blurResolution = 1.0f;
 	float finalResolution = 1.0f;
 	
-	Quality() = default;
+	VisualizerQuality() = default;
 	
-	Quality(const Quality::Level & alevel, const float partRes, const float blurRes, const float finRes);
+	VisualizerQuality(const VisualizerQuality::Level & alevel, const float partRes, const float blurRes, const float finRes);
 };
 	
 struct FilterOptions
@@ -193,7 +193,7 @@ public:
 	// TODO: (MV) Regroup common state to pass to rendering functions.
 	FilterOptions filter;
 
-	Quality::Level quality;
+	VisualizerQuality::Level quality;
 	float scale; ///< Display vertical scale.
 	float attenuation; ///< Blur attenuation.
 

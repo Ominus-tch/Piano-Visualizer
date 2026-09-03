@@ -10,30 +10,30 @@
 #include <sstream>
 #include <algorithm>
 
-#include "../../config.h"
+#include "../../../util/config.h"
 
 #define MAX_TRACK_COUNT 4096
 
 std::unordered_map<std::string, State::OptionInfos> State::_sharedInfos;
 
 // Quality names.
-const std::unordered_map<std::string, Quality::Level> Quality::names = {
-	{ "LOW_RES", Quality::LOW_RES },
-	{ "LOW", Quality::LOW },
-	{ "MEDIUM", Quality::MEDIUM },
-	{ "HIGH", Quality::HIGH },
-	{ "HIGH_RES", Quality::HIGH_RES }
+const std::unordered_map<std::string, VisualizerQuality::Level> VisualizerQuality::names = {
+	{ "LOW_RES", VisualizerQuality::LOW_RES },
+	{ "LOW", VisualizerQuality::LOW },
+	{ "MEDIUM", VisualizerQuality::MEDIUM },
+	{ "HIGH", VisualizerQuality::HIGH },
+	{ "HIGH_RES", VisualizerQuality::HIGH_RES }
 };
 
-const std::unordered_map<Quality::Level, Quality> Quality::availables = {
-	{ Quality::LOW_RES, { Quality::LOW_RES, 0.5f, 0.5f, 0.5f}},
-	{ Quality::LOW, { Quality::LOW, 0.5f, 0.5f, 1.0f}},
-	{ Quality::MEDIUM, { Quality::MEDIUM, 0.5f, 1.0f, 1.0f}},
-	{ Quality::HIGH, { Quality::HIGH, 1.0f, 1.0f, 1.0f}},
-	{ Quality::HIGH_RES, { Quality::HIGH_RES, 1.0f, 2.0f, 2.0f}}
+const std::unordered_map<VisualizerQuality::Level, VisualizerQuality> VisualizerQuality::availables = {
+	{ VisualizerQuality::LOW_RES, { VisualizerQuality::LOW_RES, 0.5f, 0.5f, 0.5f}},
+	{ VisualizerQuality::LOW, { VisualizerQuality::LOW, 0.5f, 0.5f, 1.0f}},
+	{ VisualizerQuality::MEDIUM, { VisualizerQuality::MEDIUM, 0.5f, 1.0f, 1.0f}},
+	{ VisualizerQuality::HIGH, { VisualizerQuality::HIGH, 1.0f, 1.0f, 1.0f}},
+	{ VisualizerQuality::HIGH_RES, { VisualizerQuality::HIGH_RES, 1.0f, 2.0f, 2.0f}}
 };
 
-Quality::Quality(const Quality::Level & alevel, const float partRes, const float blurRes, const float finRes){
+VisualizerQuality::VisualizerQuality(const VisualizerQuality::Level & alevel, const float partRes, const float blurRes, const float finRes){
 	for(const auto & kv : names){
 		if(kv.second == alevel){
 			name = kv.first;
@@ -576,7 +576,7 @@ void State::save(){
 
 	configFile << std::endl << "# " << _sharedInfos[s_quality_key].description << " (";
 	configFile << _sharedInfos[s_quality_key].values << ")" << std::endl;
-	configFile << s_quality_key << ": " << Quality::availables.at(quality).name << std::endl;
+	configFile << s_quality_key << ": " << VisualizerQuality::availables.at(quality).name << std::endl;
 
 	configFile << std::endl << "# " << _sharedInfos[s_layers_key].description << " (";
 	configFile << _sharedInfos[s_layers_key].values << ")" << std::endl;
@@ -674,8 +674,8 @@ void State::load(const Arguments & configArgs){
 
 		if(key == s_quality_key){
 			const std::string & qualityName = arg.second[0];
-			if(Quality::names.count(qualityName) > 0){
-				quality = Quality::names.at(qualityName);
+			if(VisualizerQuality::names.count(qualityName) > 0){
+				quality = VisualizerQuality::names.at(qualityName);
 			}
 			continue;
 		}
@@ -876,7 +876,7 @@ void State::reset(){
 	particles.turbulenceScale = 1.0;
 
 	
-	quality = Quality::MEDIUM;
+	quality = VisualizerQuality::MEDIUM;
 	prerollTime = 1.0f;
 	scrollSpeed = 1.0f;
 	keyboard.highlightKeys = true;
@@ -942,7 +942,7 @@ void State::reset(){
 	waves.noiseSize = 0.03f;
 
 	applyAA = false;
-	reverseScroll = false;
+	reverseScroll = true;
 	horizontalScroll = false;
 	loop = false;
 
@@ -982,8 +982,8 @@ void State::loadLegacy(std::istream & configFile, int majVersion, int minVersion
 	if(majVersion > 3 || (majVersion == 3 && minVersion >= 1)){
 		std::string qualityName;;
 		configFile >> qualityName;
-		if(Quality::names.count(qualityName) > 0){
-			quality = Quality::names.at(qualityName);
+		if(VisualizerQuality::names.count(qualityName) > 0){
+			quality = VisualizerQuality::names.at(qualityName);
 		}
 	}
 

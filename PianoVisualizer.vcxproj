@@ -448,9 +448,14 @@
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\xypadcreator.cpp" />
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\xmlparser.cpp" />
     <ClCompile Include="src\Audio\AudioEngine.cpp" />
+    <ClCompile Include="src\Audio\AudioOutput.cpp" />
+    <ClCompile Include="src\Audio\vst\VSTAudio.cpp" />
     <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp" />
     <ClCompile Include="src\Audio\vst\VSTEventList.cpp" />
     <ClCompile Include="src\Audio\vst\VSTHostApplication.cpp" />
+    <ClCompile Include="util\camera\Camera.cpp" />
+    <ClCompile Include="util\camera\CameraControls.cpp" />
+    <ClCompile Include="util\gui.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MidiVisualizer\helpers\Configuration.cpp" />
     <ClCompile Include="src\MidiVisualizer\helpers\ImGuiStyle.cpp" />
@@ -480,10 +485,8 @@
     <ClCompile Include="src\MidiVisualizer\resources\pedal_side_image.cpp" />
     <ClCompile Include="src\MidiVisualizer\resources\pedal_top_image.cpp" />
     <ClCompile Include="src\MidiVisualizer\resources\shaders.cpp" />
-    <ClCompile Include="src\Audio\AudioOutput.cpp" />
-    <ClCompile Include="src\Audio\vst\VSTAudio.cpp" />
     <ClCompile Include="src\Audio\vst\VSTPlugin.cpp" />
-    <ClCompile Include="util\camera\Camera.cpp" />
+    <ClCompile Include="src\PianoVisualizer.cpp" />
     <ClCompile Include="util\camera\Homography.cpp" />
     <ClCompile Include="util\capture\WindowCapture.cpp" />
     <ClCompile Include="util\dragDrop\FileDropTarget.cpp" />
@@ -1205,13 +1208,18 @@
     <ClInclude Include="ext\vst3sdk\vstgui\uidescription\xmluidescdoc.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\vstgui.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\vstgui_uidescription.h" />
+    <ClInclude Include="resources\resource1.h" />
     <ClInclude Include="src\Audio\AudioEngine.h" />
+    <ClInclude Include="src\Audio\AudioOutput.h" />
+    <ClInclude Include="src\Audio\vst\VSTAudio.h" />
     <ClInclude Include="src\Audio\vst\VSTComponentHandler.h" />
     <ClInclude Include="src\Audio\vst\VSTEventList.h" />
     <ClInclude Include="src\Audio\vst\VSTHostApplication.h" />
-    <ClInclude Include="src\config.h" />
-    <ClInclude Include="src\gui.h" />
-    <ClInclude Include="src\helpers.h" />
+    <ClInclude Include="util\camera\Camera.h" />
+    <ClInclude Include="util\camera\CameraControls.h" />
+    <ClInclude Include="util\config.h" />
+    <ClInclude Include="util\gui.h" />
+    <ClInclude Include="util\helpers.h" />
     <ClInclude Include="src\MidiVisualizer\helpers\Configuration.h" />
     <ClInclude Include="src\MidiVisualizer\helpers\ImGuiStyle.h" />
     <ClInclude Include="src\MidiVisualizer\helpers\ProgramUtilities.h" />
@@ -1276,10 +1284,8 @@
     <ClInclude Include="src\MidiVisualizer\resources\font_data_Lato.h" />
     <ClInclude Include="src\MidiVisualizer\resources\meshes.h" />
     <ClInclude Include="src\MidiVisualizer\resources\strings.h" />
-    <ClInclude Include="src\Audio\AudioOutput.h" />
-    <ClInclude Include="src\Audio\vst\VSTAudio.h" />
     <ClInclude Include="src\Audio\vst\VSTPlugin.h" />
-    <ClInclude Include="util\camera\Camera.h" />
+    <ClInclude Include="src\PianoVisualizer.h" />
     <ClInclude Include="util\camera\Homography.h" />
     <ClInclude Include="util\capture\WindowCapture.h" />
     <ClInclude Include="util\dragDrop\FileDropTarget.h" />
@@ -1305,6 +1311,13 @@
     <None Include="ext\glm\gtc\type_ptr.inl" />
     <None Include="ext\glm\gtc\ulp.inl" />
     <None Include="ext\glm\gtc\vec1.inl" />
+    <None Include="resources\resources.aps" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources\resources.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

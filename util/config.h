@@ -12,6 +12,8 @@
 #include <vector>
 #include <string>
 
+#include "Logger.h"
+
 using json = nlohmann::json;
 
 // ============================================================
@@ -102,22 +104,37 @@ namespace Config {
     }
 
     inline bool SaveVSTConfig(
-        std::filesystem::path pluginPath,
-        std::filesystem::path vst3folderPath
+        std::filesystem::path currentPluginPath,
+        std::filesystem::path vst3folderPath,
+        const std::vector<std::filesystem::path>& recentPlugins
     )
     {
-        if (pluginPath.empty() || vst3folderPath.empty())
-            return false;
+        const auto configPath =
+            GetVSTConfigPath();
 
-        const auto configPath = GetVSTConfigPath();
         if (configPath.empty())
             return false;
 
         json config;
 
-        // Data
-        config["pluginPath"] = pluginPath.string();
-        config["vst3folderPath"] = vst3folderPath.string();
+        config["currentPluginPath"] =
+            currentPluginPath.string();
+
+        config["vst3folderPath"] =
+            vst3folderPath.string();
+
+        config["recentPlugins"] =
+            json::array();
+
+        for (const auto& plugin : recentPlugins)
+        {
+            if (!plugin.empty())
+            {
+                config["recentPlugins"].push_back(
+                    plugin.string()
+                );
+            }
+        }
 
         std::ofstream file(configPath);
 
@@ -126,17 +143,17 @@ namespace Config {
 
         file << config.dump(4);
 
-        file.close();
-
         return true;
     }
 
     inline bool LoadVSTConfig(
-        std::filesystem::path& pluginPath,
-        std::filesystem::path& vst3folderPath
+        std::filesystem::path& currentPluginPath,
+        std::filesystem::path& vst3folderPath,
+        std::vector<std::filesystem::path>& recentPlugins
     )
     {
-        const auto configPath = GetVSTConfigPath();
+        const auto configPath =
+            GetVSTConfigPath();
 
         if (configPath.empty())
             return false;
@@ -151,11 +168,34 @@ namespace Config {
             json config;
             file >> config;
 
-            if (config.contains("pluginPath"))
-                pluginPath = config["pluginPath"].get<std::string>();
+            if (config.contains("currentPluginPath"))
+            {
+                currentPluginPath =
+                    config["currentPluginPath"].get<std::string>();
+            }
 
             if (config.contains("vst3folderPath"))
-                vst3folderPath = config["vst3folderPath"].get<std::string>();
+            {
+                vst3folderPath =
+                    config["vst3folderPath"].get<std::string>();
+            }
+
+            recentPlugins.clear();
+
+            if (config.contains("recentPlugins") &&
+                config["recentPlugins"].is_array())
+            {
+                for (const auto& plugin :
+                    config["recentPlugins"])
+                {
+                    if (plugin.is_string())
+                    {
+                        recentPlugins.emplace_back(
+                            plugin.get<std::string>()
+                        );
+                    }
+                }
+            }
 
             return true;
         }

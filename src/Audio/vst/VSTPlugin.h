@@ -61,7 +61,11 @@ namespace vst
             int width,
             int height);
 
+        void onEditorWindowDestroyed();
+
     private:
+        bool _loaded = false;
+
         std::string _path;
 
         VST3::Hosting::Module::Ptr _module;
@@ -102,5 +106,6 @@ namespace vst
         };
 
         std::string _editorName = "VST Editor";
+        bool _destroyingEditor = false;
     };
 }

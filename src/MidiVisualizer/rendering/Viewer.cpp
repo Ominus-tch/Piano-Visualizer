@@ -36,9 +36,6 @@ Viewer::Viewer(
 	_showGUI = true;
 	_showDebug = false;
 
-	// temp
-	_verbose = true;
-
 	_windowSize = glm::ivec2(width, height);
 	_camera.screen(_windowSize[0], _windowSize[1], 1.0f);
 	_backbufferSize = glm::vec2(_windowSize);
@@ -582,7 +579,7 @@ void Viewer::drawScore(const glm::vec2& invSize)
 	setAlphaBlending(true);
 
 	const auto& currentQuality =
-		Quality::availables.at(_state.quality);
+		VisualizerQuality::availables.at(_state.quality);
 
 	_renderer.drawScore(
 		_scene,
@@ -944,23 +941,23 @@ SystemAction Viewer::drawGUI(const float currentTime) {
 			//}
 			//ImGui::helpTooltip(s_scroll_horizontal_dsc);
 
-			//if(_liveplay){
-			//	ImGui::BeginDisabled();
-			//}
-			//ImGuiSameLine(COLUMN_SIZE);
-			//ImGui::Checkbox("Reverse scroll", &_state.reverseScroll);
-			//if(_liveplay){
-			//	ImGui::EndDisabled();
-			//	if(ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)){
-			//		ImGui::SetTooltip("Not available in liveplay");
-			//	}
-			//} else {
-			//	ImGui::helpTooltip(s_scroll_reverse_dsc);
-			//}
+			if(_liveplay){
+				ImGui::BeginDisabled();
+			}
+			ImGuiSameLine(COLUMN_SIZE);
+			ImGui::Checkbox("Reverse scroll", &_state.reverseScroll);
+			if(_liveplay){
+				ImGui::EndDisabled();
+				if(ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)){
+					ImGui::SetTooltip("Not available in liveplay");
+				}
+			} else {
+				ImGui::helpTooltip(s_scroll_reverse_dsc);
+			}
 
-			//if(_liveplay){
-			//	ImGui::BeginDisabled();
-			//}
+			/*if(_liveplay){
+				ImGui::BeginDisabled();
+			}*/
 			//ImGui::Checkbox("Loop", &_state.loop);
 			//if(_liveplay){
 			//	ImGui::EndDisabled();
@@ -2888,7 +2885,7 @@ void Viewer::resizeAndRescale(int width, int height, float scale) {
 
 void Viewer::updateSizes(){
 	// Resize the framebuffers.
-	const auto &currentQuality = Quality::availables.at(_state.quality);
+	const auto &currentQuality = VisualizerQuality::availables.at(_state.quality);
 	const glm::vec2 baseRes(_camera.renderSize());
 	_particlesFramebuffer->resize(_device, currentQuality.particlesResolution * baseRes);
 	_blurFramebuffer0->resize(_device, currentQuality.blurResolution * baseRes);

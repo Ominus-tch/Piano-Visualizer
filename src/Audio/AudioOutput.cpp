@@ -16,11 +16,17 @@ namespace audio
         _format(nullptr),
         _bufferFrames(0),
         _sampleFormat(SampleFormat::Unknown),
+        _configuration(),
         _initialized(false),
         _running(false),
-        _comInitialized(false)
+        _comInitialized(false),
+        _framesWritten(0),
+        _writeCalls(0),
+        _failedWrites(0),
+        _statsStartTime()
     {
-        Logger::Log("[Audio] AudioOutput created\n");
+        Logger::Log(
+            "[Audio] AudioOutput created\n");
     }
 
 
@@ -28,12 +34,211 @@ namespace audio
     {
         shutdown();
 
-        Logger::Log("[Audio] AudioOutput destroyed\n");
+        Logger::Log(
+            "[Audio] AudioOutput destroyed\n");
     }
 
 
+    // =========================================================
+    // DEVICES
+    // =========================================================
+
+    std::vector<AudioOutput::Device>
+        AudioOutput::enumerateDevices()
+    {
+        std::vector<Device> devices;
+
+        bool comInitialized = false;
+
+        HRESULT hr = CoInitializeEx(
+            nullptr,
+            COINIT_MULTITHREADED);
+
+        if (SUCCEEDED(hr))
+        {
+            comInitialized = true;
+        }
+        else if (hr != RPC_E_CHANGED_MODE)
+        {
+            Logger::Log(
+                "[Audio] CoInitializeEx failed while enumerating devices: 0x%08X\n",
+                static_cast<unsigned>(hr));
+
+            return devices;
+        }
+
+        IMMDeviceEnumerator* enumerator = nullptr;
+
+        hr = CoCreateInstance(
+            __uuidof(MMDeviceEnumerator),
+            nullptr,
+            CLSCTX_ALL,
+            __uuidof(IMMDeviceEnumerator),
+            reinterpret_cast<void**>(&enumerator));
+
+        if (FAILED(hr))
+        {
+            Logger::Log(
+                "[Audio] Failed to create device enumerator: 0x%08X\n",
+                static_cast<unsigned>(hr));
+
+            if (comInitialized)
+                CoUninitialize();
+
+            return devices;
+        }
+
+        IMMDevice* defaultDevice = nullptr;
+
+        hr = enumerator->GetDefaultAudioEndpoint(
+            eRender,
+            eConsole,
+            &defaultDevice);
+
+        std::wstring defaultId;
+
+        if (SUCCEEDED(hr) && defaultDevice)
+        {
+            LPWSTR id = nullptr;
+
+            if (SUCCEEDED(defaultDevice->GetId(&id)) &&
+                id)
+            {
+                defaultId = id;
+                CoTaskMemFree(id);
+            }
+
+            defaultDevice->Release();
+        }
+
+        IMMDeviceCollection* collection = nullptr;
+
+        hr = enumerator->EnumAudioEndpoints(
+            eRender,
+            DEVICE_STATE_ACTIVE,
+            &collection);
+
+        if (FAILED(hr))
+        {
+            Logger::Log(
+                "[Audio] Failed to enumerate audio endpoints: 0x%08X\n",
+                static_cast<unsigned>(hr));
+
+            enumerator->Release();
+
+            if (comInitialized)
+                CoUninitialize();
+
+            return devices;
+        }
+
+        UINT count = 0;
+
+        hr = collection->GetCount(
+            &count);
+
+        if (FAILED(hr))
+        {
+            Logger::Log(
+                "[Audio] Failed to get audio endpoint count: 0x%08X\n",
+                static_cast<unsigned>(hr));
+
+            collection->Release();
+            enumerator->Release();
+
+            if (comInitialized)
+                CoUninitialize();
+
+            return devices;
+        }
+
+        devices.reserve(count);
+
+        for (UINT i = 0; i < count; ++i)
+        {
+            IMMDevice* device = nullptr;
+
+            hr = collection->Item(
+                i,
+                &device);
+
+            if (FAILED(hr) || !device)
+                continue;
+
+            LPWSTR id = nullptr;
+
+            if (FAILED(device->GetId(&id)) ||
+                !id)
+            {
+                device->Release();
+                continue;
+            }
+
+            std::wstring deviceId = id;
+
+            CoTaskMemFree(id);
+
+            IPropertyStore* propertyStore = nullptr;
+
+            std::wstring name;
+
+            hr = device->OpenPropertyStore(
+                STGM_READ,
+                &propertyStore);
+
+            if (SUCCEEDED(hr) &&
+                propertyStore)
+            {
+                PROPVARIANT property;
+
+                PropVariantInit(&property);
+
+                hr = propertyStore->GetValue(
+                    PKEY_Device_FriendlyName,
+                    &property);
+
+                if (SUCCEEDED(hr) &&
+                    property.vt == VT_LPWSTR &&
+                    property.pwszVal)
+                {
+                    name = property.pwszVal;
+                }
+
+                PropVariantClear(&property);
+
+                propertyStore->Release();
+            }
+
+            Device info;
+
+            info.id = deviceId;
+            info.name = name;
+            info.isDefault =
+                !defaultId.empty() &&
+                deviceId == defaultId;
+
+            devices.push_back(
+                std::move(info));
+
+            device->Release();
+        }
+
+        collection->Release();
+        enumerator->Release();
+
+        if (comInitialized)
+            CoUninitialize();
+
+        return devices;
+    }
+
+
+    // =========================================================
+    // INITIALIZATION
+    // =========================================================
+
     bool AudioOutput::initialize(
-        int32_t channels)
+        const Configuration& configuration)
     {
         if (_initialized)
         {
@@ -43,7 +248,7 @@ namespace audio
             return true;
         }
 
-        if (channels != 2)
+        if (configuration.channels != 2)
         {
             Logger::Log(
                 "[Audio] Only stereo output is currently supported\n");
@@ -51,8 +256,32 @@ namespace audio
             return false;
         }
 
+        if (configuration.bufferDurationMs <= 0.0)
+        {
+            Logger::Log(
+                "[Audio] Invalid buffer duration: %.2f ms\n",
+                configuration.bufferDurationMs);
+
+            return false;
+        }
+
+        if (configuration.volume < 0.0f ||
+            configuration.volume > 1.0f)
+        {
+            Logger::Log(
+                "[Audio] Invalid volume: %.3f\n",
+                configuration.volume);
+
+            return false;
+        }
+
         Logger::Log(
             "[Audio] Initializing WASAPI\n");
+
+        /*
+         * Store configuration only after basic validation.
+         */
+        _configuration = configuration;
 
         /*
          * Initialize COM for this thread.
@@ -100,27 +329,101 @@ namespace audio
         }
 
         /*
-         * Get the default playback device.
+         * Acquire the requested device.
+         *
+         * Empty device ID means use the Windows default
+         * playback device.
          */
-        hr = enumerator->GetDefaultAudioEndpoint(
-            eRender,
-            eConsole,
-            &_device);
+        if (_configuration.deviceId.empty())
+        {
+            hr = enumerator->GetDefaultAudioEndpoint(
+                eRender,
+                eConsole,
+                &_device);
+
+            if (SUCCEEDED(hr))
+            {
+                Logger::Log(
+                    "[Audio] Using default audio endpoint\n");
+            }
+        }
+        else
+        {
+            hr = enumerator->GetDevice(
+                _configuration.deviceId.c_str(),
+                &_device);
+
+            if (SUCCEEDED(hr))
+            {
+                Logger::Log(
+                    "[Audio] Using configured audio endpoint\n");
+            }
+            else
+            {
+                Logger::Log(
+                    "[Audio] Failed to find configured audio device: 0x%08X\n",
+                    static_cast<unsigned>(hr));
+
+                if (_configuration.fallbackToDefaultDevice)
+                {
+                    Logger::Log(
+                        "[Audio] Falling back to default audio endpoint\n");
+
+                    hr = enumerator->GetDefaultAudioEndpoint(
+                        eRender,
+                        eConsole,
+                        &_device);
+                }
+            }
+        }
 
         enumerator->Release();
 
         if (FAILED(hr))
         {
             Logger::Log(
-                "[Audio] Failed to get default audio endpoint: 0x%08X\n",
+                "[Audio] Failed to acquire audio endpoint: 0x%08X\n",
                 static_cast<unsigned>(hr));
 
             shutdown();
             return false;
         }
 
-        Logger::Log(
-            "[Audio] Default audio endpoint acquired\n");
+        /*
+         * Retrieve device name for logging.
+         */
+        {
+            IPropertyStore* propertyStore = nullptr;
+
+            hr = _device->OpenPropertyStore(
+                STGM_READ,
+                &propertyStore);
+
+            if (SUCCEEDED(hr) &&
+                propertyStore)
+            {
+                PROPVARIANT property;
+
+                PropVariantInit(&property);
+
+                hr = propertyStore->GetValue(
+                    PKEY_Device_FriendlyName,
+                    &property);
+
+                if (SUCCEEDED(hr) &&
+                    property.vt == VT_LPWSTR &&
+                    property.pwszVal)
+                {
+                    Logger::Log(
+                        "[Audio] Output device: %ls\n",
+                        property.pwszVal);
+                }
+
+                PropVariantClear(&property);
+
+                propertyStore->Release();
+            }
+        }
 
         /*
          * Activate IAudioClient.
@@ -143,15 +446,9 @@ namespace audio
 
         /*
          * Get the device's actual shared-mode mix format.
-         *
-         * IMPORTANT:
-         *
-         * We must NOT modify this format into another format.
-         *
-         * Windows guarantees that this format can be used
-         * to initialize a shared-mode stream.
          */
-        hr = _audioClient->GetMixFormat(&_format);
+        hr = _audioClient->GetMixFormat(
+            &_format);
 
         if (FAILED(hr))
         {
@@ -163,6 +460,53 @@ namespace audio
             return false;
         }
 
+        /*
+         * If the user requested a specific sample rate, apply it
+         * to the format before initialization.
+         *
+         * In shared mode Windows may reject this if the format
+         * is not compatible with the device's shared-mode format.
+         */
+        if (_configuration.sampleRate > 0.0)
+        {
+            const auto requestedRate =
+                static_cast<DWORD>(
+                    std::llround(
+                        _configuration.sampleRate));
+
+            if (requestedRate == 0)
+            {
+                Logger::Log(
+                    "[Audio] Invalid requested sample rate\n");
+
+                shutdown();
+                return false;
+            }
+
+            _format->nSamplesPerSec =
+                requestedRate;
+
+            if (_format->wFormatTag ==
+                WAVE_FORMAT_EXTENSIBLE)
+            {
+                auto* extensible =
+                    reinterpret_cast<WAVEFORMATEXTENSIBLE*>(
+                        _format);
+
+                extensible->Samples.wValidBitsPerSample =
+                    _format->wBitsPerSample;
+            }
+
+            /*
+             * Recalculate format-dependent fields.
+             */
+            _format->nAvgBytesPerSec =
+                _format->nSamplesPerSec *
+                _format->nBlockAlign;
+        }
+
+        //_format->nChannels = 2;
+
         Logger::Log(
             "[Audio] Device format: channels=%u, sampleRate=%u, bits=%u\n",
             _format->nChannels,
@@ -172,58 +516,73 @@ namespace audio
         /*
          * Determine the actual sample format.
          */
-        if (_format->wFormatTag == WAVE_FORMAT_IEEE_FLOAT)
+        if (_format->wFormatTag ==
+            WAVE_FORMAT_IEEE_FLOAT)
         {
             if (_format->wBitsPerSample == 32)
             {
-                _sampleFormat = SampleFormat::Float32;
+                _sampleFormat =
+                    SampleFormat::Float32;
             }
         }
-        else if (_format->wFormatTag == WAVE_FORMAT_PCM)
+        else if (_format->wFormatTag ==
+            WAVE_FORMAT_PCM)
         {
             if (_format->wBitsPerSample == 16)
             {
-                _sampleFormat = SampleFormat::PCM16;
+                _sampleFormat =
+                    SampleFormat::PCM16;
             }
             else if (_format->wBitsPerSample == 24)
             {
-                _sampleFormat = SampleFormat::PCM24;
+                _sampleFormat =
+                    SampleFormat::PCM24;
             }
             else if (_format->wBitsPerSample == 32)
             {
-                _sampleFormat = SampleFormat::PCM32;
+                _sampleFormat =
+                    SampleFormat::PCM32;
             }
         }
-        else if (_format->wFormatTag == WAVE_FORMAT_EXTENSIBLE)
+        else if (_format->wFormatTag ==
+            WAVE_FORMAT_EXTENSIBLE)
         {
             auto* extensible =
-                reinterpret_cast<WAVEFORMATEXTENSIBLE*>(_format);
+                reinterpret_cast<WAVEFORMATEXTENSIBLE*>(
+                    _format);
 
-            if (extensible->SubFormat == KSDATAFORMAT_SUBTYPE_IEEE_FLOAT)
+            if (extensible->SubFormat ==
+                KSDATAFORMAT_SUBTYPE_IEEE_FLOAT)
             {
                 if (_format->wBitsPerSample == 32)
                 {
-                    _sampleFormat = SampleFormat::Float32;
+                    _sampleFormat =
+                        SampleFormat::Float32;
                 }
             }
-            else if (extensible->SubFormat == KSDATAFORMAT_SUBTYPE_PCM)
+            else if (extensible->SubFormat ==
+                KSDATAFORMAT_SUBTYPE_PCM)
             {
                 if (_format->wBitsPerSample == 16)
                 {
-                    _sampleFormat = SampleFormat::PCM16;
+                    _sampleFormat =
+                        SampleFormat::PCM16;
                 }
                 else if (_format->wBitsPerSample == 24)
                 {
-                    _sampleFormat = SampleFormat::PCM24;
+                    _sampleFormat =
+                        SampleFormat::PCM24;
                 }
                 else if (_format->wBitsPerSample == 32)
                 {
-                    _sampleFormat = SampleFormat::PCM32;
+                    _sampleFormat =
+                        SampleFormat::PCM32;
                 }
             }
         }
 
-        if (_sampleFormat == SampleFormat::Unknown)
+        if (_sampleFormat ==
+            SampleFormat::Unknown)
         {
             Logger::Log(
                 "[Audio] Unsupported WASAPI sample format\n");
@@ -232,41 +591,62 @@ namespace audio
             return false;
         }
 
-        const char* formatName = "Unknown";
+        const char* formatName =
+            "Unknown";
 
         switch (_sampleFormat)
         {
         case SampleFormat::Float32:
-            formatName = "32-bit float";
+            formatName =
+                "32-bit float";
             break;
 
         case SampleFormat::PCM16:
-            formatName = "16-bit PCM";
+            formatName =
+                "16-bit PCM";
             break;
 
         case SampleFormat::PCM24:
-            formatName = "24-bit PCM";
+            formatName =
+                "24-bit PCM";
             break;
 
         case SampleFormat::PCM32:
-            formatName = "32-bit PCM";
+            formatName =
+                "32-bit PCM";
             break;
 
         default:
             break;
         }
 
-        /*
-         * We deliberately do NOT call IsFormatSupported() with a
-         * modified format here.
-         *
-         * GetMixFormat() gives us the format used by the Windows
-         * audio engine for shared-mode processing, and that exact
-         * format is valid for Initialize().
-         */
+        Logger::Log(
+            "[Audio] Sample format: %s\n",
+            formatName);
 
-        //constexpr REFERENCE_TIME bufferDuration = 30000; // 3 ms
-        constexpr REFERENCE_TIME bufferDuration = 200000; // 20 ms
+        /*
+         * Convert milliseconds to WASAPI 100-nanosecond units.
+         */
+        const REFERENCE_TIME bufferDuration =
+            static_cast<REFERENCE_TIME>(
+                _configuration.bufferDurationMs *
+                10000.0);
+
+        /*
+         * Shared-mode initialization.
+         *
+         * Exclusive mode is intentionally not implemented yet.
+         * We will handle its format negotiation separately.
+         */
+        if (_configuration.mode ==
+            Mode::Exclusive)
+        {
+            Logger::Log(
+                "[Audio] Exclusive WASAPI mode is not implemented yet\n");
+
+            shutdown();
+            return false;
+        }
 
         hr = _audioClient->Initialize(
             AUDCLNT_SHAREMODE_SHARED,
@@ -323,6 +703,16 @@ namespace audio
             return false;
         }
 
+        /*
+         * Reset statistics.
+         */
+        _framesWritten = 0;
+        _writeCalls = 0;
+        _failedWrites = 0;
+
+        _statsStartTime =
+            std::chrono::steady_clock::now();
+
         _initialized = true;
 
         Logger::Log(
@@ -332,9 +722,23 @@ namespace audio
             "[Audio] Actual output sample rate: %u Hz\n",
             _format->nSamplesPerSec);
 
+        Logger::Log(
+            "[Audio] Actual output channels: %u\n",
+            _format->nChannels);
+
+        Logger::Log(
+            "[Audio] Actual buffer duration: %.2f ms\n",
+            static_cast<double>(_bufferFrames) /
+            static_cast<double>(_format->nSamplesPerSec) *
+            1000.0);
+
         return true;
     }
 
+
+    // =========================================================
+    // SHUTDOWN
+    // =========================================================
 
     void AudioOutput::shutdown()
     {
@@ -367,7 +771,8 @@ namespace audio
 
         _bufferFrames = 0;
 
-        _sampleFormat = SampleFormat::Unknown;
+        _sampleFormat =
+            SampleFormat::Unknown;
 
         _initialized = false;
 
@@ -382,6 +787,10 @@ namespace audio
     }
 
 
+    // =========================================================
+    // PLAYBACK
+    // =========================================================
+
     bool AudioOutput::start()
     {
         if (!_initialized)
@@ -395,7 +804,8 @@ namespace audio
         if (_running)
             return true;
 
-        HRESULT hr = _audioClient->Start();
+        HRESULT hr =
+            _audioClient->Start();
 
         if (FAILED(hr))
         {
@@ -420,7 +830,8 @@ namespace audio
         if (!_running)
             return;
 
-        HRESULT hr = _audioClient->Stop();
+        HRESULT hr =
+            _audioClient->Stop();
 
         if (FAILED(hr))
         {
@@ -435,7 +846,9 @@ namespace audio
             "[Audio] Audio output stopped\n");
     }
 
-    bool AudioOutput::waitForSpace(int32_t frames)
+
+    bool AudioOutput::waitForSpace(
+        int32_t frames)
     {
         if (!_initialized ||
             !_running ||
@@ -452,7 +865,8 @@ namespace audio
             UINT32 padding = 0;
 
             HRESULT hr =
-                _audioClient->GetCurrentPadding(&padding);
+                _audioClient->GetCurrentPadding(
+                    &padding);
 
             if (FAILED(hr))
             {
@@ -468,65 +882,67 @@ namespace audio
                 ? _bufferFrames - padding
                 : 0;
 
-            if (available >= static_cast<UINT32>(frames))
+            if (available >=
+                static_cast<UINT32>(frames))
+            {
                 return true;
+            }
 
-            /*
-             * We don't want to spin at 100% CPU while waiting
-             * for the audio device to consume samples.
-             *
-             * A 1 ms sleep is sufficiently small for this
-             * test and keeps the CPU usage low.
-             */
             Sleep(1);
         }
     }
 
-    bool AudioOutput::write(
-        const float* left,
-        const float* right,
+
+    bool audio::AudioOutput::write(
+        const float* const* channels,
+        int32_t numChannels,
         int32_t numSamples)
     {
         if (!_initialized ||
             !_running ||
-            !_renderClient)
-        {
-            return false;
-        }
-
-        if (!left ||
-            !right ||
+            !_audioClient ||
+            !_renderClient ||
+            !_format ||
+            !channels ||
+            numChannels < 0 ||
             numSamples <= 0)
         {
             return false;
         }
 
-        UINT32 framesToWrite =
-            static_cast<UINT32>(numSamples);
+        if (numChannels > 0)
+        {
+            for (int32_t channel = 0; channel < numChannels; ++channel)
+            {
+                if (!channels[channel])
+                    return false;
+            }
+        }
 
-        UINT32 padding = 0;
+        UINT32 currentPadding = 0;
 
-        HRESULT hr =
-            _audioClient->GetCurrentPadding(&padding);
+        HRESULT hr = _audioClient->GetCurrentPadding(
+            &currentPadding);
 
         if (FAILED(hr))
         {
-            Logger::Log(
-                "[Audio] GetCurrentPadding failed: 0x%08X\n",
-                static_cast<unsigned>(hr));
-
+            ++_failedWrites;
             return false;
         }
 
-        UINT32 available =
-            _bufferFrames > padding
-            ? _bufferFrames - padding
-            : 0;
+        if (currentPadding >= _bufferFrames)
+        {
+            return true;
+        }
 
-        framesToWrite =
-            (std::min)(
-                framesToWrite,
-                available);
+        UINT32 availableFrames =
+            _bufferFrames - currentPadding;
+
+        UINT32 framesToWrite =
+            static_cast<UINT32>(
+                std::min<int32_t>(
+                    numSamples,
+                    static_cast<int32_t>(availableFrames)));
 
         if (framesToWrite == 0)
             return true;
@@ -539,137 +955,209 @@ namespace audio
 
         if (FAILED(hr))
         {
-            Logger::Log(
-                "[Audio] GetBuffer failed: 0x%08X\n",
-                static_cast<unsigned>(hr));
-
+            ++_failedWrites;
             return false;
         }
 
-        /*
-         * Convert our VST float samples into the device's
-         * actual WASAPI format.
-         */
-        switch (_sampleFormat)
-        {
-        case SampleFormat::Float32:
+        const int32_t outputChannels =
+            static_cast<int32_t>(_format->nChannels);
+
+        const float volume =
+            _configuration.muted
+            ? 0.0f
+            : _configuration.volume;
+
+        // =========================================================
+        // FLOAT32
+        // =========================================================
+
+        if (_sampleFormat == SampleFormat::Float32)
         {
             float* output =
                 reinterpret_cast<float*>(data);
 
-            for (UINT32 i = 0; i < framesToWrite; ++i)
+            for (UINT32 frame = 0;
+                frame < framesToWrite;
+                ++frame)
             {
-                output[i * 2 + 0] = left[i];
-                output[i * 2 + 1] = right[i];
-            }
+                for (int32_t outputChannel = 0;
+                    outputChannel < outputChannels;
+                    ++outputChannel)
+                {
+                    float sample = 0.0f;
 
-            break;
+                    // Copy a source channel if one exists.
+                    //
+                    // If the VST provides fewer channels than
+                    // the physical device, the remaining channels
+                    // are explicitly silenced.
+                    if (outputChannel < numChannels)
+                    {
+                        sample =
+                            channels[outputChannel][frame];
+                    }
+
+                    output[
+                        frame * outputChannels +
+                            outputChannel
+                    ] = sample * volume;
+                }
+            }
         }
 
-        case SampleFormat::PCM16:
+        // =========================================================
+        // PCM16
+        // =========================================================
+
+        else if (_sampleFormat == SampleFormat::PCM16)
         {
-            auto* output =
+            int16_t* output =
                 reinterpret_cast<int16_t*>(data);
 
-            for (UINT32 i = 0; i < framesToWrite; ++i)
+            for (UINT32 frame = 0;
+                frame < framesToWrite;
+                ++frame)
             {
-                const float l =
-                    (std::max)(-1.0f, (std::min)(1.0f, left[i]));
+                for (int32_t outputChannel = 0;
+                    outputChannel < outputChannels;
+                    ++outputChannel)
+                {
+                    float sample = 0.0f;
 
-                const float r =
-                    (std::max)(-1.0f, (std::min)(1.0f, right[i]));
+                    if (outputChannel < numChannels)
+                    {
+                        sample =
+                            channels[outputChannel][frame];
+                    }
 
-                output[i * 2 + 0] =
-                    static_cast<int16_t>(
-                        std::lrintf(l * 32767.0f));
+                    sample *= volume;
 
-                output[i * 2 + 1] =
-                    static_cast<int16_t>(
-                        std::lrintf(r * 32767.0f));
+                    sample =
+                        std::clamp(
+                            sample,
+                            -1.0f,
+                            1.0f);
+
+                    output[
+                        frame * outputChannels +
+                            outputChannel
+                    ] =
+                        static_cast<int16_t>(
+                            std::lrintf(
+                                sample * 32767.0f));
+                }
             }
-
-            break;
         }
 
-        case SampleFormat::PCM24:
+        // =========================================================
+        // PCM24
+        // =========================================================
+
+        else if (_sampleFormat == SampleFormat::PCM24)
         {
-            /*
-             * 24-bit PCM is packed as 3 bytes per sample.
-             */
-            for (UINT32 i = 0; i < framesToWrite; ++i)
+            for (UINT32 frame = 0;
+                frame < framesToWrite;
+                ++frame)
             {
-                const float l =
-                    (std::max)(-1.0f, (std::min)(1.0f, left[i]));
+                for (int32_t outputChannel = 0;
+                    outputChannel < outputChannels;
+                    ++outputChannel)
+                {
+                    float sample = 0.0f;
 
-                const float r =
-                    (std::max)(-1.0f, (std::min)(1.0f, right[i]));
+                    if (outputChannel < numChannels)
+                    {
+                        sample =
+                            channels[outputChannel][frame];
+                    }
 
-                const int32_t li =
-                    static_cast<int32_t>(
-                        std::lrintf(l * 8388607.0f));
+                    sample *= volume;
 
-                const int32_t ri =
-                    static_cast<int32_t>(
-                        std::lrintf(r * 8388607.0f));
+                    sample =
+                        std::clamp(
+                            sample,
+                            -1.0f,
+                            1.0f);
 
-                BYTE* leftOut =
-                    data + (i * 2 + 0) * 3;
+                    const int32_t value =
+                        static_cast<int32_t>(
+                            std::lrintf(
+                                sample * 8388607.0f));
 
-                BYTE* rightOut =
-                    data + (i * 2 + 1) * 3;
+                    const size_t byteOffset =
+                        (
+                            static_cast<size_t>(frame) *
+                            static_cast<size_t>(outputChannels) +
+                            static_cast<size_t>(outputChannel)
+                            ) * 3;
 
-                leftOut[0] =
-                    static_cast<BYTE>(li & 0xFF);
+                    data[byteOffset + 0] =
+                        static_cast<BYTE>(
+                            value & 0xFF);
 
-                leftOut[1] =
-                    static_cast<BYTE>((li >> 8) & 0xFF);
+                    data[byteOffset + 1] =
+                        static_cast<BYTE>(
+                            (value >> 8) & 0xFF);
 
-                leftOut[2] =
-                    static_cast<BYTE>((li >> 16) & 0xFF);
-
-                rightOut[0] =
-                    static_cast<BYTE>(ri & 0xFF);
-
-                rightOut[1] =
-                    static_cast<BYTE>((ri >> 8) & 0xFF);
-
-                rightOut[2] =
-                    static_cast<BYTE>((ri >> 16) & 0xFF);
+                    data[byteOffset + 2] =
+                        static_cast<BYTE>(
+                            (value >> 16) & 0xFF);
+                }
             }
-
-            break;
         }
 
-        case SampleFormat::PCM32:
+        // =========================================================
+        // PCM32
+        // =========================================================
+
+        else if (_sampleFormat == SampleFormat::PCM32)
         {
-            auto* output =
+            int32_t* output =
                 reinterpret_cast<int32_t*>(data);
 
-            for (UINT32 i = 0; i < framesToWrite; ++i)
+            for (UINT32 frame = 0;
+                frame < framesToWrite;
+                ++frame)
             {
-                const float l =
-                    (std::max)(-1.0f, (std::min)(1.0f, left[i]));
+                for (int32_t outputChannel = 0;
+                    outputChannel < outputChannels;
+                    ++outputChannel)
+                {
+                    float sample = 0.0f;
 
-                const float r =
-                    (std::max)(-1.0f, (std::min)(1.0f, right[i]));
+                    if (outputChannel < numChannels)
+                    {
+                        sample =
+                            channels[outputChannel][frame];
+                    }
 
-                output[i * 2 + 0] =
-                    static_cast<int32_t>(
-                        std::lrintf(l * 2147483647.0f));
+                    sample *= volume;
 
-                output[i * 2 + 1] =
-                    static_cast<int32_t>(
-                        std::lrintf(r * 2147483647.0f));
+                    sample =
+                        std::clamp(
+                            sample,
+                            -1.0f,
+                            1.0f);
+
+                    output[
+                        frame * outputChannels +
+                            outputChannel
+                    ] =
+                        static_cast<int32_t>(
+                            std::llround(
+                                static_cast<double>(sample) *
+                                2147483647.0));
+                }
             }
-
-            break;
         }
 
-        default:
+        else
+        {
             _renderClient->ReleaseBuffer(
                 framesToWrite,
                 AUDCLNT_BUFFERFLAGS_SILENT);
 
+            ++_failedWrites;
             return false;
         }
 
@@ -679,16 +1167,20 @@ namespace audio
 
         if (FAILED(hr))
         {
-            Logger::Log(
-                "[Audio] ReleaseBuffer failed: 0x%08X\n",
-                static_cast<unsigned>(hr));
-
+            ++_failedWrites;
             return false;
         }
+
+        _framesWritten += framesToWrite;
+        ++_writeCalls;
 
         return true;
     }
 
+
+    // =========================================================
+    // STATE
+    // =========================================================
 
     bool AudioOutput::isInitialized() const
     {
@@ -699,6 +1191,123 @@ namespace audio
     bool AudioOutput::isRunning() const
     {
         return _running;
+    }
+
+
+    // =========================================================
+    // CONFIGURATION
+    // =========================================================
+
+    const AudioOutput::Configuration&
+        AudioOutput::configuration() const
+    {
+        return _configuration;
+    }
+
+
+    void AudioOutput::setVolume(
+        float volume)
+    {
+        volume =
+            (std::max)(
+                0.0f,
+                (std::min)(
+                    1.0f,
+                    volume));
+
+        _configuration.volume =
+            volume;
+    }
+
+
+    float AudioOutput::volume() const
+    {
+        return _configuration.volume;
+    }
+
+
+    void AudioOutput::setMuted(
+        bool muted)
+    {
+        _configuration.muted =
+            muted;
+    }
+
+
+    bool AudioOutput::isMuted() const
+    {
+        return _configuration.muted;
+    }
+
+
+    // =========================================================
+    // DEVICE / FORMAT INFORMATION
+    // =========================================================
+
+    std::wstring AudioOutput::deviceId() const
+    {
+        if (!_device)
+            return {};
+
+        LPWSTR id = nullptr;
+
+        if (FAILED(_device->GetId(&id)) ||
+            !id)
+        {
+            return {};
+        }
+
+        std::wstring result =
+            id;
+
+        CoTaskMemFree(id);
+
+        return result;
+    }
+
+
+    std::wstring AudioOutput::deviceName() const
+    {
+        if (!_device)
+            return {};
+
+        IPropertyStore* propertyStore =
+            nullptr;
+
+        HRESULT hr =
+            _device->OpenPropertyStore(
+                STGM_READ,
+                &propertyStore);
+
+        if (FAILED(hr) ||
+            !propertyStore)
+        {
+            return {};
+        }
+
+        PROPVARIANT property;
+
+        PropVariantInit(&property);
+
+        hr = propertyStore->GetValue(
+            PKEY_Device_FriendlyName,
+            &property);
+
+        std::wstring name;
+
+        if (SUCCEEDED(hr) &&
+            property.vt == VT_LPWSTR &&
+            property.pwszVal)
+        {
+            name =
+                property.pwszVal;
+        }
+
+        PropVariantClear(&property);
+
+        propertyStore->Release();
+
+        return name;
     }
 
 
@@ -719,6 +1328,135 @@ namespace audio
 
         return static_cast<int32_t>(
             _format->nChannels);
+    }
+
+
+    // =========================================================
+    // STATISTICS
+    // =========================================================
+
+    AudioOutput::AudioStatistics
+        AudioOutput::getStatistics() const
+    {
+        AudioStatistics stats{};
+
+        stats.initialized =
+            _initialized;
+
+        stats.running =
+            _running;
+
+        stats.sampleRate =
+            sampleRate();
+
+        stats.channels =
+            channels();
+
+        stats.bufferFrames =
+            _bufferFrames;
+
+        /*
+         * Get the current amount of audio
+         * currently queued in WASAPI.
+         */
+        if (_audioClient &&
+            _initialized)
+        {
+            UINT32 padding = 0;
+
+            const HRESULT hr =
+                _audioClient->GetCurrentPadding(
+                    &padding);
+
+            if (SUCCEEDED(hr))
+            {
+                stats.currentPadding =
+                    padding;
+
+                stats.availableFrames =
+                    _bufferFrames > padding
+                    ? _bufferFrames - padding
+                    : 0;
+
+                if (_bufferFrames > 0)
+                {
+                    stats.bufferFillPercent =
+                        static_cast<double>(
+                            padding) /
+                        static_cast<double>(
+                            _bufferFrames) *
+                        100.0;
+                }
+            }
+        }
+
+        /*
+         * Total duration of the WASAPI buffer.
+         */
+        if (_format &&
+            _format->nSamplesPerSec > 0)
+        {
+            stats.bufferDurationMs =
+                static_cast<double>(
+                    _bufferFrames) /
+                static_cast<double>(
+                    _format->nSamplesPerSec) *
+                1000.0;
+        }
+
+        stats.framesWritten =
+            _framesWritten.load(
+                std::memory_order_relaxed);
+
+        stats.writeCalls =
+            _writeCalls.load(
+                std::memory_order_relaxed);
+
+        stats.failedWrites =
+            _failedWrites.load(
+                std::memory_order_relaxed);
+
+        /*
+         * Calculate actual audio throughput
+         * since statistics were initialized.
+         */
+        if (_statsStartTime
+            .time_since_epoch()
+            .count() != 0)
+        {
+            const auto now =
+                std::chrono::steady_clock::now();
+
+            const double elapsed =
+                std::chrono::duration<double>(
+                    now - _statsStartTime
+                ).count();
+
+            if (elapsed > 0.0)
+            {
+                stats.outputFramesPerSecond =
+                    static_cast<double>(
+                        stats.framesWritten) /
+                    elapsed;
+
+                const double bytesPerFrame =
+                    _format
+                    ? static_cast<double>(
+                        _format->nBlockAlign)
+                    : 0.0;
+
+                stats.throughputMBps =
+                    (
+                        static_cast<double>(
+                            stats.framesWritten) *
+                        bytesPerFrame
+                        ) /
+                    elapsed /
+                    (1024.0 * 1024.0);
+            }
+        }
+
+        return stats;
     }
 
 }

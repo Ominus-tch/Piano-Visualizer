@@ -17,11 +17,6 @@ bool Logger::Remove()
 	return CloseHandle(file);
 }
 
-void Logger::Log(const std::string& message)
-{
-    Logger::Log("%s\n", message.c_str());
-}
-
 void Logger::Log(const char* format, ...)
 {
 
@@ -42,4 +37,10 @@ void Logger::Log(const char* format, ...)
     vprintf(format, argptr);
 
     va_end(argptr);
+}
+
+void Logger::Log(const std::string& message)
+{
+    //Logger::Log("%s\n", message.c_str());
+    Logger::Log("%s", message.c_str());
 }

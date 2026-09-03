@@ -11,6 +11,6 @@ private:
 public:
 	static bool Init();
 	static bool Remove();
-	static void Log(const std::string& message);
 	static void Log(const char* format, ...);
+	static void Log(const std::string& message);
 };

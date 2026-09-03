@@ -1,15 +1,12 @@
 #pragma once
 
+#include "AudioOutput.h"
+
 #include <atomic>
 #include <cstdint>
-#include <thread>
 #include <string>
-
-
-namespace audio
-{
-    class AudioOutput;
-}
+#include <thread>
+#include <vector>
 
 namespace vst
 {
@@ -27,8 +24,15 @@ namespace audio
 
         ~AudioEngine();
 
+        // =====================================================
+        // LIFECYCLE
+        // =====================================================
+
         bool initialize();
-        bool loadPlugin(const std::string& path);
+
+        bool loadPlugin(
+            const std::string& path);
+
         void unLoadPlugin();
 
         bool start();
@@ -37,6 +41,10 @@ namespace audio
         void shutdown();
 
         bool isRunning() const;
+
+        // =====================================================
+        // MIDI / VST
+        // =====================================================
 
         bool noteOn(
             int16_t channel,
@@ -53,28 +61,109 @@ namespace audio
             int16_t controller,
             int16_t value);
 
-        vst::VSTAudio* audio() const { return _vstAudio; }
-        vst::VSTPlugin* plugin() const { return _vstPlugin; }
-        AudioOutput* output() const { return _output; }
+        vst::VSTAudio* audio() const
+        {
+            return _vstAudio;
+        }
 
-        std::string vstPath() const { return _vstPath; }
+        vst::VSTPlugin* plugin() const
+        {
+            return _vstPlugin;
+        }
+
+        AudioOutput* output() const
+        {
+            return _output;
+        }
+
+        std::string vstPath() const
+        {
+            return _vstPath;
+        }
 
         const std::string& pluginName() const;
 
+        // =====================================================
+        // OUTPUT CONFIGURATION
+        // =====================================================
+
+        AudioOutput::Configuration outputConfiguration() const;
+
+        bool setOutputDevice(
+            const std::wstring& deviceId);
+
+        bool setOutputMode(
+            AudioOutput::Mode mode);
+
+        bool setOutputSampleRate(
+            double sampleRate);
+
+        bool setOutputBufferDuration(
+            double milliseconds);
+
+        void setOutputVolume(
+            float volume);
+
+        float outputVolume() const;
+
+        void setOutputMuted(
+            bool muted);
+
+        bool outputMuted() const;
+
+        // =====================================================
+        // OUTPUT DEVICES
+        // =====================================================
+
+        static std::vector<AudioOutput::Device>
+            enumerateOutputDevices();
+
     private:
+
+        // =====================================================
+        // AUDIO THREAD
+        // =====================================================
+
         void threadMain();
+
+        // =====================================================
+        // OUTPUT RECONFIGURATION
+        // =====================================================
+
+        bool reconfigureOutput(
+            const AudioOutput::Configuration& configuration);
+
+    private:
+
+        // =====================================================
+        // VST
+        // =====================================================
 
         vst::VSTAudio* _vstAudio = nullptr;
         vst::VSTPlugin* _vstPlugin = nullptr;
+
+        // =====================================================
+        // AUDIO OUTPUT
+        // =====================================================
+
         AudioOutput* _output = nullptr;
 
+        // =====================================================
+        // THREAD
+        // =====================================================
 
         std::thread _thread;
 
-        bool _initialized = false;
-        std::string _vstPath = "";
         std::atomic<bool> _running;
         std::atomic<bool> _stopRequested;
+
+        // =====================================================
+        // STATE
+        // =====================================================
+
+        bool _initialized = false;
+
+        std::string _vstPath = "";
     };
 
 }

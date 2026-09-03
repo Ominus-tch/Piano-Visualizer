@@ -2,7 +2,7 @@
 #include "../rendering/State.h"
 #include "../helpers/System.h"
 
-#include "../../config.h"
+#include "../../../util/config.h"
 
 #include <iostream>
 #include <stdio.h>

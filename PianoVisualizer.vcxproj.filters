@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -43,9 +40,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\Logger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="util\camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\camera\Homography.cpp">
@@ -150,25 +144,13 @@
     <ClCompile Include="src\MidiVisualizer\resources\shaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Audio\AudioEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Audio\vst\VSTEventList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Audio\AudioOutput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Audio\vst\VSTAudio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\vst\VSTPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\vst\VSTHostApplication.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="util\dragDrop\FileDropTarget.cpp">
@@ -204,13 +186,7 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\readfile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_linux.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\systemclipboard_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_linux.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_win32.cpp">
@@ -225,13 +201,7 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\main\pluginfactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\usediids.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.sdk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.cpp">
@@ -378,21 +348,6 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vsttestsuite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\midiconverttest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\ringbuffertest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\rttransfertest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\sampleaccuratetest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\test\versionparsertest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -423,9 +378,6 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstcomponentbase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vsteditcontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstgui_win32_bundle_support.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -448,9 +400,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\vstsinglecomponenteffect.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst3stdsdk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\base\source\baseiids.cpp">
@@ -759,9 +708,6 @@
     <ClCompile Include="ext\vst3sdk\vstgui\lib\pixelbuffer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\lib\stringconvert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\lib\tasks.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -783,22 +729,10 @@
     <ClCompile Include="ext\vst3sdk\vstgui\plugin-bindings\vst3padcontroller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmlparse.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmlrole.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_impl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_ns.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\miniz\miniz.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uidesclist.cpp">
@@ -1044,16 +978,34 @@
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\uiscripting.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\vstgui.cpp">
+    <ClCompile Include="ext\vst3sdk\vstgui\lib\vst_stringconvert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_uidescription.cpp">
+    <ClCompile Include="src\PianoVisualizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_uidescription_win32.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\vstgui_win32.cpp">
+    <ClCompile Include="util\gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\camera\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util\camera\CameraControls.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\AudioOutput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\AudioEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\vst\VSTAudio.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1100,9 +1052,6 @@
     <ClInclude Include="ext\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="util\camera\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="util\camera\Homography.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1112,13 +1061,13 @@
     <ClInclude Include="util\renderer\VirtualWindowRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\helpers.h">
+    <ClInclude Include="util\helpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\gui.h">
+    <ClInclude Include="util\gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\config.h">
+    <ClInclude Include="util\config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\libremidi\detail\conversion.hpp">
@@ -1865,16 +1814,7 @@
     <ClInclude Include="ext\stb_image_resize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Audio\AudioEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Audio\vst\VSTEventList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Audio\AudioOutput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Audio\vst\VSTAudio.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Audio\vst\VSTPlugin.h">
@@ -2117,18 +2057,6 @@
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3WrapperFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\aucarbonview.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\aucocoaview.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\auwrapper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auwrapper\NSDataIBStream.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2157,36 +2085,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\processdata.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\AudioIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\HostApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\MidiIO.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetBrowserViewController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\PresetSaveViewController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\SettingsViewController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VST3Editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VST3Plugin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\interappaudio\VSTInterAppAudioAppDelegateBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\json.h">
@@ -2759,12 +2657,6 @@
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\iplatformviewlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_linux.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_macos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ext\vst3sdk\vstgui\lib\platform\platform_wayland.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -2967,9 +2859,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\vstgui\lib\pixelbuffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\lib\stringconvert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\vstgui\lib\tasks.h">
@@ -3488,6 +3377,30 @@
     <ClInclude Include="ext\vst3sdk\vstgui\vstgui_uidescription.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ext\vst3sdk\vstgui\lib\vst_stringconvert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PianoVisualizer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resources\resource1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\camera\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="util\camera\CameraControls.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\AudioOutput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\AudioEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\vst\VSTAudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ext\glm\gtc\bitfield.inl">
@@ -3544,74 +3457,16 @@
     <None Include="ext\glm\gtc\vec1.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="ext\vst3sdk\vstgui\Documentation\index.html" />
+    <None Include="resources\resources.aps" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="lib\base.lib" />
-    <Library Include="lib\pluginterfaces.lib" />
-    <Library Include="lib\sdk_common.lib" />
-    <Library Include="lib\sdk_hosting.lib" />
+    <ResourceCompile Include="resources\resources.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\adelay\resource\info.rc">
+    <Image Include="resources\icon1.ico">
       <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\again\resource\again.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\again_sampleaccurate\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\channelcontext\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\dataexchange\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\hostchecker\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\hostchecker_aax\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\legacymidiccout\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\mda-vst3\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\multiple_programchanges\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\note_expression_synth\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\note_expression_text\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\panner\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\pitchnames\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\prefetchablesupport\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\programchange\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\remap_paramid\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\syncdelay\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\transportcontrol\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-    <ResourceCompile Include="ext\vst3sdk\public.sdk\samples\vst\utf16name\resource\info.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    </Image>
   </ItemGroup>
 </Project>
