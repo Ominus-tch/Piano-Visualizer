@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6635a77f-93ee-480f-9600-94cada262e26}</ProjectGuid>
+    <RootNamespace>VST3HostLib</RootNamespace>
+    <ProjectName>VST3HostLib</ProjectName>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <!-- Debug Win32 -->
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)build\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\intermediates\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)build\$(ProjectName)\</OutDir>
+    <IntDir>$(SolutionDir)build\$(ProjectName)\intermediates\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;COMPILED_FROM_DSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)ext;$(SolutionDir)ext\vst3sdk;$(SolutionDir)ext\vst3sdk\pluginterfaces;$(SolutionDir)ext\vst3sdk\public.sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Release Win32 -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;COMPILED_FROM_DSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)ext;$(SolutionDir)ext\vst3sdk;$(SolutionDir)ext\vst3sdk\pluginterfaces;$(SolutionDir)ext\vst3sdk\public.sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Debug x64 -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PreprocessorDefinitions>_DEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;COMPILED_FROM_DSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)ext;$(SolutionDir)ext\vst3sdk;$(SolutionDir)ext\vst3sdk\pluginterfaces;$(SolutionDir)ext\vst3sdk\public.sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- Release x64 -->
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;_CRT_SECURE_NO_WARNINGS;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;COMPILED_FROM_DSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(SolutionDir)ext;$(SolutionDir)ext\vst3sdk;$(SolutionDir)ext\vst3sdk\pluginterfaces;$(SolutionDir)ext\vst3sdk\public.sdk;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <TreatWarningAsError>false</TreatWarningAsError>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <!-- VST3 SDK + VSTGUI sources -->
+  <ItemGroup>
+    <!-- VST3 Base -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\baseiids.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fbuffer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fdebug.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fdynlib.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fobject.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fstreamer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\fstring.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\timer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\source\updatehandler.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\thread\source\fcondition.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\base\thread\source\flock.cpp" />
+    <!-- Pluginterfaces -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\pluginterfaces\base\conststringtable.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\pluginterfaces\base\coreiids.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\pluginterfaces\base\funknown.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\pluginterfaces\base\ustring.cpp" />
+    <!-- Public SDK Common -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\commoniids.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\commonstringconvert.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\memorystream.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\openurl.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\pluginview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\readfile.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\systemclipboard_win32.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\common\threadchecker_win32.cpp" />
+    <!-- VST3 Hosting -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\eventlist.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\hostclasses.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\hostdataexchangehandler.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\module.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\module_win32.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\parameterchanges.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\processdata.cpp" />
+    <!-- VST3 Module Info -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.cpp" />
+    <!-- VST3 Utility -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\systemtime.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\testing.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.cpp" />
+    <!-- VST3 Core -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstaudioeffect.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstbus.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstcomponent.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstcomponentbase.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstguieditor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstgui_win32_bundle_support.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstinitiids.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstnoteexpressiontypes.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstparameters.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstpresetfile.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstrepresentation.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstsinglecomponenteffect.cpp" />
+    <!-- VSTGUI Animation -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\animation\animations.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\animation\animator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\animation\timingfunctions.cpp" />
+    <!-- VSTGUI Core -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cbitmap.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\ccolor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cdatabrowser.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cdrawcontext.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cdrawmethods.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cdropsource.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cexternalview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cfileselector.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cfont.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cframe.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cgradient.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cgradientview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cgraphicspath.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\clayeredviewcontainer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\clinestyle.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\coffscreencontext.cpp" />
+    <!-- VSTGUI Controls -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cautoanimation.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cbuttons.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\ccolorchooser.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\ccontrol.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cfontchooser.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cknob.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\clistcontrol.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cmoviebitmap.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cmoviebutton.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\coptionmenu.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cparamdisplay.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cscrollbar.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\csearchtextedit.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\csegmentbutton.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cslider.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cspecialdigit.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\csplashscreen.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cstringlist.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cswitch.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\ctextedit.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\ctextlabel.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cvumeter.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\controls\cxypad.cpp" />
+    <!-- VSTGUI Views -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\copenglview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cpoint.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\crect.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\crowcolumnview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cscrollview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cshadowviewcontainer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\csplitview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cstring.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\ctabview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\ctexteditor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\ctooltipsupport.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cviewcontainer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\cvstguitimer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\events.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\genericstringlistdatabrowsersource.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\pixelbuffer.cpp" />
+    <!-- VSTGUI Platform Common -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\common\fileresourceinputstream.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\common\genericoptionmenu.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\common\generictextedit.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\platformfactory.cpp" />
+    <!-- VSTGUI Win32 / Direct2D -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmap.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dbitmapcache.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dfont.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgradient.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicscontext.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\direct2d\d2dgraphicspath.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32datapackage.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32directcomposition.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32dragging.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32factory.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32frame.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32openglview.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32optionmenu.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32resourcestream.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32support.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32taskexecutor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32textedit.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\win32viewlayer.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\winfileselector.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\winstring.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\platform\win32\wintimer.cpp" />
+    <!-- VSTGUI Misc -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\vst_stringconvert.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\tasks.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\viewlayouter\autosizeviewlayouter.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\viewlayouter\gridlayouter.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\vstguidebug.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\lib\vstguiinit.cpp" />
+    <!-- VSTGUI Plugin Bindings -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\plugin-bindings\plugguieditor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\plugin-bindings\vst3editor.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\plugin-bindings\vst3groupcontroller.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\plugin-bindings\vst3padcontroller.cpp" />
+    <!-- Expat -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\thirdparty\expat\xmltok_impl.c" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\thirdparty\expat\xmltok_ns.c" />
+    <!-- VSTGUI UIDescription -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\compresseduidescription.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\cstream.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\cstream_zlib.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\detail\uidesclist.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\detail\uijsonpersistence.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\detail\uinode.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\detail\uixmlpersistence.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uiattributes.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uicontentprovider.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uidescription.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uidescriptionaddonregistry.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uiviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uiviewfactory.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\uiviewswitchcontainer.cpp" />
+    <!-- VSTGUI View Creators -->
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\animationsplashscreencreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\animknobcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\autoanimationcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\checkboxcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\controlcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\gradientviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\kickbuttoncreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\knobcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\layeredviewcontainercreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\moviebitmapcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\moviebuttoncreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\multibitmapcontrolcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\multilinetextlabelcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\onoffbuttoncreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\optionmenucreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\paramdisplaycreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\rockerswitchcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\rowcolumnviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\scrollviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\searchtexteditcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\segmentbuttoncreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\shadowviewcontainercreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\sliderviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\splitviewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\stringlistcontrolcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\switchcreators.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\textbuttoncreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\texteditcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\textlabelcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\uiviewswitchcontainercreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\viewcontainercreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\viewcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\vumetercreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\viewcreator\xypadcreator.cpp" />
+    <ClCompile Include="$(SolutionDir)ext\vst3sdk\vstgui\uidescription\xmlparser.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
