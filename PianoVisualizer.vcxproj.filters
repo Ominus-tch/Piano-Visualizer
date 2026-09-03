@@ -192,18 +192,6 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\common\threadchecker_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\dllmain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\moduleinit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\pluginfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -238,114 +226,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busactivation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busconsistency.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\businvalidindex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\checkaudiobusarrangement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\scanbusses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\sidechainarrangement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\editorclasses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midilearn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midimapping.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\parameterfunctionname.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\plugcompat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\scanparameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\suspendresume.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\terminit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\keyswitch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\noteexpression.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\automation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\process.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processcontextrequirements.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processformat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processinputoverwriting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processtail.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processthreaded.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceflags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceprocessing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\speakerarrangement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\variableblocksize.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\bypasspersistence.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\invalidstatetransition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\repeatidenticalstatetransition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\validstatetransition.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\checkunitstructure.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanprograms.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanunits.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\testbase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vsttestsuite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp">
@@ -747,75 +627,6 @@
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\detail\uixmlpersistence.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiactions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiattributescontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uibitmapscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorchoosercontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicolorslider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uicrosslines.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uidialogcontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditcontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditmenucontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uieditview.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uifocussettingscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uifontscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uigradientscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uigridcontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uioverlayview.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiselection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitagscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatecontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uitemplatesettingscontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiundomanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription\editing\uiviewcreatecontroller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\viewcreator\animationsplashscreencreator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -951,33 +762,6 @@
     <ClCompile Include="ext\vst3sdk\vstgui\uidescription\xmlparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\drawcontextobject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\scriptingviewfactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\detail\viewscriptobject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\run_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_Functions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\tiny-js\TinyJS_MathFunctions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\uidescription-scripting\uiscripting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ext\vst3sdk\vstgui\lib\vst_stringconvert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1006,6 +790,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\moduleinit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ext\vst3sdk\public.sdk\source\main\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -2100,117 +1890,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busactivation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\busconsistency.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\businvalidindex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\checkaudiobusarrangement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\scanbusses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\bus\sidechainarrangement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\editorclasses.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midilearn.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\midimapping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\parameterfunctionname.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\plugcompat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\scanparameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\suspendresume.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\general\terminit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\keyswitch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\noteexpression\noteexpression.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\automation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\process.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processcontextrequirements.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processformat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processinputoverwriting.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processtail.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\processthreaded.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceflags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\silenceprocessing.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\speakerarrangement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\processing\variableblocksize.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\bypasspersistence.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\invalidstatetransition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\repeatidenticalstatetransition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\state\validstatetransition.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\checkunitstructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanprograms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\unit\scanunits.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\testbase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vststructsizecheck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\testsuite\vsttestsuite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\alignedalloc.h">
