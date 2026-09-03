@@ -469,12 +469,6 @@
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstrepresentation.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstsinglecomponenteffect.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstspeakerarray.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_changes.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_create_your_own_ui_view.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_keyeventflow.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_license.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_misc.h" />
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_view_system_overview.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\algorithm.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\animations.h" />
     <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\animator.h" />

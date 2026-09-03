@@ -156,66 +156,6 @@
     <ClCompile Include="util\dragDrop\FileDropTarget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\eventlist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostclasses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostdataexchangehandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\module.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\module_win32.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\parameterchanges.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\hosting\processdata.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\systemtime.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\testing.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_impl.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ext\vst3sdk\vstgui\thirdparty\expat\xmltok_ns.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PianoVisualizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1497,24 +1437,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\base\thread\include\flock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_changes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_create_your_own_ui_view.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_keyeventflow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_license.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ext\vst3sdk\vstgui\doxygen\page_view_system_overview.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ext\vst3sdk\vstgui\lib\animation\animations.h">
