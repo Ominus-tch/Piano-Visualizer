@@ -958,7 +958,7 @@ SystemAction Viewer::drawGUI(const float currentTime) {
 			//}
 			//ImGui::helpTooltip(s_scroll_horizontal_dsc);
 
-			if(_liveplay){
+			/*if(_liveplay){
 				ImGui::BeginDisabled();
 			}
 			ImGuiSameLine(COLUMN_SIZE);
@@ -970,7 +970,7 @@ SystemAction Viewer::drawGUI(const float currentTime) {
 				}
 			} else {
 				ImGui::helpTooltip(s_scroll_reverse_dsc);
-			}
+			}*/
 
 			/*if(_liveplay){
 				ImGui::BeginDisabled();
