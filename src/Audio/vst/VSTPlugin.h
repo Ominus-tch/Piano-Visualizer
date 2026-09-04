@@ -32,6 +32,12 @@ namespace vst
 
         const std::string& path() const;
 
+        bool saveState(
+            const std::string& path);
+
+        bool loadState(
+            const std::string& path);
+
         Steinberg::Vst::IComponent*
             component() const;
 

@@ -189,6 +189,9 @@
     <ClCompile Include="ext\vst3sdk\public.sdk\source\main\dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Audio\vst\VSTStateStream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\imgui\imconfig.h">
@@ -2295,6 +2298,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Audio\vst\VSTAudio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Audio\vst\VSTStateStream.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

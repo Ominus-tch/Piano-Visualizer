@@ -88,6 +88,7 @@
     <ClCompile Include="src\Audio\vst\VSTComponentHandler.cpp" />
     <ClCompile Include="src\Audio\vst\VSTEventList.cpp" />
     <ClCompile Include="src\Audio\vst\VSTHostApplication.cpp" />
+    <ClCompile Include="src\Audio\vst\VSTStateStream.cpp" />
     <ClCompile Include="util\camera\Camera.cpp" />
     <ClCompile Include="util\camera\CameraControls.cpp" />
     <ClCompile Include="util\gui.cpp" />
@@ -755,6 +756,7 @@
     <ClInclude Include="src\Audio\vst\VSTComponentHandler.h" />
     <ClInclude Include="src\Audio\vst\VSTEventList.h" />
     <ClInclude Include="src\Audio\vst\VSTHostApplication.h" />
+    <ClInclude Include="src\Audio\vst\VSTStateStream.h" />
     <ClInclude Include="util\camera\Camera.h" />
     <ClInclude Include="util\camera\CameraControls.h" />
     <ClInclude Include="util\config.h" />

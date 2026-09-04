@@ -103,6 +103,43 @@ namespace Config {
         return directory / "vst_config.json";
     }
 
+    inline std::filesystem::path GetVSTStateDirectory()
+    {
+        const auto directory =
+            GetConfigDirectory();
+
+        if (directory.empty())
+            return {};
+
+        const auto stateDirectory =
+            directory / "vst_states";
+
+        std::error_code error;
+
+        std::filesystem::create_directories(
+            stateDirectory,
+            error
+        );
+
+        if (error)
+            return {};
+
+        return stateDirectory;
+    }
+
+    inline std::filesystem::path GetVSTStatePath(
+        const std::string& pluginName)
+    {
+        const auto directory =
+            GetVSTStateDirectory();
+
+        if (directory.empty())
+            return {};
+
+        return directory /
+            (pluginName + ".state");
+    }
+
     inline bool SaveVSTConfig(
         std::filesystem::path currentPluginPath,
         std::filesystem::path vst3folderPath,

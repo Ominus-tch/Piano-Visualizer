@@ -1,188 +1,18 @@
 #include "VSTPlugin.h"
 #include "VSTAudio.h"
+#include "VSTStateStream.h"
 
 #include <Windows.h>
 
+#include <fstream>
+
 #include "../../../util/Logger.h"
+#include "../../../util/Config.h"
 
 #include "pluginterfaces/vst/vsttypes.h"
 #include "pluginterfaces/vst/ivstcomponent.h"
 #include "pluginterfaces/vst/ivsteditcontroller.h"
 #include "pluginterfaces/vst/ivstmessage.h"
-
-
-static void DebugPrintModuleFromAddress(
-    const char* name,
-    void* address
-)
-{
-    HMODULE module = nullptr;
-
-    if (GetModuleHandleExW(
-        GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
-        reinterpret_cast<LPCWSTR>(address),
-        &module))
-    {
-        wchar_t path[MAX_PATH]{};
-
-        GetModuleFileNameW(
-            module,
-            path,
-            MAX_PATH
-        );
-
-        Logger::Log(
-            "[Window] %s=%p module=%ls\n",
-            name,
-            address,
-            path
-        );
-    }
-    else
-    {
-        Logger::Log(
-            "[Window] %s=%p module=<none>\n",
-            name,
-            address
-        );
-    }
-}
-
-
-static BOOL CALLBACK DebugEnumChildWindowsProc(
-    HWND hwnd,
-    LPARAM
-)
-{
-    DWORD processId = 0;
-
-    DWORD threadId =
-        GetWindowThreadProcessId(
-            hwnd,
-            &processId
-        );
-
-    if (processId != GetCurrentProcessId())
-        return TRUE;
-
-    wchar_t className[256]{};
-    wchar_t title[256]{};
-
-    GetClassNameW(
-        hwnd,
-        className,
-        256
-    );
-
-    GetWindowTextW(
-        hwnd,
-        title,
-        256
-    );
-
-    LONG_PTR wndProc =
-        GetWindowLongPtrW(
-            hwnd,
-            GWLP_WNDPROC
-        );
-
-    Logger::Log(
-        "[Window] hwnd=%p thread=%lu visible=%d class=\"%ls\" title=\"%ls\" wndProc=%p\n",
-        hwnd,
-        threadId,
-        IsWindowVisible(hwnd),
-        className,
-        title,
-        reinterpret_cast<void*>(wndProc)
-    );
-
-    DebugPrintModuleFromAddress(
-        "    wndProc",
-        reinterpret_cast<void*>(wndProc)
-    );
-
-    return TRUE;
-}
-
-
-static BOOL CALLBACK DebugEnumWindowsProc(
-    HWND hwnd,
-    LPARAM
-)
-{
-    DWORD processId = 0;
-
-    DWORD threadId =
-        GetWindowThreadProcessId(
-            hwnd,
-            &processId
-        );
-
-    if (processId != GetCurrentProcessId())
-        return TRUE;
-
-    wchar_t className[256]{};
-    wchar_t title[256]{};
-
-    GetClassNameW(
-        hwnd,
-        className,
-        256
-    );
-
-    GetWindowTextW(
-        hwnd,
-        title,
-        256
-    );
-
-    LONG_PTR wndProc =
-        GetWindowLongPtrW(
-            hwnd,
-            GWLP_WNDPROC
-        );
-
-    Logger::Log(
-        "[Window] TOP hwnd=%p thread=%lu visible=%d class=\"%ls\" title=\"%ls\" wndProc=%p\n",
-        hwnd,
-        threadId,
-        IsWindowVisible(hwnd),
-        className,
-        title,
-        reinterpret_cast<void*>(wndProc)
-    );
-
-    DebugPrintModuleFromAddress(
-        "    wndProc",
-        reinterpret_cast<void*>(wndProc)
-    );
-
-    EnumChildWindows(
-        hwnd,
-        DebugEnumChildWindowsProc,
-        0
-    );
-
-    return TRUE;
-}
-
-
-static void DebugEnumerateWindows()
-{
-    Logger::Log(
-        "[Window] ===== Enumerating process windows =====\n"
-    );
-
-    EnumWindows(
-        DebugEnumWindowsProc,
-        0
-    );
-
-    Logger::Log(
-        "[Window] =====================================\n"
-    );
-}
 
 
 namespace vst
@@ -917,6 +747,16 @@ namespace vst
                 return false;
             }
 
+            /*
+             * --------------------------------------------------------
+             * Load Plugin State
+             * --------------------------------------------------------
+             */
+
+            const std::string statePath =
+                Config::GetVSTStatePath(_editorName).string();
+
+            loadState(statePath);
 
             /*
              * ----------------------------------------------------
@@ -1026,9 +866,6 @@ namespace vst
             return;
         }
 
-        _editorName =
-            "VST Editor";
-
 
         /*
          * --------------------------------------------------------
@@ -1068,6 +905,16 @@ namespace vst
                 result);
         }
 
+        /*
+         * --------------------------------------------------------
+         * Save Plugin State
+         * --------------------------------------------------------
+         */
+
+        const std::string statePath =
+            Config::GetVSTStatePath(_editorName).string();
+
+        saveState(statePath);
 
         /*
          * --------------------------------------------------------
@@ -1272,6 +1119,8 @@ namespace vst
                 "[VST] Module unloaded\n");
         }
 
+        _editorName =
+            "VST Editor";
 
         _path.clear();
 
@@ -1292,6 +1141,340 @@ namespace vst
         return _path;
     }
 
+    bool VSTPlugin::saveState(
+        const std::string& path)
+    {
+        if (!_component)
+        {
+            Logger::Log(
+                "[VST] Cannot save state: component is null\n");
+
+            return false;
+        }
+
+        Logger::Log(
+            "[VST] Saving plugin state: %s\n",
+            path.c_str());
+
+        VSTStateStream componentStream;
+
+        auto result =
+            _component->getState(
+                &componentStream);
+
+        if (result != Steinberg::kResultOk)
+        {
+            Logger::Log(
+                "[VST] Component getState failed: result=%d\n",
+                result);
+
+            return false;
+        }
+
+        const auto& componentData =
+            componentStream.data();
+
+        std::vector<uint8_t> controllerData;
+
+        if (_controller)
+        {
+            VSTStateStream controllerStream;
+
+            result =
+                _controller->getState(
+                    &controllerStream);
+
+            if (result == Steinberg::kResultOk)
+            {
+                controllerData =
+                    controllerStream.data();
+            }
+            else
+            {
+                Logger::Log(
+                    "[VST] Controller getState unsupported: result=%d\n",
+                    result);
+            }
+        }
+
+        std::ofstream file(
+            path,
+            std::ios::binary |
+            std::ios::trunc);
+
+        if (!file)
+        {
+            Logger::Log(
+                "[VST] Failed to open state file for writing: %s\n",
+                path.c_str());
+
+            return false;
+        }
+
+        const uint32_t version = 1;
+
+        const uint64_t componentSize =
+            static_cast<uint64_t>(
+                componentData.size());
+
+        const uint64_t controllerSize =
+            static_cast<uint64_t>(
+                controllerData.size());
+
+        file.write(
+            reinterpret_cast<const char*>(&version),
+            sizeof(version));
+
+        file.write(
+            reinterpret_cast<const char*>(&componentSize),
+            sizeof(componentSize));
+
+        if (!componentData.empty())
+        {
+            file.write(
+                reinterpret_cast<const char*>(
+                    componentData.data()),
+                componentData.size());
+        }
+
+        file.write(
+            reinterpret_cast<const char*>(&controllerSize),
+            sizeof(controllerSize));
+
+        if (!controllerData.empty())
+        {
+            file.write(
+                reinterpret_cast<const char*>(
+                    controllerData.data()),
+                controllerData.size());
+        }
+
+        if (!file.good())
+        {
+            Logger::Log(
+                "[VST] Failed while writing state file\n");
+
+            return false;
+        }
+
+        Logger::Log(
+            "[VST] Plugin state saved successfully "
+            "(component=%llu bytes, controller=%llu bytes)\n",
+            static_cast<unsigned long long>(
+                componentSize),
+            static_cast<unsigned long long>(
+                controllerSize));
+
+        return true;
+    }
+
+    bool VSTPlugin::loadState(
+        const std::string& path)
+    {
+        if (!_component)
+        {
+            Logger::Log(
+                "[VST] Cannot load state: component is null\n");
+
+            return false;
+        }
+
+        std::ifstream file(
+            path,
+            std::ios::binary |
+            std::ios::ate);
+
+        if (!file)
+        {
+            Logger::Log(
+                "[VST] State file does not exist: %s\n",
+                path.c_str());
+
+            return false;
+        }
+
+        const std::streamsize fileSize =
+            file.tellg();
+
+        if (fileSize < 0)
+        {
+            Logger::Log(
+                "[VST] Failed to determine state file size\n");
+
+            return false;
+        }
+
+        file.seekg(0);
+
+        std::vector<uint8_t> fileData(
+            static_cast<size_t>(fileSize));
+
+        if (!fileData.empty())
+        {
+            file.read(
+                reinterpret_cast<char*>(
+                    fileData.data()),
+                fileSize);
+        }
+
+        if (!file.good() &&
+            !file.eof())
+        {
+            Logger::Log(
+                "[VST] Failed to read state file\n");
+
+            return false;
+        }
+
+        size_t offset = 0;
+
+        auto readBytes =
+            [&](void* destination,
+                size_t size) -> bool
+            {
+                if (offset + size > fileData.size())
+                    return false;
+
+                std::memcpy(
+                    destination,
+                    fileData.data() + offset,
+                    size);
+
+                offset += size;
+
+                return true;
+            };
+
+        uint32_t version = 0;
+
+        if (!readBytes(
+            &version,
+            sizeof(version)))
+        {
+            Logger::Log(
+                "[VST] Invalid state file: missing version\n");
+
+            return false;
+        }
+
+        if (version != 1)
+        {
+            Logger::Log(
+                "[VST] Unsupported state file version: %u\n",
+                version);
+
+            return false;
+        }
+
+        uint64_t componentSize = 0;
+
+        if (!readBytes(
+            &componentSize,
+            sizeof(componentSize)))
+        {
+            Logger::Log(
+                "[VST] Invalid state file: missing component size\n");
+
+            return false;
+        }
+
+        if (componentSize >
+            fileData.size() - offset)
+        {
+            Logger::Log(
+                "[VST] Invalid component state size\n");
+
+            return false;
+        }
+
+        std::vector<uint8_t> componentData(
+            fileData.begin() + offset,
+            fileData.begin() +
+            offset +
+            static_cast<size_t>(
+                componentSize));
+
+        offset +=
+            static_cast<size_t>(
+                componentSize);
+
+        uint64_t controllerSize = 0;
+
+        if (!readBytes(
+            &controllerSize,
+            sizeof(controllerSize)))
+        {
+            Logger::Log(
+                "[VST] Invalid state file: missing controller size\n");
+
+            return false;
+        }
+
+        if (controllerSize >
+            fileData.size() - offset)
+        {
+            Logger::Log(
+                "[VST] Invalid controller state size\n");
+
+            return false;
+        }
+
+        std::vector<uint8_t> controllerData(
+            fileData.begin() + offset,
+            fileData.begin() +
+            offset +
+            static_cast<size_t>(
+                controllerSize));
+
+        Logger::Log(
+            "[VST] Loading plugin state: %s "
+            "(component=%llu bytes, controller=%llu bytes)\n",
+            path.c_str(),
+            static_cast<unsigned long long>(
+                componentSize),
+            static_cast<unsigned long long>(
+                controllerSize));
+
+        VSTStateStream componentStream(
+            componentData);
+
+        auto result =
+            _component->setState(
+                &componentStream);
+
+        if (result != Steinberg::kResultOk)
+        {
+            Logger::Log(
+                "[VST] Component setState failed: result=%d\n",
+                result);
+
+            return false;
+        }
+
+        if (controllerSize > 0)
+        {
+            VSTStateStream controllerStream(
+                controllerData);
+
+            result =
+                _controller->setState(
+                    &controllerStream);
+
+            if (result != Steinberg::kResultOk)
+            {
+                Logger::Log(
+                    "[VST] Controller setState failed: result=%d\n",
+                    result);
+
+                return false;
+            }
+        }
+
+        Logger::Log(
+            "[VST] Plugin state loaded successfully\n");
+
+        return true;
+    }
 
     Steinberg::Vst::IComponent*
         VSTPlugin::component() const
