@@ -158,6 +158,8 @@ bool Camera::Initialize(
             "[Camera] No cameras found.\n"
         );
 
+		m_lastError = "Could not find any cameras on this system.";
+
         return true;
     }
 
@@ -172,8 +174,6 @@ bool Camera::Initialize(
             Logger::Log(
                 "[Camera] Failed to open the only available camera.\n"
             );
-
-            return false;
         }
     }
     else
@@ -1896,6 +1896,15 @@ bool Camera::CaptureFrame()
             "\n"
         );
 
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Camera disconnected or stopped responding!";
+        }
+
+        m_runtimeFailure = true;
+        m_running = false;
+
         return false;
     }
 
@@ -2226,7 +2235,21 @@ bool Camera::CaptureFrame()
         );
     }
 
+    ClearLastError();
+
     return true;
+}
+
+std::string Camera::GetLastError() const
+{
+    std::lock_guard<std::mutex> lock(m_errorMutex);
+    return m_lastError;
+}
+
+void Camera::ClearLastError()
+{
+    std::lock_guard<std::mutex> lock(m_errorMutex);
+    m_lastError.clear();
 }
 
 
@@ -2236,6 +2259,22 @@ bool Camera::CaptureFrame()
 
 bool Camera::Update()
 {
+    if (m_runtimeFailure)
+    {
+        Logger::Log(
+            "[Camera] Camera disconnected or stopped responding.\n"
+        );
+
+        CloseCamera();
+
+        EnumerateCameras();
+
+        m_runtimeFailure = false;
+        
+
+        return false;
+    }
+
     if (!m_open)
         return false;
 
@@ -3044,21 +3083,28 @@ bool Camera::OpenCamera(
     int cameraIndex
 )
 {
+    ClearLastError();
+
     if (
         cameraIndex < 0 ||
-        cameraIndex >=
-        static_cast<int>(
-            m_availableCameras.size()
-            )
+        cameraIndex >= static_cast<int>(m_availableCameras.size())
         )
     {
-        Logger::Log(
-            "[Camera] Invalid camera index: %d.\n",
-            cameraIndex
-        );
+        Logger::Log("[Camera] Invalid camera index: %d\n", cameraIndex);
+
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Error: Failed to initialize camera\n(Invalid camera index:" +
+                std::to_string(cameraIndex) +
+                ")";
+        }
 
         return false;
     }
+
+    const std::string cameraName =
+        m_availableCameras[cameraIndex].name;
 
     // Close currently open camera first.
 
@@ -3082,6 +3128,17 @@ bool Camera::OpenCamera(
             "[Camera] Failed to find camera index %d.\n",
             cameraIndex
         );
+        
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Error: Failed to initialize camera \"" +
+                cameraName +
+                "\"\n" +
+                "(Failed to find camera index:" +
+                std::to_string(cameraIndex) +
+                ")";
+        }
 
         return false;
     }
@@ -3113,8 +3170,18 @@ bool Camera::OpenCamera(
 
     if (!readerCreated)
     {
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Error: Failed to initialize camera \"" +
+                cameraName +
+                "\"\n" + 
+                "(Failed to create reader)";
+        }
+
         Logger::Log(
-            "[Camera] Failed to create source reader.\n"
+            "[Camera] Failed to open camera \"%s\".\n",
+            m_availableCameras[cameraIndex].name.c_str()
         );
 
         return false;
@@ -3122,12 +3189,21 @@ bool Camera::OpenCamera(
 
     if (!CreateTexture())
     {
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Error: Failed to initialize camera \"" +
+                cameraName +
+                "\"\n" +
+                "(Failed to create texture)";
+        }
+
         Logger::Log(
-            "[Camera] Failed to create camera texture.\n"
+            "[Camera] Failed to create camera texture for \"%s\".\n",
+            cameraName.c_str()
         );
 
         m_reader.Reset();
-
         return false;
     }
 
@@ -3153,6 +3229,15 @@ bool Camera::OpenCamera(
 
         CloseCamera();
 
+        {
+            std::lock_guard<std::mutex> lock(m_errorMutex);
+
+            m_lastError = "Error: Failed to initialize camera \"" +
+                cameraName +
+                "\"\n" +
+                "(Failed to allocate frame buffers.)";
+        }
+
         return false;
     }
 
@@ -3175,6 +3260,7 @@ bool Camera::OpenCamera(
 
     m_uploadStatsFrameCount = 0;
 
+    m_runtimeFailure = false;
     m_open = true;
     m_running = true;
 

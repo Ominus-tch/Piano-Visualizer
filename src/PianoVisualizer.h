@@ -201,6 +201,8 @@ private:
 
     void RenderCameraFeed();
 
+    void RenderCameraErrorDialog();
+
     void RenderPianoOverlay();
 
     void RenderPolygonSelectionTooltip();
@@ -300,6 +302,9 @@ private:
     // =========================================================
 
     Camera m_camera;
+
+    bool m_showCameraError = false;
+    std::string m_cameraErrorMessage;
 
     WindowCapture m_windowCapture;
 

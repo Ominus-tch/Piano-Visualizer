@@ -7,9 +7,10 @@ namespace fs = std::filesystem;
 
 class Logger {
 private:
-	static inline HANDLE file = nullptr;
+	static inline HANDLE m_file = nullptr;
+	static inline bool m_console = true;
 public:
-	static bool Init();
+	static bool Init(bool console = true);
 	static bool Remove();
 	static void Log(const char* format, ...);
 	static void Log(const std::string& message);

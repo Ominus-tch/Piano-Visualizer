@@ -1,20 +1,25 @@
 #include "Logger.h"
 
-bool Logger::Init()
+bool Logger::Init(bool console)
 {
+	m_console = console;
+
 	fs::path log;
 	wchar_t buf[MAX_PATH];
 	if (!GetModuleFileNameW(NULL, buf, MAX_PATH)) return false;
+
 	log = fs::path(buf).remove_filename() / "log.txt";
-	file = CreateFileW(log.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-	return file != INVALID_HANDLE_VALUE;
+
+    m_file = CreateFileW(log.wstring().c_str(), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	return m_file != INVALID_HANDLE_VALUE;
 }
 
 bool Logger::Remove()
 {
     Log("Removing Logger...\n");
-	if (!file) return true;
-	return CloseHandle(file);
+	if (!m_file) return true;
+	return CloseHandle(m_file);
 }
 
 void Logger::Log(const char* format, ...)
@@ -31,10 +36,13 @@ void Logger::Log(const char* format, ...)
     va_start(argptr, format);
 
     size += vsnprintf(buf + size, sizeof(buf) - size, format, argptr);
-    WriteFile(file, buf, size, NULL, NULL);
+    WriteFile(m_file, buf, size, NULL, NULL);
 
-    std::cout << "[LOG]";
-    vprintf(format, argptr);
+    if (m_console)
+    {
+        std::cout << "[LOG]";
+        vprintf(format, argptr);
+    }
 
     va_end(argptr);
 }

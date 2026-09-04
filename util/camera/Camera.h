@@ -112,6 +112,9 @@ public:
 
     void Shutdown();
 
+    std::string GetLastError() const;
+    void ClearLastError();
+
 
     // =========================================================
     // Runtime update
@@ -311,6 +314,9 @@ private:
 
     ID3D11DeviceContext*
         m_context = nullptr;
+
+    mutable std::mutex m_errorMutex;
+    std::string m_lastError;
 
 
     // =========================================================
@@ -544,6 +550,10 @@ private:
 
     std::thread
         m_cameraThread;
+
+    std::atomic<bool> 
+        m_runtimeFailure = 
+        false;
 
     std::atomic<bool>
         m_running =

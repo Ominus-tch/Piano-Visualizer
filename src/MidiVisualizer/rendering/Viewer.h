@@ -3,6 +3,10 @@
 #include <glm/glm.hpp>
 #include <memory>
 #include <array>
+#include <mutex>
+#include <string>
+
+#include <optional>
 
 #include "Framebuffer.h"
 #include "camera/MidiCamera.h"
@@ -227,4 +231,14 @@ private:
 	bool _showPedalsEditor = false;
 	bool _exitAfterRecording = false;
 	bool _liveplay = false;
+
+	struct MIDIDeviceEvent {
+		bool connected;
+		std::string deviceName;
+	};
+
+	void handleMIDIDeviceEvent();
+
+	std::mutex _midiDeviceEventMutex;
+	std::optional<MIDIDeviceEvent> _pendingMIDIDeviceEvent;
 };

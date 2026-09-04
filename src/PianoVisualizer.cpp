@@ -418,10 +418,21 @@ bool PianoVisualizer::InitializeAudio()
 
 bool PianoVisualizer::InitializeCamera()
 {
-    return m_camera.Initialize(
-        m_device,
-        m_context
-    );
+    if (!m_camera.Initialize(m_device, m_context))
+        return false;
+
+    const std::string cameraError =
+        m_camera.GetLastError();
+
+    if (!cameraError.empty())
+    {
+        m_showCameraError = true;
+        m_cameraErrorMessage = cameraError;
+
+        m_camera.ClearLastError();
+    }
+
+    return true;
 }
 
 
@@ -1072,6 +1083,15 @@ void PianoVisualizer::Render()
 
     RenderCamera();
 
+    std::string cameraError = m_camera.GetLastError();
+    if (!cameraError.empty())
+    {
+        m_showCameraError = true;
+        m_cameraErrorMessage = cameraError;
+
+        m_camera.ClearLastError();
+    }
+
     // ---------------------------------------------------------
     // Settings
     // ---------------------------------------------------------
@@ -1083,7 +1103,10 @@ void PianoVisualizer::Render()
     // ---------------------------------------------------------
 
     RenderStatistics();
+
     RenderCameraSettingsPanel();
+    RenderCameraErrorDialog();
+
     RenderAudioPanel();
 
     // ---------------------------------------------------------
@@ -1442,6 +1465,59 @@ void PianoVisualizer::RenderCameraFeed()
     );
 }
 
+void PianoVisualizer::RenderCameraErrorDialog()
+{
+    if (!m_showCameraError)
+        return;
+
+    ImGuiViewport* viewport = ImGui::GetMainViewport();
+
+    ImGui::OpenPopup("Camera Error");
+
+    ImGui::SetNextWindowPos(
+        ImVec2(
+            viewport->WorkPos.x + viewport->WorkSize.x * 0.5f,
+            viewport->WorkPos.y + viewport->WorkSize.y * 0.5f
+        ),
+        ImGuiCond_Always,
+        ImVec2(0.5f, 0.5f)
+    );
+
+    if (ImGui::BeginPopupModal(
+        "Camera Error",
+        nullptr,
+        ImGuiWindowFlags_AlwaysAutoResize |
+        ImGuiWindowFlags_NoMove |
+        ImGuiWindowFlags_NoResize |
+        ImGuiWindowFlags_NoCollapse |
+        ImGuiWindowFlags_NoTitleBar
+    ))
+    {
+        ImGui::TextWrapped(
+            "%s",
+            m_cameraErrorMessage.c_str()
+        );
+
+        ImGui::Spacing();
+
+        const float buttonWidth = 120.0f;
+
+        ImGui::SetCursorPosX(
+            (ImGui::GetWindowWidth() - buttonWidth) * 0.5f
+        );
+
+        if (ImGui::Button(
+            "OK",
+            ImVec2(buttonWidth, 32.0f)
+        ))
+        {
+            m_showCameraError = false;
+            ImGui::CloseCurrentPopup();
+        }
+
+        ImGui::EndPopup();
+    }
+}
 
 // =========================================================
 // Piano Overlay
@@ -3584,6 +3660,28 @@ void PianoVisualizer::RenderCameraSettingsPanel()
                             m_cameraSettingsHeight = 0;
                             m_cameraSettingsFPSNumerator = 0;
                             m_cameraSettingsFPSDenominator = 1;
+                        }
+                        else
+                        {
+                            const std::string cameraError =
+                                m_camera.GetLastError();
+
+                            if (!cameraError.empty())
+                            {
+                                const std::string message =
+                                    "Error: Failed to initialize camera \"" +
+                                    cameraError +
+                                    "\"";
+
+                                MessageBoxA(
+                                    nullptr,
+                                    message.c_str(),
+                                    "Piano Visualizer",
+                                    MB_OK | MB_ICONWARNING
+                                );
+
+                                m_camera.ClearLastError();
+                            }
                         }
                     }
                 }

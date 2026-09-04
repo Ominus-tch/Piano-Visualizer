@@ -116,6 +116,21 @@ Viewer::Viewer(
 	_layers[Layer::WAVE].toggle = &_state.showWave;
 
 	_renderer.renderSetup(_device, _context);
+
+	MIDISceneLive::setDeviceCallback(
+		[this](bool connected, const std::string& deviceName)
+		{
+			std::lock_guard<std::mutex> lock(
+				_midiDeviceEventMutex
+			);
+
+			_pendingMIDIDeviceEvent = MIDIDeviceEvent{
+				connected,
+				deviceName
+			};
+		}
+	);
+
 	_scene.reset(new MIDIScene());
 
 	if (MIDISceneLive::availablePortsCount() > 0)
@@ -267,6 +282,8 @@ SystemAction Viewer::draw(
 	float currentTime
 )
 {
+	handleMIDIDeviceEvent();
+
 	_timer =
 		_shouldPlay
 		? (currentTime - _timerStart)
@@ -1615,13 +1632,13 @@ void Viewer::showDevices(){
 
 		ImGui::Text("Select a device to listen to or");
 
-		ImGuiSameLine();
+		/*ImGuiSameLine();
 
 		if(ImGui::SmallButton("start virtual device")){
 			_scene = std::make_shared<MIDISceneLive>(-1, _verbose);
 			starting = true;
 		}
-		ImGui::helpTooltip("Act as a virtual device (via JACK)\nother MIDI elements can connect to");
+		ImGui::helpTooltip("Act as a virtual device (via JACK)\nother MIDI elements can connect to");*/
 		ImGui::Separator();
 
 		const auto & devices = MIDISceneLive::availablePorts();
@@ -3176,4 +3193,38 @@ void Viewer::ImGuiSameLine(int w){
 SystemAction::SystemAction(SystemAction::Type act) {
 	type = act;
 	data = glm::ivec4(0);
+}
+
+void Viewer::handleMIDIDeviceEvent()
+{
+	std::optional<MIDIDeviceEvent> event;
+
+	{
+		std::lock_guard<std::mutex> lock(
+			_midiDeviceEventMutex
+		);
+
+		if (!_pendingMIDIDeviceEvent)
+			return;
+
+		event =
+			std::move(_pendingMIDIDeviceEvent);
+
+		_pendingMIDIDeviceEvent.reset();
+	}
+
+	if (event->connected)
+	{
+		const auto& devices = MIDISceneLive::availablePorts();
+
+		if (devices.size() == 1)
+		{
+			connectDevice(1);
+		}
+	}
+	else
+	{
+		_liveplay = false;
+		_timer = 0.0f;
+	}
 }
