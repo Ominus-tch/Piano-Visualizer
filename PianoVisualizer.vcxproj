@@ -43,6 +43,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_CONSOLE;_CRT_SECURE_NO_WARNINGS;LIBREMIDI_NO_BOOST;LIBREMIDI_WINMM;_SILENCE_ALL_CXX20_DEPRECATION_WARNINGS;COMPILED_FROM_DSP;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -71,7 +72,6 @@
   <ItemGroup>
     <ClCompile Include="ext\fmt\format.cc" />
     <ClCompile Include="ext\imgui\imgui.cpp" />
-    <ClCompile Include="ext\imgui\imgui_demo.cpp" />
     <ClCompile Include="ext\imgui\imgui_draw.cpp" />
     <ClCompile Include="ext\imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="ext\imgui\imgui_impl_win32.cpp" />
@@ -418,7 +418,6 @@
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3AudioEngine.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3Wrapper.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\auv3wrapper\Shared\AUv3WrapperFactory.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\basewrapper\basewrapper.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\connectionproxy.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\eventlist.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\hostclasses.h" />
@@ -428,17 +427,11 @@
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\hosting\processdata.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\json.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\jsoncxx.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfo.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\alignedalloc.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\audiobuffers.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\memoryibstream.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\midiconvert.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\objcclassbuilder.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\optional.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\processcontextrequirements.h" />
@@ -448,11 +441,9 @@
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\sampleaccurate.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\systemtime.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\testing.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\uid.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\ump.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\versionparser.h" />
-    <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstaudioeffect.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstaudioprocessoralgo.h" />
     <ClInclude Include="ext\vst3sdk\public.sdk\source\vst\vstbus.h" />

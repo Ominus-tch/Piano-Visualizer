@@ -184,16 +184,10 @@
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\pluginterfacesupport.cpp" />
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\plugprovider.cpp" />
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\hosting\processdata.cpp" />
-    <!-- VST3 Module Info -->
-    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfocreator.cpp" />
-    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\moduleinfo\moduleinfoparser.cpp" />
     <!-- VST3 Utility -->
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\dataexchange.cpp" />
-    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\mpeprocessor.cpp" />
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\stringconvert.cpp" />
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\systemtime.cpp" />
-    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\testing.cpp" />
-    <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\utility\vst2persistence.cpp" />
     <!-- VST3 Core -->
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstaudioeffect.cpp" />
     <ClCompile Include="$(SolutionDir)ext\vst3sdk\public.sdk\source\vst\vstbus.cpp" />
